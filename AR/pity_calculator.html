@@ -28,11 +28,11 @@
 
 			<div class="container">
 
-				<input type="number" id="kills" placeholder="Number of Kills" style="width: 482.5px;" onchange="calculate()">
+				<input type="number" id="kills_input" placeholder="Number of Kills" style="width: 482.5px;" onchange="calculate()">
 
-				<select style="width: 497.5px;" class="left" id="bossSelector" onchange="calculate()">
+				<select style="width: 497.5px;" class="left" id="boss_selector" onchange="calculate()">
 
-					<option value="mone">None</option>
+					<option hidden selected>None</option>
 					<option value="khnum">Khnum</option>
 					<option value="kraken">Kraken</option>
 					<option value="marua">Marua</option>
@@ -57,70 +57,65 @@
 
 			// Variables
 
-			let selectedBoss;
-			let kills;
-			let chance;
-
-			const bosses = {
-				khnum: {
-					base: 150,
-					max: 100,
-					scaling: 3
-				},
-				kraken: {
-					base: 150,
-					max: 20,
-					scaling: 1,
-				},
-				marua: {
-					base: 30,
-					max: 3,
-					scaling: 1,
-				},
-				nestor: {
-					base: 300,
-					max: 250,
-					scaling: 3
-				},
-				prometheus: {
-					base: 250,
-					max: 125,
-					scaling: 3
-				},
-				ramses: {
-					base: 50,
-					max: 15,
-					scaling: 1
-				},
-				rupin: {
-					base: 125,
-					max: 25,
-					scaling: 1
-				},
-				sage: {
-					base: 85,
-					max: 15,
-					scaling: 1
-				},
-				verdies: {
-					base: 50,
-					max: 15,
-					scaling: 1
+				const bosses = {
+					khnum: {
+						base: 150,
+						max: 100,
+						scaling: 3
+					},
+					kraken: {
+						base: 150,
+						max: 20,
+						scaling: 1,
+					},
+					marua: {
+						base: 30,
+						max: 3,
+						scaling: 1,
+					},
+					nestor: {
+						base: 300,
+						max: 250,
+						scaling: 3
+					},
+					prometheus: {
+						base: 250,
+						max: 125,
+						scaling: 3
+					},
+					ramses: {
+						base: 50,
+						max: 15,
+						scaling: 1
+					},
+					rupin: {
+						base: 125,
+						max: 25,
+						scaling: 1
+					},
+					sage: {
+						base: 85,
+						max: 15,
+						scaling: 1
+					},
+					verdies: {
+						base: 50,
+						max: 15,
+						scaling: 1
+					}
 				}
-			}
 
-			
+
 			// Function
 
-			function calculate() {
+				function calculate() {
 
-				selectedBoss = document.querySelector("#bossSelector").value;
-				kills = Number(document.querySelector("#kills").value);
-				chance = Math.max(bosses[selectedBoss].base - Math.floor(kills / bosses[selectedBoss].scaling), bosses[selectedBoss].max);
-				document.querySelector("#output").style.opacity = 1;
-				document.querySelector("#output").innerHTML = `The drop rate is 1/${chance}`;
-
-			}
+					let selected_boss = boss_selector.value;
+					let kills = Number(kills_input.value);
+					let chance = Math.max(bosses[selected_boss].base - Math.floor(kills / bosses[selected_boss].scaling), bosses[selected_boss].max);
+					output.style.opacity = 1;
+					output.textContent = `The drop rate is 1/${chance}`;
+				}
 
 		</script>
 

@@ -50,7 +50,7 @@
 
 				<div class="top" style="margin-bottom: 10px;">
 
-					<select id="missionSelector" onchange="lockBonuses(); calculate();" style="width: 246.25px;">
+					<select id="mission_selector" onchange="lock_bonuses(); calculate();" style="width: 246.25px;">
 
 						<option value="blacksite">The Blacksite</option>
 						<option value="financier">The Financier</option>
@@ -59,7 +59,7 @@
 						<option value="withdrawal">The Withdrawal</option>
 						<option value="scientist">The Scientist</option>
 						<option value="scrs">The SCRS</option>
-						<option value="blackDusk">Black Dusk</option>
+						<option value="black_dusk">Black Dusk</option>
 						<option value="killhouse">The Killhouse</option>
 						<option value="concept">Concept</option>
 						<option value="setup">The Setup</option>
@@ -71,7 +71,7 @@
 
 					</select>
 
-					<select class="left" id="difficultySelector" style="width: 246.25px;" onchange="lockBonuses(); calculate();">
+					<select class="left" id="difficulty_selector" style="width: 246.25px;" onchange="lock_bonuses(); calculate();">
 
 						<option value="rookie">Rookie</option>
 						<option value="professional">Professional</option>
@@ -84,27 +84,28 @@
 
 					<div class="checkbox left" style="width: 231.25px;">
 
-						No Alarms:
-						<input type="checkbox" id="noAlarms" onchange="calculate();">
-						No Kills:
-						<input type="checkbox" id="noKills" onchange="calculate();">
+						<label for="no_alarms_selector">No Alarms:</label>
+						<input type="checkbox" id="no_alarms_selector" onchange="calculate();">
+
+						<label for="no_kills_selector">No Kills:</label>
+						<input type="checkbox" id="no_kills_selector" onchange="calculate();">
 
 					</div>
 
-					<input class="left" id="xpMultiplier" type="number" placeholder="XP Multiplier" min="1" max="3" style="width: 231.25px;" onchange="calculate();">
+					<input class="left" id="xp_multiplier_input" type="number" placeholder="XP Multiplier" min="1" max="3" style="width: 231.25px;" onchange="calculate();">
 
 				</div>
 
 
 				<div class="bottom">
 
-					<input id="currentLevel" type="number" placeholder="Current Level" min="1" max="99" style="width: 231.25px; float: left;" onchange="calculate();">
+					<input id="current_level_input" type="number" placeholder="Current Level" min="1" max="99" style="width: 231.25px; float: left;" onchange="calculate();">
 
-					<input class="left"  id="targetLevel" type="number" placeholder="Target Level" min="2" max="100" style="width: 231.25px;" onchange="calculate();">
+					<input class="left"  id="target_level_input" type="number" placeholder="Target Level" min="2" max="100" style="width: 231.25px;" onchange="calculate();">
 
-					<input class="left" id="averageTimeMin" type="number" placeholder="Min" min="0" style="width: 231.25px;" onchange="calculate();">
+					<input class="left" id="avg_time_min_input" type="number" placeholder="Min" min="0" style="width: 231.25px;" onchange="calculate();">
 
-					<input class="left" id="averageTimeSec" type="number" placeholder="Sec" min="0" max="59" style="width: 231.25px;" onchange="calculate();">
+					<input class="left" id="avg_time_sec_input" type="number" placeholder="Sec" min="0" max="59" style="width: 231.25px;" onchange="calculate();">
 
 				</div>
 
@@ -114,11 +115,9 @@
 
 		</main>
 
-		<!--Imports the various XP objects-->
-
-		<script src="xp_values/levels.js"></script>
 		<script src="xp_values/mission_rewards.js"></script>
 		<script src="xp_values/bonus_mission_rewards.js"></script>
+		<script src="optional_mission_bonuses.js"></script>
 
 		<script src="../toggle.js"></script>
 
@@ -126,207 +125,108 @@
 
 			// Variables
 
-			let mission;
-			let difficulty;
-			let difficultyIndex;
-			let noAlarms;
-			let noKills;
-			let xpMultiplier;
-			let currentLevel;
-			let targetLevel;
-			let xpNeeded;
-			let averageTimeMin;
-			let averageTimeSec;
-			let averageTime;
-			let baseXp;
-			let bonusXp;
-			let missionXp;
-			let totalXp;
-			let proBonus;
-			let runsNeeded;
-			let totalTime;
-			let totalHours;
-			let totalMinutes;
+			let selected_mission;
+			let selected_difficulty;
 
-			const optionalMissionBonuses = {
-				blacksite: {
-					noAlarms: true,
-					noKills: true
-				},
-				financier: {
-					noAlarms: true,
-					noKills: true
-				},
-				deposit: {
-					noAlarms: true,
-					noKills: true
-				},
-				lakehouse: {
-					noAlarms: true,
-					noKills: true
-				},
-				withdrawal: {
-					noAlarms: true,
-					noKills: true
-				},
-				scientist: {
-					noAlarms: true,
-					noKills: true
-				},
-				scrs: {
-					noAlarms: true,
-					noKills: true,
-				},
-				blackDusk: {
-					noAlarms: true,
-					noKills: false
-				},
-				killhouse: {
-					noAlarms: true,
-					noKills: true
-				},
-				concept: {
-					noAlarms: false,
-					noKills: true
-				},
-				setup: {
-					noAlarms: false,
-					noKills: true
-				},
-				lockup: {
-					noAlarms: false,
-					noKills: true
-				},
-				score: {
-					noAlarms: false,
-					noKills: false
-				},
-				auction: {
-					noAlarms: false,
-					noKills: true
-				},
-				gala: {
-					noAlarms: false,
-					noKills: true
-				},
-				cache: {
-					noAlarms: false,
-					noKills: true
-				}
-			}
 
-			lockBonuses();
-
-			
 			// Functions
 
-			function lockBonuses() {
+			function lock_bonuses() {
 
-				mission = document.querySelector("#missionSelector").value;
-				difficulty = document.querySelector("#difficultySelector").value;
-				noAlarms = document.querySelector("#noAlarms")
-				noKills = document.querySelector("#noKills")
+				selected_mission = mission_selector.value;
+				selected_difficulty = difficulty_selector.value;
 
 
 				// Hides nightmare difficulty if the mission is NOT killhouse
 
-				document.querySelector("#difficultySelector")[5].hidden = (mission !== 'killhouse')
+				difficulty_selector[5].hidden = (selected_mission !== 'killhouse')
 
-				if (mission !=='killhouse' && difficulty == 'nightmare') {
-					document.querySelector("#difficultySelector")[4].selected = true;
-					difficulty = 'legend';
+				if (selected_mission !=='killhouse' && selected_difficulty === 'nightmare') {
+					difficulty_selector[4].selected = true;
+					selected_difficulty = 'legend';
 				}
 
 
 				// Locks out non-optional bonuses
 
-				switch (optionalMissionBonuses[mission].noAlarms) {
-					case true:
-						noAlarms.disabled = false;
-						break;
+				no_alarms_selector.disabled = !optional_mission_bonuses[selected_mission].no_alarms;
 
-					case false:
-						noAlarms.checked = true;
-						noAlarms.disabled = true;
-						break;
+				if (!optional_mission_bonuses[selected_mission].no_alarms) {
+					no_alarms_selector.checked = true;
 				}
 
-				switch (optionalMissionBonuses[mission].noKills) {
-					case true:
-						noKills.disabled = false;
-						break;
+				no_kills_selector.disabled = !optional_mission_bonuses[selected_mission].no_kills;
 
-					case false:
-						noKills.checked = true;
-						noKills.disabled = true;
-						break;
+				if (!optional_mission_bonuses[selected_mission].no_kills) {
+					no_kills_selector.checked = true;
 				}
 
 				// Edge cases for certain missions
 
-				if (mission == 'blackDusk') {
-					noKills.checked = false;
+				if (selected_mission === 'black_dusk') {
+					no_kills_selector.checked = false;
 				}
 
-				if (mission == 'score') {
-					noAlarms.checked = false;
-					noKills.checked = false;
+				if (selected_mission === 'score') {
+					no_alarms_selector.checked = false;
 				}
 
-				if (mission == 'setup' && (difficulty == 'elite' || difficulty == 'legend')) {
-					noKills.checked = true;
-					noKills.disabled = true;
+				if (selected_mission === 'setup' && ['elite','legend'].includes(selected_difficulty)) {
+					no_kills_selector.checked = true;
+					no_kills_selector.disabled = true;
 				}
 
-				if (mission == 'killhouse' && difficulty == 'nightmare') {
-					noAlarms.checked = false;
-					noAlarms.disabled = true;
+				if (selected_mission === 'killhouse' && selected_difficulty === 'nightmare') {
+					no_alarms_selector.checked = false;
+					no_alarms_selector.disabled = true;
 				}
-
 			}
 
-			function calculate(){
+			function calculate() {
 
-				difficultyIndex = document.querySelector("#difficultySelector").selectedIndex;
-				xpMultiplier = Number(document.querySelector("#xpMultiplier").value);
+				let difficulty_index = difficulty_selector.selectedIndex;
+				let xp_multiplier = Number(xp_multiplier_input.value);
 
-				currentLevel = Number(document.querySelector("#currentLevel").value);
-				targetLevel = Number(document.querySelector("#targetLevel").value);
-				xpNeeded = levelXp[targetLevel - 1] - levelXp[currentLevel - 1];
+				let current_level = Number(current_level_input.value);
+				let target_level = Number(target_level_input.value);
+				let xp_needed = 320 * target_level ** 2 - 320 * current_level ** 2;
 
-				averageTimeMin = Number(document.querySelector("#averageTimeMin").value);
-				averageTimeSec = Number(document.querySelector("#averageTimeSec").value);
-				averageTime = Number((averageTimeMin + (averageTimeSec / 60)).toFixed(2));
+				let avg_time_min = Number(avg_time_min_input.value);
+				let avg_time_sec = Number(avg_time_sec_input.value);
+				let avg_time = Number((avg_time_min + (avg_time_sec / 60)).toFixed(2));
 
-				baseXp = missionRewards[mission][difficulty];
-				bonusXp = bonusMissionRewards[mission][difficulty];
-				missionXp = [];
-				totalXp = 0;
+				let base_xp = mission_rewards[selected_mission][selected_difficulty];
+				let bonus_xp = bonus_mission_rewards[selected_mission][selected_difficulty];
+				let mission_xp = [];
+				let total_xp = 0;
 
 				// Calculates the total xp factoring in pro bonus
 				// Formula is: (base * proBonus + bonus * selectedBonuses) * xpMultiplier
 				
-				for (let i = 0; i < Math.ceil(35 / Math.min(difficultyIndex + 1, 5)); i++) {
-					missionXp[i] = Math.round((baseXp * (1 + Math.min((i + 1) * Math.min(difficultyIndex + 1, 5) / 100, 0.35)) + bonusXp * (noAlarms.checked + noKills.checked)) * xpMultiplier);
-					totalXp += missionXp[i];
+				let i = 0
+				while (total_xp < xp_needed) {
+
+					mission_xp[i] = Math.round(
+						(base_xp * (1 + Math.min((i + 1) * Math.min(difficulty_index + 1, 5) / 100, 0.35)) + bonus_xp * (no_alarms_selector.checked + no_kills_selector.checked)) * xp_multiplier
+					);
+					total_xp += mission_xp[i];
+					i++
 				}
 
-				proBonusMax = Math.round(missionXp[missionXp.length-1]);
-				totalXp -= proBonusMax;
+				let runs_needed = mission_xp.length;
 
-				runsNeeded = Math.ceil((xpNeeded-totalXp)/proBonusMax) + missionXp.length-1;
+				let total_time = Number((runs_needed * avg_time / 60).toFixed(2));
+				let total_hours = Math.floor(total_time);
+				let total_minutes = Math.ceil((total_time - total_hours) * 60);
 
-				totalTime = (runsNeeded * averageTime / 60).toFixed(2);
-				totalHours = Math.floor(totalTime);
-				totalMinutes = Math.ceil((totalTime - totalHours) * 60);
+				output.style.opacity = 1;
 
-				document.querySelector("#output").style.opacity = 1;
-
-				totalTime == 'NaN'?
-					document.querySelector("#output").innerHTML = "Missing information. Fill out all fields.":
-					document.querySelector("#output").innerHTML = `${totalHours} hours & ${totalMinutes} minutes`;
-
+				total_time == 'NaN'?
+					output.textContent = "Missing information. Fill out all fields.":
+					output.textContent = `${total_hours} hours & ${total_minutes} minutes`;
 			}
+
+			lock_bonuses();
 
 		</script>
 

@@ -33,8 +33,8 @@ article{
 	border: var(--border);
 	border-radius: var(--borderRadius);
 	min-height: 100px;
-	width: 980px;
-	padding: 5px;
+	max-width: 1000px;
+	padding: 10px;
 	box-shadow: var(--boxShadow);
 	margin-bottom: 10px;
 }

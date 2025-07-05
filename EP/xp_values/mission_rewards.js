@@ -1,4 +1,4 @@
-const missionRewards = {
+const mission_rewards = {
 	blacksite: {
 		rookie: 5000,
 		professional: 10000,
@@ -48,7 +48,7 @@ const missionRewards = {
 		elite: 26000,
 		legend: 35000
 	},
-	blackDusk: {
+	black_dusk: {
 		rookie: 10000,
 		professional: 15000,
 		operative: 20000,
