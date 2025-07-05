@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<title>Notoriety DPS Calculator</title>
+
+		<link rel="icon" href="Style/fire.webp">
+
+		<link rel="stylesheet" href="../Style/style.css">
+
+		<style>
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<main>
+
+			<header>
+
+			</header>
+
+			<article>
+				text!
+			</article>
+
+			<div class="container">
+
+				<select id="primaryWeapon" onchange="calculate();"></select>
+
+				<input type="range" min="0" max="100" id="critChance" onchange="calculate();">
+
+				<input type="range" min="0" max="100" id="headshotChance" onchange="calculate();">
+
+			</div>
+
+			<p id="output"></p>
+
+		</main>
+
+	</body>
+
+	<script src="weapons.js"></script>
+
+	<script>
+
+		// Assigns ID to each object based off its index
+
+		for (let i in primaryWeapons) {
+			primaryWeapons[i].id = Number(i);
+		}
+
+
+		// Sorts the weapon arrays alphabetically
+
+		function compare(a, b) {
+			if (a.name < b.name) {
+				return -1;
+			}
+			if (a.name > b.name) {
+				return 1;
+			}
+			return 0;
+		}
+
+		primaryWeapons.sort(compare);
+
+
+		// Generates select options off of the object names
+
+		for (let i in primaryWeapons) {
+
+			let name = primaryWeapons[i].name;
+			let id = primaryWeapons[i].id;
+			let option = document.createElement('option');
+			option.innerHTML = name;
+			document.querySelector('#primaryWeapon').appendChild(option);
+			document.querySelector('#primaryWeapon')[i].value = id;
+		}
+
+
+		// Primary calculate
+
+		let selectedPrimary
+		let critChance
+		let headshotChance
+		let primaryBurstDps
+		let primarySustainedDps
+
+		function calculate() {
+			selectedPrimary = JSON.parse(JSON.stringify(primaryWeapons.find((test) => test.id === Number(document.querySelector('#primaryWeapon').value))));
+			critChance = Number(document.querySelector('#critChance').value)
+			headshotChance = Number(document.querySelector('#headshotChance').value)
+			primaryBurstDps = (
+				selectedPrimary.damage * (1 - critChance/100) * (1 - headshotChance/100) +
+				selectedPrimary.damage * critChance/100 * 3 * (1 - headshotChance/100) +
+				selectedPrimary.damage * (1 - critChance/100) * headshotChance/100 * 4 +
+				selectedPrimary.damage * critChance/100 * 3 * headshotChance/100 * 4
+			) * Math.floor(selectedPrimary.fire_rate/60)
+
+			primarySustainedDps = (
+				selectedPrimary.damage * (1 - critChance/100) * (1 - headshotChance/100) +
+				selectedPrimary.damage * critChance/100 * 3 * (1 - headshotChance/100) +
+				selectedPrimary.damage * (1 - critChance/100) * headshotChance/100 * 4 +
+				selectedPrimary.damage * critChance/100 * 3 * headshotChance/100 * 4
+			) * 1 / (selectedPrimary.magazine / Math.floor(selectedPrimary.fire_rate/60) + selectedPrimary.reload) * selectedPrimary.magazine
+
+			document.querySelector("#output").style.opacity = 1;
+			document.querySelector("#output").innerHTML = `
+				Burst DPS: ${Intl.NumberFormat('en-us').format(Math.round(primaryBurstDps))}<br>
+				Sustained DPS: ${Intl.NumberFormat('en-us').format(Math.round(primarySustainedDps))}
+			`;
+		}
+
+	</script>
+
+</html>

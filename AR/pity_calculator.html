@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<title>Pity Calculator</title>
+
+		<link rel="icon" href="../Style/ar.webp">
+
+		<link rel="stylesheet" href="../Style/style.css">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	</head>
+
+	<body>
+
+		<main>
+
+			<header>Instructions</header>
+
+			<article>
+				To use the pity calculator, just enter the number of runs you've done and the boss. It will calculate the current drop rate based off that information.
+			</article>
+
+			<div class="container">
+
+				<input type="number" id="kills" placeholder="Number of Kills" style="width: 482.5px;" onchange="calculate()">
+
+				<select style="width: 497.5px;" class="left" id="bossSelector" onchange="calculate()">
+
+					<option value="mone">None</option>
+					<option value="khnum">Khnum</option>
+					<option value="kraken">Kraken</option>
+					<option value="marua">Marua</option>
+					<option value="nestor">Nestor</option>
+					<option value="prometheus">Prometheus</option>
+					<option value="ramses">Ramses</option>
+					<option value="rupin">Rupin</option>
+					<option value="sage">Sage</option>
+					<option value="verdies">Verdies</option>
+
+				</select>
+
+			</div>
+
+			<p id="output"></p>
+
+		</main>
+
+		<script src="../toggle.js"></script>
+
+		<script>
+
+			// Variables
+
+			let selectedBoss;
+			let kills;
+			let chance;
+
+			const bosses = {
+				khnum: {
+					base: 150,
+					max: 100,
+					scaling: 3
+				},
+				kraken: {
+					base: 150,
+					max: 20,
+					scaling: 1,
+				},
+				marua: {
+					base: 30,
+					max: 3,
+					scaling: 1,
+				},
+				nestor: {
+					base: 300,
+					max: 250,
+					scaling: 3
+				},
+				prometheus: {
+					base: 250,
+					max: 125,
+					scaling: 3
+				},
+				ramses: {
+					base: 50,
+					max: 15,
+					scaling: 1
+				},
+				rupin: {
+					base: 125,
+					max: 25,
+					scaling: 1
+				},
+				sage: {
+					base: 85,
+					max: 15,
+					scaling: 1
+				},
+				verdies: {
+					base: 50,
+					max: 15,
+					scaling: 1
+				}
+			}
+
+			
+			// Function
+
+			function calculate() {
+
+				selectedBoss = document.querySelector("#bossSelector").value;
+				kills = Number(document.querySelector("#kills").value);
+				chance = Math.max(bosses[selectedBoss].base - Math.floor(kills / bosses[selectedBoss].scaling), bosses[selectedBoss].max);
+				document.querySelector("#output").style.opacity = 1;
+				document.querySelector("#output").innerHTML = `The drop rate is 1/${chance}`;
+
+			}
+
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+	</head>
+
+	<body>
+		
+		<script src='machines.js'></script>
+
+		<script>
+
+			function convertPower(string) {
+
+				if (string.includes('kMF')) {
+					return Number(string.replace(/\D+/, '')) * 1000 ** 1
+				} 
+				else if (string.includes('MMF')) {
+					return Number(string.replace(/\D+/, '')) * 1000 ** 2
+				}
+				else if (string.includes('GMF')) {
+					return Number(string.replace(/\D+/, '')) * 1000 ** 3
+				}
+				else if (string.includes('TMF')) {
+					return Number(string.replace(/\D+/, '')) * 1000 ** 4
+				}
+				else {
+					return Number(string.replace(/\D+/, ''))
+				}
+
+			}
+
+		</script>
+	</body>
+</html>

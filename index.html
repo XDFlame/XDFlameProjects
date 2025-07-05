@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<title>XDFlame's Site</title>
+
+		<link rel="icon" href="Style/fire.webp">
+
+		<link rel="stylesheet" href="Style/style.css">
+
+		<!-- Primary Meta Tags -->
+		<title>XDFlame's Site</title>
+		<meta name="title" content="XDFlame's Site" />
+		<meta name="description" content="A small website to serve as a hub for my various projects" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://xdflame.epizy.com/" />
+		<meta property="og:title" content="XDFlame's Site" />
+		<meta property="og:description" content="A small website to serve as a hub for my various projects" />
+		<meta property="og:image" content="https://xdflame.epizy.com/Style/fire.webp" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://xdflame.epizy.com/" />
+		<meta property="twitter:title" content="XDFlame's Site" />
+		<meta property="twitter:description" content="A small website to serve as a hub for my various projects" />
+		<meta property="twitter:image" content="https://xdflame.epizy.com/Style/fire.webp" />
+
+		<!-- Meta Tags Generated with https://metatags.io -->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+
+			main.buttons{
+				height: 1550px;
+				margin-bottom: 10px;
+			}
+
+			button.large, button.large + img{
+				width: 1000px !important;
+			}
+
+			button.large + img{
+				margin-left: -1000px;
+			}
+
+			button.grid-button{
+				width: 495px;
+				height: 250px;
+				line-height: 50px;
+				background-color: rgba(0,0,0,0);
+				color: white;
+				-webkit-text-stroke: 2.5px black;
+				font-size: 50px;
+				font-weight: 400;
+				backdrop-filter: blur(5px);
+				border: var(--border);
+				z-index: 1;
+				position: relative;
+				box-shadow: var(--boxShadow);
+				float: left;
+				border-radius: var(--borderRadius);
+				margin-bottom: 10px;
+				font-family: var(--font);
+				transition: 0.25s;
+			}
+
+			button.grid-button:nth-of-type(even) {
+				margin-left: 10px;
+			}
+
+			img{
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				width: 495px;
+				height: 250px;
+				border-radius: var(--borderRadius);
+				transition: 0.25s;
+				z-index: 0;
+				position: relative;
+				margin-left: -495px;
+				float: left;
+			}
+
+			.grid-button:hover{
+				backdrop-filter: none;
+				transform: scale(1.03,1.03);
+				cursor: pointer;
+			}
+
+			button.grid-button:hover + img{
+				transform: scale(1.03,1.03);
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<header>
+			Projects
+		</header>
+
+		<main class="buttons">
+
+			<button class="grid-button" onclick="window.location.href='dr_effective_hp_calculator.html'">Damage Reduction Effective HP Calculator</button>
+
+			<img style="background-image: url('Style/fire.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://drive.google.com/drive/folders/1-8fsjwf717Bztmbmv4dFK85iUFGgumn_'">Google Drive</button>
+
+			<img style="background-image: url('Style/fire.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/vnigpawaop'">AO Substat Scaling</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/gmcvnruek2'">AO Sunken Chance Calculator</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/kg6ckup84y'">AO Fishing Stats Calculator</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/53bemstonz'">AO Drawback Damage Calculator</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/ktny7z6y7h'">AO Cargo Calculator</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://docs.google.com/spreadsheets/d/1CHd60lyISM__I7LUxmPh9jhK4gczvCXNj-eqb7ID2MM/edit?usp=sharing'">AO Shipyard</button>
+
+			<img style="background-image: url('Style/ao.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='EP/level_calculator.html'">EP Leveling Time Calculator</button>
+
+			<img style="background-image: url('Style/ep2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='AR/pity_calculator.html'">AR Pity Calculator</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='AR/alchemist_calculator.html'">AR Alchemist Calculator</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='AR/gear_builder.html'">AR Gear Builder</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/1vAJEc_ZQK06p2MBtvgq-1yTzBvAmIK37x8YdSnlMJek'">AR Capturable Islands List</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/1uIh6JWrmhvn6PmLqf-5Urbh23fRhlPH4MxvpokagRdM'">AR Fishing Rod Comparison</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/16ovPY788HEw_tPZgB3ML_AHXL6UQRMLUspRW0KYV_Ps'">AR Water Type Locations</button>
+
+			<img style="background-image: url('Style/ar2.webp');">
+
+
+			<button class="grid-button" onclick="window.location.href='https://discord.com/invite/7dvEBZjhzJ'">My Discord Server</button>
+
+			<img style="background-image: url('Style/discord.webp');">
+
+		</main>
+
+	</body>
+
+</html>

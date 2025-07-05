@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<title>Alchemist Calculator</title>
+
+		<link rel="icon" href="../Style/ar.webp">
+
+		<link rel="stylesheet" href="../Style/style.css">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	</head>
+
+	<body>
+
+		<main>
+
+			<header>Instructions</header>
+
+			<article>
+
+				Fill out ALL fields.
+				<ul>
+					<li>Item Level: The level requirement to equip the item.
+					<li>Rarity: The item rarity.
+					<li>Proficiency: The proficiency of an alchemist.
+					<li>Charm: The charm you want to add to the item.
+				</ul>
+
+			</article>
+
+			<div class="container">
+
+				<input type="number" id="itemLevel" placeholder="Item Level" style="width: 231.25px;" onchange="calculate();" min="1" max="350">
+
+				<select class="left" id="raritySelector" style="width: 246.25px;" onchange="calculate();">
+
+					<option value=45>Common</option>
+					<option value=75>Uncommon</option>
+					<option value=250>Rare</option>
+					<option value=315>Exotic</option>
+					<option value=400>Legendary</option>
+
+				</select>
+
+				<input type="number" class="left" id="proficiencyLevel" placeholder="Proficiency" style="width: 231.25px;" onchange="calculate();" min="1" max="500">
+
+				<select class="left" id="charm" style="width: 246.25px;" onchange="calculate();">
+
+					<option value="agile">Agile</option>
+					<option value="armored">Armored</option>
+					<option value="berserk">Berserk</option>
+					<option value="blessed">Blessed</option>
+					<option value="cursed">Cursed</option>
+					<option value="dynamic">Dynamic</option>
+					<option value="enchanted">Enchanted</option>
+					<option value="hardened">Hardened</option>
+					<option value="hasty">Hasty</option>
+					<option value="heavenly">Heavenly</option>
+					<option value="heroic">Heroic</option>
+					<option value="holy">Holy</option>
+					<option value="indestructible">Indestructible</option>
+					<option value="magical">Magical</option>
+					<option value="nimble">Nimble</option>
+					<option value="resilient">Resilient</option>
+					<option value="skyward">Skyward</option>
+					<option value="spiritual">Spiritual</option>
+					<option value="striking">Striking</option>
+					<option value="superior">Superior</option>
+					<option value="transcendent">Transcendent</option>
+					<option value="vigorous">Vigorous</option>
+					<option value="zealous">Zealous</option>
+
+				</select>
+
+			</div>
+
+			<p id="output"></p>
+
+		</main>
+
+		<script src="../toggle.js"></script>
+
+		<script>
+
+			// Variables
+
+			let itemLevel;
+			let itemRarity;
+			let proficiency;
+			let selectedCharm;
+			let successChance;
+			let auremCost;
+
+			const charms = {
+				agile: {
+					price: 35,
+					tier: 35
+				},
+				armored: {
+					price: 35,
+					tier: 35
+				},
+				berserk: {
+					price: 80,
+					tier: 42
+				},
+				blessed: {
+					price: 45,
+					tier: 42
+				},
+				cursed: {
+					price: 175,
+					tier: 55,
+				},
+				dynamic: {
+					price: 35,
+					tier: 35,
+				},
+				enchanted: {
+					price: 35,
+					tier: 35
+				},
+				hardened: {
+					price: 35,
+					tier: 35
+				},
+				hasty: {
+					price: 80,
+					tier: 42
+				},
+				heavenly: {
+					price: 150,
+					tier: 55
+				},
+				heroic: {
+					price: 80,
+					tier: 42
+				},
+				holy: {
+					price: 35,
+					tier: 35
+				},
+				indestructible: {
+					price: 125,
+					tier: 55
+				},
+				magical: {
+					price: 35,
+					tier: 35
+				},
+				nimble: {
+					price: 35,
+					tier: 35
+				},
+				resilient: {
+					price: 150,
+					tier: 55
+				},
+				skyward: {
+					price: 35,
+					tier: 35
+				},
+				spiritual: {
+					price: 80,
+					tier: 42
+				},
+				striking: {
+					price: 80,
+					tier: 42
+				},
+				superior: {
+					price: 35,
+					tier: 35
+				},
+				transcendent: {
+					price: 175,
+					tier: 55
+				},
+				vigorous: {
+					price: 80,
+					tier: 42
+				},
+				zealous: {
+					price: 125,
+					tier: 55
+				}
+			}
+
+
+			// Function
+
+			function calculate() {
+
+				itemLevel = Number(document.querySelector("#itemLevel").value);
+				itemRarity = Number(document.querySelector("#raritySelector").value);
+				proficiency = Number(document.querySelector("#proficiencyLevel").value);
+				selectedCharm = document.querySelector("#charm").value;
+				
+				successChance = Math.max((100 - itemRarity * charms[selectedCharm].tier / proficiency).toFixed(2), 0);
+				auremCost = Math.floor(charms[selectedCharm].price + itemRarity / 3.75 * charms[selectedCharm].tier / 10.5 + itemLevel * 0.85);
+	
+				document.querySelector("#output").style.opacity = 1;
+				document.querySelector("#output").innerHTML = `${successChance}% chance of success with a cost of ${auremCost} aurem`;
+
+			}
+
+		</script>
+
+	</body>
+
+</html>

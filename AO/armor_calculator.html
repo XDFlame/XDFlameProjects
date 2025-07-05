@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+	</head>
+
+	<body>
+
+		<div>
+
+			<select id="chest" onchange="chestCalculate();">
+				<option value="none">None</option>
+				<option value="cernyxChest">Cerynx's Sleeveless Robe</option>
+				<option value="carinaChest">Ravenna Apostle Gi</option>
+				<option value="calvusChest">Ravenna Fallen King Armor</option>
+				<option value="eliusChest">Ravenna Noble Armor</option>
+				<option value="titaniumChest">Titanium Armor</option>
+			</select>
+
+			<select id="chestEnchant" onchange="chestCalculate()">
+				<option value="none">None</option>
+				<option value="strong">Strong</option>
+				<option value="powerful">Powerful</option>
+				<option value="hard">Hard</option>
+				<option value="armored">Armored</option>
+				<option value="nimble">Nimble</option>
+				<option value="agile">Agile</option>
+				<option value="amplified">Amplified</option>
+				<option value="enhanced">Enhanced</option>
+				<option value="bursting">Bursting</option>
+				<option value="explosive">Explosive</option>
+				<option value="swift">Swift</option>
+				<option value="brisk">Brisk</option>
+				<option value="hasty">Hasty</option>
+				<option value="charged">Charged</option>
+			</select>
+
+			<select id="chestModifier" onchange="chestCalculate()">
+				<option value="none">None</option>
+				<option value="atlantean">Atlantean</option>
+				<option value="archaic" class="chestChartModifier">Archaic</option>
+				<option value="blasted" class="chestChartModifier">Blasted</option>
+				<option value="crystalline" class="chestChartModifier">Crystalline</option>
+				<option value="drowned" class="chestChartModifier">Drowned</option>
+				<option value="frozen" class="chestChartModifier">Frozen</option>
+				<option value="sandy" class="chestChartModifier">Sandy</option>
+				<option value="superheated" class="chestChartModifier">Superheated</option>
+			</select>
+
+			<input type="number" id="chestLevel" value="120" min="100" max="250" step="10" onchange="chestCalculate()">
+
+			<select id="chestSocketTier" onchange="chestCalculate()">
+				<option value="1">Crude</option>
+				<option value="2">Dull</option>
+				<option value="3">Fair</option>
+				<option value="4">Grand</option>
+				<option value="5">Brilliant</option>
+				<option value="6" selected>Perfect</option>
+			</select>
+
+			<select id="chestSocket1Jewel" onchange="chestCalculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+			<select id="chestSocket2Jewel" onchange="chestCalculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+		</div>
+
+		<div>
+
+			<select id="leg" onchange="legCalculate(); legModifierVisibility();">
+				<option value="none">None</option>
+				<option value="cernyxLegs">Cerynx's Boots</option>
+				<option value="carinaLegs">Ravenna Apostle Leggings</option>
+				<option value="calvusLegs">Ravenna Fallen King Boots</option>
+				<option value="eliusLegs">Ravenna Noble Boots</option>
+				<option value="titaniumLegs">Titanium Leggings</option>
+			</select>
+
+			<select id="legEnchant" onchange="legCalculate()">
+				<option value="none">None</option>
+				<option value="strong">Strong</option>
+				<option value="powerful">Powerful</option>
+				<option value="hard">Hard</option>
+				<option value="armored">Armored</option>
+				<option value="nimble">Nimble</option>
+				<option value="agile">Agile</option>
+				<option value="amplified">Amplified</option>
+				<option value="enhanced">Enhanced</option>
+				<option value="bursting">Bursting</option>
+				<option value="explosive">Explosive</option>
+				<option value="swift">Swift</option>
+				<option value="brisk">Brisk</option>
+				<option value="hasty">Hasty</option>
+				<option value="charged">Charged</option>
+			</select>
+
+			<select id="legModifier" onchange="legCalculate()">
+				<option value="none">None</option>
+				<option value="atlantean">Atlantean</option>
+				<option value="archaic" class="legChartModifier">Archaic</option>
+				<option value="blasted" class="legChartModifier">Blasted</option>
+				<option value="crystalline" class="legChartModifier">Crystalline</option>
+				<option value="drowned" class="legChartModifier">Drowned</option>
+				<option value="frozen" class="legChartModifier">Frozen</option>
+				<option value="sandy" class="legChartModifier">Sandy</option>
+				<option value="superheated" class="legChartModifier">Superheated</option>
+			</select>
+
+			<input type="number" id="legLevel" value="120" min="10" max="250" step="10" onchange="legCalculate()">
+
+			<select id="legSocketTier" onchange="legCalculate()">
+				<option value="1">Crude</option>
+				<option value="2">Dull</option>
+				<option value="3">Fair</option>
+				<option value="4">Grand</option>
+				<option value="5">Brilliant</option>
+				<option value="6" selected>Perfect</option>
+			</select>
+
+			<select id="legSocket1Jewel" onchange="legCalculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+			<select id="legSocket2Jewel" onchange="legCalculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+		</div>
+		
+		<div>
+
+			<select id="accessory1" onchange="accessory1Calculate();">
+				<option value="none">None</option>
+				<option value="cernyxFaulds">Cerynx's Faulds</option>
+				<option value="cernyxAmulet">Archon Quartz Amulet</option>
+				<option value="carinaBracelets">Ravenna Apostle Bracelets</option>
+				<option value="carinaFaulds">Ravenna Apostle Faulds</option>
+				<option value="carinaPauldrons">Ravenna Apostle Pauldrons</option>
+				<option value="eliusShroud">Shroud</option>
+				<option value="eliusCape">Collared Cape</option>
+				<option value="calvusCrown">The Lost Crown of Ravenna</option>
+				<option value="calvusMantello">Mantello of Ravenna's Fallen King</option>
+				<option value="titaniumHelmet">Titanium Helmet</option>
+			</select>
+
+			<select id="accessory1Enchant" onchange="accessory1Calculate()">
+				<option value="none">None</option>
+				<option value="strong">Strong</option>
+				<option value="powerful">Powerful</option>
+				<option value="hard">Hard</option>
+				<option value="armored">Armored</option>
+				<option value="nimble">Nimble</option>
+				<option value="agile">Agile</option>
+				<option value="amplified">Amplified</option>
+				<option value="enhanced">Enhanced</option>
+				<option value="bursting">Bursting</option>
+				<option value="explosive">Explosive</option>
+				<option value="swift">Swift</option>
+				<option value="brisk">Brisk</option>
+				<option value="hasty">Hasty</option>
+				<option value="charged">Charged</option>
+			</select>
+
+			<select id="accessory1Modifier" onchange="accessory1Calculate()">
+				<option value="none">None</option>
+				<option value="atlantean">Atlantean</option>
+				<option value="archaic" class="accessory1ChartModifier">Archaic</option>
+				<option value="blasted" class="accessory1ChartModifier">Blasted</option>
+				<option value="crystalline" class="accessory1ChartModifier">Crystalline</option>
+				<option value="drowned" class="accessory1ChartModifier">Drowned</option>
+				<option value="frozen" class="accessory1ChartModifier">Frozen</option>
+				<option value="sandy" class="accessory1ChartModifier">Sandy</option>
+				<option value="superheated" class="accessory1ChartModifier">Superheated</option>
+			</select>
+
+			<input type="number" id="accessory1Level" value="120" min="100" max="250" step="10" onchange="accessory1Calculate()">
+
+			<select id="accessory1SocketTier" onchange="accessory1Calculate()">
+				<option value="1">Crude</option>
+				<option value="2">Dull</option>
+				<option value="3">Fair</option>
+				<option value="4">Grand</option>
+				<option value="5">Brilliant</option>
+				<option value="6" selected>Perfect</option>
+			</select>
+
+			<select id="accessory1Socket1Jewel" onchange="accessory1Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+			<select id="accessory1Socket2Jewel" onchange="accessory1Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+		</div>
+		
+		<div>
+
+			<select id="accessory2" onchange="accessory2Calculate();">
+				<option value="none">None</option>
+				<option value="cernyxFaulds">Cerynx's Faulds</option>
+				<option value="cernyxAmulet">Archon Quartz Amulet</option>
+				<option value="carinaBracelets">Ravenna Apostle Bracelets</option>
+				<option value="carinaFaulds">Ravenna Apostle Faulds</option>
+				<option value="carinaPauldrons">Ravenna Apostle Pauldrons</option>
+				<option value="eliusShroud">Shroud</option>
+				<option value="eliusCape">Collared Cape</option>
+				<option value="calvusCrown">The Lost Crown of Ravenna</option>
+				<option value="calvusMantello">Mantello of Ravenna's Fallen King</option>
+				<option value="titaniumHelmet">Titanium Helmet</option>
+			</select>
+
+			<select id="accessory2Enchant" onchange="accessory2Calculate()">
+				<option value="none">None</option>
+				<option value="strong">Strong</option>
+				<option value="powerful">Powerful</option>
+				<option value="hard">Hard</option>
+				<option value="armored">Armored</option>
+				<option value="nimble">Nimble</option>
+				<option value="agile">Agile</option>
+				<option value="amplified">Amplified</option>
+				<option value="enhanced">Enhanced</option>
+				<option value="bursting">Bursting</option>
+				<option value="explosive">Explosive</option>
+				<option value="swift">Swift</option>
+				<option value="brisk">Brisk</option>
+				<option value="hasty">Hasty</option>
+				<option value="charged">Charged</option>
+			</select>
+
+			<select id="accessory2Modifier" onchange="accessory2Calculate()">
+				<option value="none">None</option>
+				<option value="atlantean">Atlantean</option>
+				<option value="archaic" class="accessory2ChartModifier">Archaic</option>
+				<option value="blasted" class="accessory2ChartModifier">Blasted</option>
+				<option value="crystalline" class="accessory2ChartModifier">Crystalline</option>
+				<option value="drowned" class="accessory2ChartModifier">Drowned</option>
+				<option value="frozen" class="accessory2ChartModifier">Frozen</option>
+				<option value="sandy" class="accessory2ChartModifier">Sandy</option>
+				<option value="superheated" class="accessory2ChartModifier">Superheated</option>
+			</select>
+
+			<input type="number" id="accessory2Level" value="120" min="100" max="250" step="10" onchange="accessory2Calculate()">
+
+			<select id="accessory2SocketTier" onchange="accessory2Calculate()">
+				<option value="1">Crude</option>
+				<option value="2">Dull</option>
+				<option value="3">Fair</option>
+				<option value="4">Grand</option>
+				<option value="5">Brilliant</option>
+				<option value="6" selected>Perfect</option>
+			</select>
+
+			<select id="accessory2Socket1Jewel" onchange="accessory2Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+			<select id="accessory2Socket2Jewel" onchange="accessory2Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+		</div>
+		
+		<div>
+
+			<select id="accessory3" onchange="accessory3Calculate();">
+				<option value="none">None</option>
+				<option value="cernyxFaulds">Cerynx's Faulds</option>
+				<option value="cernyxAmulet">Archon Quartz Amulet</option>
+				<option value="carinaBracelets">Ravenna Apostle Bracelets</option>
+				<option value="carinaFaulds">Ravenna Apostle Faulds</option>
+				<option value="carinaPauldrons">Ravenna Apostle Pauldrons</option>
+				<option value="eliusShroud">Shroud</option>
+				<option value="eliusCape">Collared Cape</option>
+				<option value="calvusCrown">The Lost Crown of Ravenna</option>
+				<option value="calvusMantello">Mantello of Ravenna's Fallen King</option>
+				<option value="titaniumHelmet">Titanium Helmet</option>
+			</select>
+
+			<select id="accessory3Enchant" onchange="accessory3Calculate()">
+				<option value="none">None</option>
+				<option value="strong">Strong</option>
+				<option value="powerful">Powerful</option>
+				<option value="hard">Hard</option>
+				<option value="armored">Armored</option>
+				<option value="nimble">Nimble</option>
+				<option value="agile">Agile</option>
+				<option value="amplified">Amplified</option>
+				<option value="enhanced">Enhanced</option>
+				<option value="bursting">Bursting</option>
+				<option value="explosive">Explosive</option>
+				<option value="swift">Swift</option>
+				<option value="brisk">Brisk</option>
+				<option value="hasty">Hasty</option>
+				<option value="charged">Charged</option>
+			</select>
+
+			<select id="accessory3Modifier" onchange="accessory3Calculate()">
+				<option value="none">None</option>
+				<option value="atlantean">Atlantean</option>
+				<option value="archaic" class="accessory3ChartModifier">Archaic</option>
+				<option value="blasted" class="accessory3ChartModifier">Blasted</option>
+				<option value="crystalline" class="accessory3ChartModifier">Crystalline</option>
+				<option value="drowned" class="accessory3ChartModifier">Drowned</option>
+				<option value="frozen" class="accessory3ChartModifier">Frozen</option>
+				<option value="sandy" class="accessory3ChartModifier">Sandy</option>
+				<option value="superheated" class="accessory3ChartModifier">Superheated</option>
+			</select>
+
+			<input type="number" id="accessory3Level" value="120" min="100" max="250" step="10" onchange="accessory3Calculate()">
+
+			<select id="accessory3SocketTier" onchange="accessory3Calculate()">
+				<option value="1">Crude</option>
+				<option value="2">Dull</option>
+				<option value="3">Fair</option>
+				<option value="4">Grand</option>
+				<option value="5">Brilliant</option>
+				<option value="6" selected>Perfect</option>
+			</select>
+
+			<select id="accessory3Socket1Jewel" onchange="accessory3Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+			<select id="accessory3Socket2Jewel" onchange="accessory3Calculate()">
+				<option value="none">None</option>
+				<option value="powerJewel">Power Jewel</option>
+				<option value="defenseJewel">Defense Jewel</option>
+				<option value="agilityJewel">Agility Jewel</option>
+				<option value="intensityJewel">Intensity Jewel</option>
+				<option value="sizeJewel">Size Jewel</option>
+				<option value="speedJewel">Speed Jewel</option>
+				<option value="agate">Agate</option>
+				<option value="candelaria">Candelaria</option>
+				<option value="kyanite">Kyanite</option>
+				<option value="lapisLazuli">Lapis Lazuli</option>
+				<option value="larimar">Larimar</option>
+				<option value="malachite">Malachite</option>
+				<option value="morenci">Morenci</option>
+				<option value="painite">Painite</option>
+				<option value="variscite">Variscite</option>
+			</select>
+
+		</div>
+
+		<script src="chests.js"></script>
+		<!-- test code for later: document.querySelector("#accessory2")[document.querySelector("#accessory1").selectedIndex].setAttribute("hidden",true) -->
+		<script src="legs.js"></script>
+		
+		<script src="accessories.js"></script>
+
+		<script src="jewels.js"></script>
+
+		<script>
+
+			const enchantData = {
+				"strong": {"stats": [{"name":"power","multi":0.5}]},
+				"powerful": {"stats": [{"name":"power","multi":1}]},
+				"hard": {"stats": [{"name":"defense","multi":4.5}]},
+				"armored": {"stats": [{"name":"defense","multi":9}]},
+				"nimble": {"stats": [{"name":"agility","multi":1.5}]},
+				"agile": {"stats": [{"name":"agility","multi":3}]},
+				"amplified": {"stats": [{"name":"intensity","multi":1.5}]},
+				"enhanced": {"stats": [{"name":"intensity","multi":3}]},
+				"bursting": {"stats": [{"name":"size","multi":1.5}]},
+				"explosive": {"stats": [{"name":"size","multi":3}]},
+				"swift": {"stats": [{"name":"speed","multi":1.5}]},
+				"brisk": {"stats": [{"name":"speed","multi":3}]},
+				"hasty": {"stats": [{"name":"speed","multi":1.5}, {"name":"agility","multi":1.5}]},
+				"charged": {"stats": [{"name":"power","multi":0.65}, {"name":"intensity","multi":1.5}]}
+			}
+
+			const modifierData = {
+				"atlantean": {"stats": [{"name":"power","multi":1},{"name":"defense","multi":8.833},{"name":"size","multi":3},{"name":"speed","multi":3},{"name":"agility","multi":3},{"name":"intensity","multi":3}]},
+				"blasted": {"stats": [{"name":"power","multi":0.5}]},
+				"frozen": {"stats": [{"name":"defense","multi":4.417}]},
+				"sandy": {"stats": [{"name":"intensity","multi":1.5}]},
+				"archaic": {"stats": [{"name":"size","multi":1.5}]},
+				"crystalline": {"stats": [{"name":"speed","multi":1.5}]},
+				"superheated": {"stats": [{"name":"power","multi":0.25}, {"name":"intensity","multi":0.75}]},
+				"drowned": {"stats":[{"name":"defense","multi":2.25}, {"name":"size","multi":0.75}]},
+			}
+
+			var chest = chests["none"];
+			var chestLevel;
+			var chestEnchant;
+			var chestModifier;
+			var chestSocketTier;
+			var chestSocket1Jewel;
+			var chestSocket2Jewel;
+			var leg = legs["none"];
+			var legLevel;
+			var legEnchant;
+			var legModifier;
+			var legSocketTier;
+			var legSocket1Jewel;
+			var legSocket2Jewel;
+			var accessory1 = accessories["none"];
+			var accessory1Level;
+			var accessory1Enchant;
+			var accessory1Modifier;
+			var accessory1SocketTier;
+			var accessory1Socket1Jewel;
+			var accessory1Socket2Jewel;
+			var accessory2 = accessories["none"];
+			var accessory2Level;
+			var accessory2Enchant;
+			var accessory2Modifier;
+			var accessory2SocketTier;
+			var accessory2Socket1Jewel;
+			var accessory2Socket2Jewel;
+			var accessory3 = accessories["none"];
+			var accessory3Level;
+			var accessory3Enchant;
+			var accessory3Modifier;
+			var accessory3SocketTier;
+			var accessory3Socket1Jewel;
+			var accessory3Socket2Jewel;
+
+			function chestCalculate() {
+
+				valueReset();
+
+				chest = chests[document.getElementById("chest").value];
+				chestLevel = document.getElementById("chestLevel").valueAsNumber;
+				document.getElementById("chestLevel").min = chest.minLvl;
+				document.getElementById("chestLevel").max = chest.maxLvl;
+				if (chestLevel > chest.maxLvl) {document.getElementById("chestLevel").value = chest.maxLvl;};
+				if (chestLevel < chest.minLvl) {document.getElementById("chestLevel").value = chest.minLvl;};
+				chestEnchant = document.getElementById("chestEnchant").value;
+				chestModifier = document.getElementById("chestModifier").value;
+				chestSocketTier = Number(document.getElementById("chestSocketTier").value);
+				chestSocket1Jewel = document.getElementById("chestSocket1Jewel").value;
+				chestSocket2Jewel = document.getElementById("chestSocket2Jewel").value;
+				
+				chestModifierVisibility(); 
+	
+				if (chestEnchant != "none") {
+					for (enchant of enchantData[chestEnchant]["stats"]) {
+						chestEnchantValue[enchant["name"]] = Math.floor(enchant["multi"] * (chestLevel/10));
+					}
+				}
+
+				if (chestModifier !="none") {
+					if (chestModifier !="atlantean") {
+						for (modifier of modifierData[chestModifier]["stats"]) {
+							chestModifierValue[modifier["name"]] = Math.floor(modifier["multi"] * (chestLevel/10));
+						}
+					}
+				}
+
+				for (let i = 0; i < jewels[chestSocket1Jewel]["stats"].length; i++){
+				  switch(jewels[chestSocket1Jewel]["stats"][i]) {
+
+						case "power": chestJewels.power = Math.round(-0.009 * chestSocketTier**3 + 0.187 * chestSocketTier**2 - 0.519 * chestSocketTier + 1.333);
+						break;
+						
+						case "defense": chestJewels.defense = Math.round(-0.104 * chestSocketTier**4+1.301 * chestSocketTier**3-5.493 * chestSocketTier**2+14.102 * chestSocketTier-4.833);
+						break;
+						
+						case "painiteDefense": chestJewels.defense = 18 * chestSocketTier - 1
+						break;
+						
+						case "agility": chestJewels.agility = Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333);
+						break;
+						
+						case "intensity": chestJewels.intensity = Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333);
+						break;
+						
+						case "size": chestJewels.size = Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333);
+						break;
+						
+						case "speed": chestJewels.speed = Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333);
+						break;
+						
+						case "drawback": chestJewels.drawback = 1
+						break;
+
+					}
+				}
+				
+				for (let i = 0; i < jewels[chestSocket2Jewel]["stats"].length; i++){
+					switch(jewels[chestSocket2Jewel]["stats"][i]) {
+
+						case "power": chestJewels.power = chestJewels.power + (Math.round(-0.009 * chestSocketTier**3 + 0.187 * chestSocketTier**2 - 0.519 * chestSocketTier + 1.333));
+						break;
+						
+						case "defense": chestJewels.defense = chestJewels.defense + (Math.round(-0.104 * chestSocketTier**4+1.301 * chestSocketTier**3-5.493 * chestSocketTier**2+14.102 * chestSocketTier-4.833));
+						break;
+						
+						case "painiteDefense": chestJewels.defense = chestJewels.defense + (18 * chestSocketTier - 1);
+						break;
+						
+						case "agility": chestJewels.agility = chestJewels.agility + (Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333));
+						break;
+						
+						case "intensity": chestJewels.intensity = chestJewels.intensity + (Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333));
+						break;
+						
+						case "size": chestJewels.size = chestJewels.size + (Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333));
+						break;
+						
+						case "speed": chestJewels.speed = chestJewels.speed + (Math.round(0.037 * chestSocketTier**3 - 0.389 * chestSocketTier**2 + 2.717 * chestSocketTier - 1.333));
+						break;
+						
+						case "drawback": chestJewels.drawback = chestJewels.drawback + 1
+						break;
+
+					}
+				}
+
+				finalChest.power = Math.round((chest.powerIncrement * ((chestLevel-chest.minLvl)/10)) + chest.power) + chestEnchantValue.power + chestModifierValue.power + chestJewels.power;
+				finalChest.defense = Math.round((chest.defenseIncrement * ((chestLevel-chest.minLvl)/10)) + chest.defense) + chestEnchantValue.defense + chestModifierValue.defense + chestJewels.defense;
+				finalChest.agility = Math.round((chest.agilityIncrement * ((chestLevel-chest.minLvl)/10)) + chest.agility) + chestEnchantValue.agility + chestModifierValue.agility + chestJewels.agility;
+				finalChest.intensity = Math.round((chest.intensityIncrement * ((chestLevel-chest.minLvl)/10)) + chest.intensity) + chestEnchantValue.intensity + chestModifierValue.intensity + chestJewels.intensity;
+				finalChest.size = Math.round((chest.sizeIncrement * ((chestLevel-chest.minLvl)/10)) + chest.size) + chestEnchantValue.size + chestModifierValue.size + chestJewels.size;
+				finalChest.speed = Math.round((chest.speedIncrement * ((chestLevel-chest.minLvl)/10)) + chest.speed) + chestEnchantValue.speed + chestModifierValue.speed + chestJewels.speed;
+				finalChest.insanity = Math.round((chest.insanityIncrement * ((chestLevel-chest.minLvl)/10)) + chest.insanity) + chestEnchantValue.insanity + chestModifierValue.insanity + chestJewels.insanity;
+				finalChest.warding = Math.round((chest.wardingIncrement * ((chestLevel-chest.minLvl)/10)) + chest.warding) + chestEnchantValue.warding + chestModifierValue.warding + chestJewels.warding;
+				finalChest.drawback = Math.round((chest.drawbackIncrement * ((chestLevel-chest.minLvl)/10)) + chest.drawback) + chestEnchantValue.drawback + chestModifierValue.drawback + chestJewels.drawback;
+				
+				switch (chestModifier) {
+					case "atlantean":
+						if (finalChest.power == 0) {
+							finalChest.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						if (finalChest.defense == 0) {
+							finalChest.defense += Math.floor(modifierData["atlantean"]["stats"][1]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						if (finalChest.size == 0) {
+							finalChest.size += Math.floor(modifierData["atlantean"]["stats"][2]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						if (finalChest.speed == 0) {
+							finalChest.speed += Math.floor(modifierData["atlantean"]["stats"][3]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						if (finalChest.agility == 0) {
+							finalChest.agility += Math.floor(modifierData["atlantean"]["stats"][4]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						if (finalChest.intensity == 0) {
+							finalChest.intensity += Math.floor(modifierData["atlantean"]["stats"][5]["multi"] * (chestLevel/10));
+							finalChest.insanity = 1;
+							break;
+						}
+						
+						finalChest.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (chestLevel/10));
+						finalChest.insanity = 1;
+				}
+				
+				display();
+
+			}
+			
+			
+			
+			function legCalculate() {
+			
+				valueReset()
+			
+				leg = legs[document.getElementById("leg").value];
+				legLevel = document.getElementById("legLevel").valueAsNumber;
+				document.getElementById("legLevel").min = leg.minLvl;
+				document.getElementById("legLevel").max = leg.maxLvl;
+				if (legLevel > leg.maxLvl) {document.getElementById("legLevel").value = leg.maxLvl;};
+				if (legLevel < leg.minLvl) {document.getElementById("legLevel").value = leg.minLvl;};
+				legEnchant = document.getElementById("legEnchant").value;
+				legModifier = document.getElementById("legModifier").value;
+				legSocketTier = document.getElementById("legSocketTier").value;
+				legSocket1Jewel = document.getElementById("legSocket1Jewel").value;
+				legSocket2Jewel = document.getElementById("legSocket2Jewel").value;
+
+				legModifierVisibility();
+
+				if (legEnchant != "none") {
+					for (enchant of enchantData[legEnchant]["stats"]) {
+						legEnchantValue[enchant["name"]] = Math.floor(enchant["multi"] * (legLevel/10));
+					}
+				}
+
+				if (legModifier != "none") {
+					if (legModifier != "atlantean") {
+						for (modifier of modifierData[legModifier]["stats"]) {
+							legModifierValue[modifier["name"]] = Math.floor(modifier["multi"] * (legLevel/10));
+						}
+					}
+				}
+
+				for (let i = 0; i < jewels[legSocket1Jewel]["stats"].length; i++){
+				  switch(jewels[legSocket1Jewel]["stats"][i]) {
+
+									case "power": legJewels.power = Math.round(-0.009 * legSocketTier**3 + 0.187 * legSocketTier**2 - 0.519 * legSocketTier + 1.333);
+									break;
+									
+									case "defense": legJewels.defense = Math.round(-0.104 * legSocketTier**4+1.301 * legSocketTier**3-5.493 * legSocketTier**2+14.102 * legSocketTier-4.833);
+									break;
+									
+									case "painiteDefense": legJewels.defense = 18 * legSocketTier - 1
+									break;
+									
+									case "agility": legJewels.agility = Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333);
+									break;
+									
+									case "intensity": legJewels.intensity = Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333);
+									break;
+									
+									case "size": legJewels.size = Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333);
+									break;
+									
+									case "speed": legJewels.speed = Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333);
+									break;
+									
+									case "drawback": legJewels.drawback = 1
+									break;
+
+					}
+				}
+				
+				for (let i = 0; i < jewels[legSocket2Jewel]["stats"].length; i++){
+					switch(jewels[legSocket2Jewel]["stats"][i]) {
+
+						case "power": legJewels.power = legJewels.power + (Math.round(-0.009 * legSocketTier**3 + 0.187 * legSocketTier**2 - 0.519 * legSocketTier + 1.333));
+						break;
+						
+						case "defense": legJewels.defense = legJewels.defense + (Math.round(-0.104 * legSocketTier**4+1.301 * legSocketTier**3-5.493 * legSocketTier**2+14.102 * legSocketTier-4.833));
+						break;
+						
+						case "painiteDefense": legJewels.defense = legJewels.defense + (18 * legSocketTier - 1);
+						break;
+						
+						case "agility": legJewels.agility = legJewels.agility + (Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333));
+						break;
+						
+						case "intensity": legJewels.intensity = legJewels.intensity + (Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333));
+						break;
+						
+						case "size": legJewels.size = legJewels.size + (Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333));
+						break;
+						
+						case "speed": legJewels.speed = legJewels.speed + (Math.round(0.037 * legSocketTier**3 - 0.389 * legSocketTier**2 + 2.717 * legSocketTier - 1.333));
+						break;
+						
+						case "drawback": legJewels.drawback = legJewels.drawback + 1
+						break;
+
+					}
+				}
+
+				finalLeg.power = Math.round((leg.powerIncrement * ((legLevel-leg.minLvl)/10)) + leg.power) + legEnchantValue.power + legModifierValue.power + legJewels.power;
+				finalLeg.defense = Math.round((leg.defenseIncrement * ((legLevel-leg.minLvl)/10)) + leg.defense) + legEnchantValue.defense + legModifierValue.defense + legJewels.defense;
+				finalLeg.agility = Math.round((leg.agilityIncrement * ((legLevel-leg.minLvl)/10)) + leg.agility) + legEnchantValue.agility + legModifierValue.agility + legJewels.agility;
+				finalLeg.intensity = Math.round((leg.intensityIncrement * ((legLevel-leg.minLvl)/10)) + leg.intensity) + legEnchantValue.intensity + legModifierValue.intensity + legJewels.intensity;
+				finalLeg.size = Math.round((leg.sizeIncrement * ((legLevel-leg.minLvl)/10)) + leg.size) + legEnchantValue.size + legModifierValue.size + legJewels.size;
+				finalLeg.speed = Math.round((leg.speedIncrement * ((legLevel-leg.minLvl)/10)) + leg.speed) + legEnchantValue.speed + legModifierValue.speed + legJewels.speed;
+				finalLeg.insanity = Math.round((leg.insanityIncrement * ((legLevel-leg.minLvl)/10)) + leg.insanity) + legEnchantValue.insanity + legModifierValue.insanity + legJewels.insanity;
+				finalLeg.warding = Math.round((leg.wardingIncrement * ((legLevel-leg.minLvl)/10)) + leg.warding) + legEnchantValue.warding + legModifierValue.warding + legJewels.warding;
+				finalLeg.drawback = Math.round((leg.drawbackIncrement * ((legLevel-leg.minLvl)/10)) + leg.drawback) + legEnchantValue.drawback + legModifierValue.drawback + legJewels.drawback;
+				
+				switch (legModifier) {
+					case "atlantean":
+						if (finalLeg.power == 0) {
+							finalLeg.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						if (finalLeg.defense == 0) {
+							finalLeg.defense += Math.floor(modifierData["atlantean"]["stats"][1]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						if (finalLeg.size == 0) {
+							finalLeg.size += Math.floor(modifierData["atlantean"]["stats"][2]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						if (finalLeg.speed == 0) {
+							finalLeg.speed += Math.floor(modifierData["atlantean"]["stats"][3]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						if (finalLeg.agility == 0) {
+							finalLeg.agility += Math.floor(modifierData["atlantean"]["stats"][4]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						if (finalLeg.intensity == 0) {
+							finalLeg.intensity += Math.floor(modifierData["atlantean"]["stats"][5]["multi"] * (legLevel/10));
+							finalLeg.insanity = 1;
+							break;
+						}
+						
+						finalLeg.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (legLevel/10));
+						finalLeg.insanity = 1;
+				}
+				
+				display();
+				
+			}
+			
+			
+			
+			function accessory1Calculate() {
+
+				valueReset();
+
+				accessory1 = accessories[document.getElementById("accessory1").value];
+				accessory1Level = document.getElementById("accessory1Level").valueAsNumber;
+				document.getElementById("accessory1Level").min = accessory1.minLvl;
+				document.getElementById("accessory1Level").max = accessory1.maxLvl;
+				if (accessory1Level > accessory1.maxLvl) {document.getElementById("accessory1Level").value = accessory1.maxLvl;};
+				if (accessory1Level < accessory1.minLvl) {document.getElementById("accessory1Level").value = accessory1.minLvl;};
+				accessory1Enchant = document.getElementById("accessory1Enchant").value;
+				accessory1Modifier = document.getElementById("accessory1Modifier").value;
+				accessory1SocketTier = Number(document.getElementById("accessory1SocketTier").value);
+				accessory1Socket1Jewel = document.getElementById("accessory1Socket1Jewel").value;
+				accessory1Socket2Jewel = document.getElementById("accessory1Socket2Jewel").value;
+				
+				accessory1ModifierVisibility(); 
+	
+				if (accessory1Enchant != "none") {
+					for (enchant of enchantData[accessory1Enchant]["stats"]) {
+						accessory1EnchantValue[enchant["name"]] = Math.floor(enchant["multi"] * (accessory1Level/10));
+					}
+				}
+
+				if (accessory1Modifier !="none") {
+					if (accessory1Modifier !="atlantean") {
+						for (modifier of modifierData[accessory1Modifier]["stats"]) {
+							accessory1ModifierValue[modifier["name"]] = Math.floor(modifier["multi"] * (accessory1Level/10));
+						}
+					}
+				}
+
+				for (let i = 0; i < jewels[accessory1Socket1Jewel]["stats"].length; i++){
+				  switch(jewels[accessory1Socket1Jewel]["stats"][i]) {
+
+						case "power": accessory1Jewels.power = Math.round(-0.009 * accessory1SocketTier**3 + 0.187 * accessory1SocketTier**2 - 0.519 * accessory1SocketTier + 1.333);
+						break;
+						
+						case "defense": accessory1Jewels.defense = Math.round(-0.104 * accessory1SocketTier**4+1.301 * accessory1SocketTier**3-5.493 * accessory1SocketTier**2+14.102 * accessory1SocketTier-4.833);
+						break;
+						
+						case "painiteDefense": accessory1Jewels.defense = 18 * accessory1SocketTier - 1
+						break;
+						
+						case "agility": accessory1Jewels.agility = Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333);
+						break;
+						
+						case "intensity": accessory1Jewels.intensity = Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333);
+						break;
+						
+						case "size": accessory1Jewels.size = Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333);
+						break;
+						
+						case "speed": accessory1Jewels.speed = Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333);
+						break;
+						
+						case "drawback": accessory1Jewels.drawback = 1
+						break;
+
+					}
+				}
+				
+				for (let i = 0; i < jewels[accessory1Socket2Jewel]["stats"].length; i++){
+					switch(jewels[accessory1Socket2Jewel]["stats"][i]) {
+
+						case "power": accessory1Jewels.power = accessory1Jewels.power + (Math.round(-0.009 * accessory1SocketTier**3 + 0.187 * accessory1SocketTier**2 - 0.519 * accessory1SocketTier + 1.333));
+						break;
+						
+						case "defense": accessory1Jewels.defense = accessory1Jewels.defense + (Math.round(-0.104 * accessory1SocketTier**4+1.301 * accessory1SocketTier**3-5.493 * accessory1SocketTier**2+14.102 * accessory1SocketTier-4.833));
+						break;
+						
+						case "painiteDefense": accessory1Jewels.defense = accessory1Jewels.defense + (18 * accessory1SocketTier - 1);
+						break;
+						
+						case "agility": accessory1Jewels.agility = accessory1Jewels.agility + (Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333));
+						break;
+						
+						case "intensity": accessory1Jewels.intensity = accessory1Jewels.intensity + (Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333));
+						break;
+						
+						case "size": accessory1Jewels.size = accessory1Jewels.size + (Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333));
+						break;
+						
+						case "speed": accessory1Jewels.speed = accessory1Jewels.speed + (Math.round(0.037 * accessory1SocketTier**3 - 0.389 * accessory1SocketTier**2 + 2.717 * accessory1SocketTier - 1.333));
+						break;
+						
+						case "drawback": accessory1Jewels.drawback = accessory1Jewels.drawback + 1
+						break;
+
+					}
+				}
+
+				finalAccessory1.power = Math.round((accessory1.powerIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.power) + accessory1EnchantValue.power + accessory1ModifierValue.power + accessory1Jewels.power;
+				finalAccessory1.defense = Math.round((accessory1.defenseIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.defense) + accessory1EnchantValue.defense + accessory1ModifierValue.defense + accessory1Jewels.defense;
+				finalAccessory1.agility = Math.round((accessory1.agilityIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.agility) + accessory1EnchantValue.agility + accessory1ModifierValue.agility + accessory1Jewels.agility;
+				finalAccessory1.intensity = Math.round((accessory1.intensityIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.intensity) + accessory1EnchantValue.intensity + accessory1ModifierValue.intensity + accessory1Jewels.intensity;
+				finalAccessory1.size = Math.round((accessory1.sizeIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.size) + accessory1EnchantValue.size + accessory1ModifierValue.size + accessory1Jewels.size;
+				finalAccessory1.speed = Math.round((accessory1.speedIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.speed) + accessory1EnchantValue.speed + accessory1ModifierValue.speed + accessory1Jewels.speed;
+				finalAccessory1.insanity = Math.round((accessory1.insanityIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.insanity) + accessory1EnchantValue.insanity + accessory1ModifierValue.insanity + accessory1Jewels.insanity;
+				finalAccessory1.warding = Math.round((accessory1.wardingIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.warding) + accessory1EnchantValue.warding + accessory1ModifierValue.warding + accessory1Jewels.warding;
+				finalAccessory1.drawback = Math.round((accessory1.drawbackIncrement * ((accessory1Level-accessory1.minLvl)/10)) + accessory1.drawback) + accessory1EnchantValue.drawback + accessory1ModifierValue.drawback + accessory1Jewels.drawback;
+				
+				switch (accessory1Modifier) {
+					case "atlantean":
+						if (finalAccessory1.power == 0) {
+							finalAccessory1.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory1.defense == 0) {
+							finalAccessory1.defense += Math.floor(modifierData["atlantean"]["stats"][1]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory1.size == 0) {
+							finalAccessory1.size += Math.floor(modifierData["atlantean"]["stats"][2]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory1.speed == 0) {
+							finalAccessory1.speed += Math.floor(modifierData["atlantean"]["stats"][3]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory1.agility == 0) {
+							finalAccessory1.agility += Math.floor(modifierData["atlantean"]["stats"][4]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory1.intensity == 0) {
+							finalAccessory1.intensity += Math.floor(modifierData["atlantean"]["stats"][5]["multi"] * (accessory1Level/10));
+							finalAccessory1.insanity = 1;
+							break;
+						}
+						
+						finalAccessory1.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory1Level/10));
+						finalAccessory1.insanity = 1;
+				}
+				
+				display();
+
+			}
+			
+			
+			
+			function accessory2Calculate() {
+
+				valueReset();
+
+				accessory2 = accessories[document.getElementById("accessory2").value];
+				accessory2Level = document.getElementById("accessory2Level").valueAsNumber;
+				document.getElementById("accessory2Level").min = accessory2.minLvl;
+				document.getElementById("accessory2Level").max = accessory2.maxLvl;
+				if (accessory2Level > accessory2.maxLvl) {document.getElementById("accessory2Level").value = accessory2.maxLvl;};
+				if (accessory2Level < accessory2.minLvl) {document.getElementById("accessory2Level").value = accessory2.minLvl;};
+				accessory2Enchant = document.getElementById("accessory2Enchant").value;
+				accessory2Modifier = document.getElementById("accessory2Modifier").value;
+				accessory2SocketTier = Number(document.getElementById("accessory2SocketTier").value);
+				accessory2Socket1Jewel = document.getElementById("accessory2Socket1Jewel").value;
+				accessory2Socket2Jewel = document.getElementById("accessory2Socket2Jewel").value;
+				
+				accessory2ModifierVisibility(); 
+	
+				if (accessory2Enchant != "none") {
+					for (enchant of enchantData[accessory2Enchant]["stats"]) {
+						accessory2EnchantValue[enchant["name"]] = Math.floor(enchant["multi"] * (accessory2Level/10));
+					}
+				}
+
+				if (accessory2Modifier !="none") {
+					if (accessory2Modifier !="atlantean") {
+						for (modifier of modifierData[accessory2Modifier]["stats"]) {
+							accessory2ModifierValue[modifier["name"]] = Math.floor(modifier["multi"] * (accessory2Level/10));
+						}
+					}
+				}
+
+				for (let i = 0; i < jewels[accessory2Socket1Jewel]["stats"].length; i++){
+				  switch(jewels[accessory2Socket1Jewel]["stats"][i]) {
+
+						case "power": accessory2Jewels.power = Math.round(-0.009 * accessory2SocketTier**3 + 0.187 * accessory2SocketTier**2 - 0.519 * accessory2SocketTier + 1.333);
+						break;
+						
+						case "defense": accessory2Jewels.defense = Math.round(-0.104 * accessory2SocketTier**4+1.301 * accessory2SocketTier**3-5.493 * accessory2SocketTier**2+14.102 * accessory2SocketTier-4.833);
+						break;
+						
+						case "painiteDefense": accessory2Jewels.defense = 18 * accessory2SocketTier - 1
+						break;
+						
+						case "agility": accessory2Jewels.agility = Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333);
+						break;
+						
+						case "intensity": accessory2Jewels.intensity = Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333);
+						break;
+						
+						case "size": accessory2Jewels.size = Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333);
+						break;
+						
+						case "speed": accessory2Jewels.speed = Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333);
+						break;
+						
+						case "drawback": accessory2Jewels.drawback = 1
+						break;
+
+					}
+				}
+				
+				for (let i = 0; i < jewels[accessory2Socket2Jewel]["stats"].length; i++){
+					switch(jewels[accessory2Socket2Jewel]["stats"][i]) {
+
+						case "power": accessory2Jewels.power = accessory2Jewels.power + (Math.round(-0.009 * accessory2SocketTier**3 + 0.187 * accessory2SocketTier**2 - 0.519 * accessory2SocketTier + 1.333));
+						break;
+						
+						case "defense": accessory2Jewels.defense = accessory2Jewels.defense + (Math.round(-0.104 * accessory2SocketTier**4+1.301 * accessory2SocketTier**3-5.493 * accessory2SocketTier**2+14.102 * accessory2SocketTier-4.833));
+						break;
+						
+						case "painiteDefense": accessory2Jewels.defense = accessory2Jewels.defense + (18 * accessory2SocketTier - 1);
+						break;
+						
+						case "agility": accessory2Jewels.agility = accessory2Jewels.agility + (Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333));
+						break;
+						
+						case "intensity": accessory2Jewels.intensity = accessory2Jewels.intensity + (Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333));
+						break;
+						
+						case "size": accessory2Jewels.size = accessory2Jewels.size + (Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333));
+						break;
+						
+						case "speed": accessory2Jewels.speed = accessory2Jewels.speed + (Math.round(0.037 * accessory2SocketTier**3 - 0.389 * accessory2SocketTier**2 + 2.717 * accessory2SocketTier - 1.333));
+						break;
+						
+						case "drawback": accessory2Jewels.drawback = accessory2Jewels.drawback + 1
+						break;
+
+					}
+				}
+
+				finalAccessory2.power = Math.round((accessory2.powerIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.power) + accessory2EnchantValue.power + accessory2ModifierValue.power + accessory2Jewels.power;
+				finalAccessory2.defense = Math.round((accessory2.defenseIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.defense) + accessory2EnchantValue.defense + accessory2ModifierValue.defense + accessory2Jewels.defense;
+				finalAccessory2.agility = Math.round((accessory2.agilityIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.agility) + accessory2EnchantValue.agility + accessory2ModifierValue.agility + accessory2Jewels.agility;
+				finalAccessory2.intensity = Math.round((accessory2.intensityIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.intensity) + accessory2EnchantValue.intensity + accessory2ModifierValue.intensity + accessory2Jewels.intensity;
+				finalAccessory2.size = Math.round((accessory2.sizeIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.size) + accessory2EnchantValue.size + accessory2ModifierValue.size + accessory2Jewels.size;
+				finalAccessory2.speed = Math.round((accessory2.speedIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.speed) + accessory2EnchantValue.speed + accessory2ModifierValue.speed + accessory2Jewels.speed;
+				finalAccessory2.insanity = Math.round((accessory2.insanityIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.insanity) + accessory2EnchantValue.insanity + accessory2ModifierValue.insanity + accessory2Jewels.insanity;
+				finalAccessory2.warding = Math.round((accessory2.wardingIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.warding) + accessory2EnchantValue.warding + accessory2ModifierValue.warding + accessory2Jewels.warding;
+				finalAccessory2.drawback = Math.round((accessory2.drawbackIncrement * ((accessory2Level-accessory2.minLvl)/10)) + accessory2.drawback) + accessory2EnchantValue.drawback + accessory2ModifierValue.drawback + accessory2Jewels.drawback;
+				
+				switch (accessory2Modifier) {
+					case "atlantean":
+						if (finalAccessory2.power == 0) {
+							finalAccessory2.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory2.defense == 0) {
+							finalAccessory2.defense += Math.floor(modifierData["atlantean"]["stats"][1]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory2.size == 0) {
+							finalAccessory2.size += Math.floor(modifierData["atlantean"]["stats"][2]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory2.speed == 0) {
+							finalAccessory2.speed += Math.floor(modifierData["atlantean"]["stats"][3]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory2.agility == 0) {
+							finalAccessory2.agility += Math.floor(modifierData["atlantean"]["stats"][4]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory2.intensity == 0) {
+							finalAccessory2.intensity += Math.floor(modifierData["atlantean"]["stats"][5]["multi"] * (accessory2Level/10));
+							finalAccessory2.insanity = 1;
+							break;
+						}
+						
+						finalAccessory2.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory2Level/10));
+						finalAccessory2.insanity = 1;
+				}
+				
+				display();
+
+			}
+			
+			
+			
+			function accessory3Calculate() {
+
+				valueReset();
+
+				accessory3 = accessories[document.getElementById("accessory3").value];
+				accessory3Level = document.getElementById("accessory3Level").valueAsNumber;
+				document.getElementById("accessory3Level").min = accessory3.minLvl;
+				document.getElementById("accessory3Level").max = accessory3.maxLvl;
+				if (accessory3Level > accessory3.maxLvl) {document.getElementById("accessory3Level").value = accessory3.maxLvl;};
+				if (accessory3Level < accessory3.minLvl) {document.getElementById("accessory3Level").value = accessory3.minLvl;};
+				accessory3Enchant = document.getElementById("accessory3Enchant").value;
+				accessory3Modifier = document.getElementById("accessory3Modifier").value;
+				accessory3SocketTier = Number(document.getElementById("accessory3SocketTier").value);
+				accessory3Socket1Jewel = document.getElementById("accessory3Socket1Jewel").value;
+				accessory3Socket2Jewel = document.getElementById("accessory3Socket2Jewel").value;
+				
+				accessory3ModifierVisibility(); 
+	
+				if (accessory3Enchant != "none") {
+					for (enchant of enchantData[accessory3Enchant]["stats"]) {
+						accessory3EnchantValue[enchant["name"]] = Math.floor(enchant["multi"] * (accessory3Level/10));
+					}
+				}
+
+				if (accessory3Modifier !="none") {
+					if (accessory3Modifier !="atlantean") {
+						for (modifier of modifierData[accessory3Modifier]["stats"]) {
+							accessory3ModifierValue[modifier["name"]] = Math.floor(modifier["multi"] * (accessory3Level/10));
+						}
+					}
+				}
+
+				for (let i = 0; i < jewels[accessory3Socket1Jewel]["stats"].length; i++){
+				  switch(jewels[accessory3Socket1Jewel]["stats"][i]) {
+
+						case "power": accessory3Jewels.power = Math.round(-0.009 * accessory3SocketTier**3 + 0.187 * accessory3SocketTier**2 - 0.519 * accessory3SocketTier + 1.333);
+						break;
+						
+						case "defense": accessory3Jewels.defense = Math.round(-0.104 * accessory3SocketTier**4+1.301 * accessory3SocketTier**3-5.493 * accessory3SocketTier**2+14.102 * accessory3SocketTier-4.833);
+						break;
+						
+						case "painiteDefense": accessory3Jewels.defense = 18 * accessory3SocketTier - 1
+						break;
+						
+						case "agility": accessory3Jewels.agility = Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333);
+						break;
+						
+						case "intensity": accessory3Jewels.intensity = Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333);
+						break;
+						
+						case "size": accessory3Jewels.size = Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333);
+						break;
+						
+						case "speed": accessory3Jewels.speed = Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333);
+						break;
+						
+						case "drawback": accessory3Jewels.drawback = 1
+						break;
+
+					}
+				}
+				
+				for (let i = 0; i < jewels[accessory3Socket2Jewel]["stats"].length; i++){
+					switch(jewels[accessory3Socket2Jewel]["stats"][i]) {
+
+						case "power": accessory3Jewels.power = accessory3Jewels.power + (Math.round(-0.009 * accessory3SocketTier**3 + 0.187 * accessory3SocketTier**2 - 0.519 * accessory3SocketTier + 1.333));
+						break;
+						
+						case "defense": accessory3Jewels.defense = accessory3Jewels.defense + (Math.round(-0.104 * accessory3SocketTier**4+1.301 * accessory3SocketTier**3-5.493 * accessory3SocketTier**2+14.102 * accessory3SocketTier-4.833));
+						break;
+						
+						case "painiteDefense": accessory3Jewels.defense = accessory3Jewels.defense + (18 * accessory3SocketTier - 1);
+						break;
+						
+						case "agility": accessory3Jewels.agility = accessory3Jewels.agility + (Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333));
+						break;
+						
+						case "intensity": accessory3Jewels.intensity = accessory3Jewels.intensity + (Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333));
+						break;
+						
+						case "size": accessory3Jewels.size = accessory3Jewels.size + (Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333));
+						break;
+						
+						case "speed": accessory3Jewels.speed = accessory3Jewels.speed + (Math.round(0.037 * accessory3SocketTier**3 - 0.389 * accessory3SocketTier**2 + 2.717 * accessory3SocketTier - 1.333));
+						break;
+						
+						case "drawback": accessory3Jewels.drawback = accessory3Jewels.drawback + 1
+						break;
+
+					}
+				}
+
+				finalAccessory3.power = Math.round((accessory3.powerIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.power) + accessory3EnchantValue.power + accessory3ModifierValue.power + accessory3Jewels.power;
+				finalAccessory3.defense = Math.round((accessory3.defenseIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.defense) + accessory3EnchantValue.defense + accessory3ModifierValue.defense + accessory3Jewels.defense;
+				finalAccessory3.agility = Math.round((accessory3.agilityIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.agility) + accessory3EnchantValue.agility + accessory3ModifierValue.agility + accessory3Jewels.agility;
+				finalAccessory3.intensity = Math.round((accessory3.intensityIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.intensity) + accessory3EnchantValue.intensity + accessory3ModifierValue.intensity + accessory3Jewels.intensity;
+				finalAccessory3.size = Math.round((accessory3.sizeIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.size) + accessory3EnchantValue.size + accessory3ModifierValue.size + accessory3Jewels.size;
+				finalAccessory3.speed = Math.round((accessory3.speedIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.speed) + accessory3EnchantValue.speed + accessory3ModifierValue.speed + accessory3Jewels.speed;
+				finalAccessory3.insanity = Math.round((accessory3.insanityIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.insanity) + accessory3EnchantValue.insanity + accessory3ModifierValue.insanity + accessory3Jewels.insanity;
+				finalAccessory3.warding = Math.round((accessory3.wardingIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.warding) + accessory3EnchantValue.warding + accessory3ModifierValue.warding + accessory3Jewels.warding;
+				finalAccessory3.drawback = Math.round((accessory3.drawbackIncrement * ((accessory3Level-accessory3.minLvl)/10)) + accessory3.drawback) + accessory3EnchantValue.drawback + accessory3ModifierValue.drawback + accessory3Jewels.drawback;
+				
+				switch (accessory3Modifier) {
+					case "atlantean":
+						if (finalAccessory3.power == 0) {
+							finalAccessory3.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory3.defense == 0) {
+							finalAccessory3.defense += Math.floor(modifierData["atlantean"]["stats"][1]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory3.size == 0) {
+							finalAccessory3.size += Math.floor(modifierData["atlantean"]["stats"][2]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory3.speed == 0) {
+							finalAccessory3.speed += Math.floor(modifierData["atlantean"]["stats"][3]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory3.agility == 0) {
+							finalAccessory3.agility += Math.floor(modifierData["atlantean"]["stats"][4]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						if (finalAccessory3.intensity == 0) {
+							finalAccessory3.intensity += Math.floor(modifierData["atlantean"]["stats"][5]["multi"] * (accessory3Level/10));
+							finalAccessory3.insanity = 1;
+							break;
+						}
+						
+						finalAccessory3.power += Math.floor(modifierData["atlantean"]["stats"][0]["multi"] * (accessory3Level/10));
+						finalAccessory3.insanity = 1;
+				}
+				
+				display();
+
+			}
+
+
+
+			function display() {
+				console.clear()
+				console.table(finalChest)
+				console.table(finalLeg)
+				console.table(finalAccessory1)
+				console.table(finalAccessory2)
+				console.table(finalAccessory3)
+			}
+
+
+
+			function chestModifierVisibility() {
+
+				switch (chest.chartFindable) {
+					case false:
+						for (let i = 0; i < document.getElementsByClassName("chestChartModifier").length; i ++) {
+							document.getElementsByClassName("chestChartModifier")[i].setAttribute("hidden",true);
+						};
+						if (chestModifier != "atlantean") {
+							document.getElementById("chestModifier").value = "none";
+							chestModifier = "none";
+						};
+					break;
+					
+					case true:
+						for (let i = 0; i < document.getElementsByClassName("chestChartModifier").length; i ++) {
+							document.getElementsByClassName("chestChartModifier")[i].removeAttribute("hidden");
+						}
+
+				}
+
+			}
+
+
+
+			function legModifierVisibility() {
+			
+				switch (leg.chartFindable) {
+					case false:
+						for (let i = 0; i < document.getElementsByClassName("legChartModifier").length; i ++) {
+							document.getElementsByClassName("legChartModifier")[i].setAttribute("hidden",true);
+						};
+						if (legModifier != "atlantean") {
+							document.getElementById("legModifier").value = "none";
+							legModifier = "none";
+						}
+					break;
+
+					case true:
+						for (let i = 0; i < document.getElementsByClassName("legChartModifier").length; i ++) {
+							document.getElementsByClassName("legChartModifier")[i].removeAttribute("hidden");
+						}
+						
+				}
+				
+			}
+			
+			
+			
+			function accessory1ModifierVisibility() {
+
+				switch (accessory1.chartFindable) {
+					case false:
+						for (let i = 0; i < document.getElementsByClassName("accessory1ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory1ChartModifier")[i].setAttribute("hidden",true);
+						};
+						if (accessory1Modifier != "atlantean") {
+							document.getElementById("accessory1Modifier").value = "none";
+							accessory1Modifier = "none";
+						};
+					break;
+					
+					case true:
+						for (let i = 0; i < document.getElementsByClassName("accessory1ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory1ChartModifier")[i].removeAttribute("hidden");
+						}
+
+				}
+
+			}
+			
+			
+			
+			function accessory2ModifierVisibility() {
+
+				switch (accessory2.chartFindable) {
+					case false:
+						for (let i = 0; i < document.getElementsByClassName("accessory2ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory2ChartModifier")[i].setAttribute("hidden",true);
+						};
+						if (accessory2Modifier != "atlantean") {
+							document.getElementById("accessory2Modifier").value = "none";
+							accessory2Modifier = "none";
+						};
+					break;
+					
+					case true:
+						for (let i = 0; i < document.getElementsByClassName("accessory2ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory2ChartModifier")[i].removeAttribute("hidden");
+						}
+
+				}
+
+			}
+			
+			
+			
+			function accessory3ModifierVisibility() {
+
+				switch (accessory3.chartFindable) {
+					case false:
+						for (let i = 0; i < document.getElementsByClassName("accessory3ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory3ChartModifier")[i].setAttribute("hidden",true);
+						};
+						if (accessory3Modifier != "atlantean") {
+							document.getElementById("accessory3Modifier").value = "none";
+							accessory3Modifier = "none";
+						};
+					break;
+					
+					case true:
+						for (let i = 0; i < document.getElementsByClassName("accessory3ChartModifier").length; i ++) {
+							document.getElementsByClassName("accessory3ChartModifier")[i].removeAttribute("hidden");
+						}
+
+				}
+
+			}
+
+
+
+			function valueReset() {
+
+				chestEnchantValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				chestModifierValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				chestJewels = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				legEnchantValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				legModifierValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				legJewels = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+				
+				accessory1EnchantValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory1ModifierValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory1Jewels = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+				
+				accessory2EnchantValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory2ModifierValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory2Jewels = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+				
+				accessory3EnchantValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory3ModifierValue = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+				accessory3Jewels = {
+					power: 0,
+					defense: 0,
+					agility: 0,
+					intensity: 0,
+					size: 0,
+					speed: 0,
+					insanity: 0,
+					warding: 0,
+					drawback: 0,
+				}
+
+			}
+
+		</script>
+
+	</body>
+
+</html>
