@@ -11,8 +11,6 @@
 	let content = [
 		'<a href="https://xdflame.epizy.com/">Home</a>',
 		'<hr><br>',
-		'<a href="https://xdflame.epizy.com/dr_effective_hp_calculator.html">Effective HP Calculator</a>',
-		'<hr><br>',
 		'<a href="https://xdflame.epizy.com/AR/pity_calculator.html">AR Pity Calculator</a>',
 		'<a href="https://xdflame.epizy.com/AR/alchemist_calculator.html">AR Alchemist Calculator</a>',
 		'<a href="https://xdflame.epizy.com/AR/gear_builder.html">AR Gear Builder</a>',
