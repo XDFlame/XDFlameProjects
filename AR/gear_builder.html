@@ -770,9 +770,9 @@
 
 				function filter() {
 
-					let selected_filters = [{}, {}, {}, {},]
+					let selected_filters = [[],[],[],[]]
 
-					// Stores each value in the selected_filters variable
+					// Stores each value in the selected_filters array
 
 					for (let i in selected_filters) {
 
@@ -781,8 +781,52 @@
 							let name = filter_selectors[i].children[i2].children[0].value
 							let checked = filter_selectors[i].children[i2].children[0].checked
 
-							selected_filters[i][name] = checked
+							if (checked) {
+								selected_filters[i].push(name)
+							}
 						}
+					}
+
+
+					// Filters the gear and gear_enchantment arrays using selected_filters and stores result in filtered_in
+
+					let filtered_in_gear = [];
+					let filtered_in_enchantments = [];
+
+					for (let i in gear) {
+
+						filtered_in_gear[i] = gear[i].filter(
+							(x) => {
+								if (selected_filters[0].includes(x.rarity)) {
+
+									for (let i in selected_filters[1]) {
+
+										if (x[selected_filters[1][i]]) {
+											return true
+										}
+									}
+								}
+								return false
+							}
+						)
+					}
+
+					for (let i in gear_enchantments) {
+
+						filtered_in_enchantments[i] = gear_enchantments[i].filter(
+							(x) => {
+								if (selected_filters[2].includes(x.rarity)) {
+
+									for (let i in selected_filters[3]) {
+
+										if (x[selected_filters[3][i]]) {
+											return true
+										}
+									}
+								}
+								return false
+							}
+						)
 					}
 
 
@@ -802,37 +846,19 @@
 						enchantment_selectors[i][0].hidden = false;
 					}
 
-					for (let i in selectors) {
+					for (let i = 0; i < 5; i++) {
 
-						for(let i2 in gear[i]) {
+						for (let i2 = 0; i2 < selectors[i].children.length; i2++) {
 
-							for (let i3 in rarity) {
-
-								for (let i4 in stat_index) {
-
-									if (selected_filters[0][rarity[i3]] && selected_filters[1][stat_index[i4]]) {
-
-										if (gear[i][i2].rarity === rarity[i3] && gear[i][i2][stat_index[i4]] !== 0) {
-											selectors[i][i2].hidden = false;
-										}
-									}
-								}
+							if (filtered_in_gear[i].includes(gear[i][i2])) {
+								selectors[i][i2].hidden = false
 							}
 						}
 
-						for(let i2 in gear_enchantments[i]) {
+						for (let i2 = 0; i2 < enchantment_selectors[i].children.length; i2++) {
 
-							for (let i3 in rarity) {
-
-								for (let i4 in stat_index) {
-
-									if (selected_filters[2][rarity[i3]] && selected_filters[3][stat_index[i4]]) {
-
-										if (gear_enchantments[i][i2].rarity === rarity[i3] && gear_enchantments[i][i2][stat_index[i4]] !== 0) {
-											enchantment_selectors[i][i2].hidden = false;
-										}
-									}
-								}
+							if (filtered_in_enchantments[i].includes(gear_enchantments[i][i2])) {
+								enchantment_selectors[i][i2].hidden = false
 							}
 						}
 					}
@@ -994,6 +1020,7 @@
 
 					let random_gear = [];
 					let random_gear_enchantments = [];
+					let random_magics = [];
 
 					for (let i = 0; i < 5; i++) {
 
@@ -1003,6 +1030,11 @@
 						random_gear_enchantments[i] = Math.round(Math.random() * (gear_enchantments[i].length - 1));
 						enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === random_gear_enchantments[i]);
 					};
+
+					for (let i = 0; i < 3; i++) {
+						random_magics[i] = Math.round(Math.random() * (magics.length - 1));
+						magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
+					}
 
 					calculate();
 					update_images();
