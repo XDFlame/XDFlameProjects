@@ -37,65 +37,63 @@
 
 		<style>
 
-			main.buttons{
-				height: 1550px;
-				margin-bottom: 10px;
+			main {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-rows: repeat(7, 200px);
+				gap: 10px;
 			}
 
-			button.large, button.large + img{
-				width: 1000px !important;
+			@media(max-width: 1000px) {
+				header {
+					width: calc(100vw - 10px);
+				}
+
+				main {
+					width: 100vw;
+					grid-template-columns: 1fr;
+					grid-template-rows: repeat(14, 250px);
+				}
 			}
 
-			button.large + img{
-				margin-left: -1000px;
+			div.button {
+				width: 100%;
+				height: 100%
 			}
 
-			button.grid-button{
-				width: 495px;
-				height: 250px;
+			div.button button {
+				width: 100%;
+				height: 100%;
 				line-height: 50px;
 				background-color: rgba(0,0,0,0);
-				color: white;
 				-webkit-text-stroke: 2.5px black;
 				font-size: 50px;
 				font-weight: 400;
 				backdrop-filter: blur(5px);
-				border: var(--border);
 				z-index: 1;
 				position: relative;
-				box-shadow: var(--boxShadow);
-				float: left;
-				border-radius: var(--borderRadius);
-				margin-bottom: 10px;
-				font-family: var(--font);
-				transition: 0.25s;
 			}
 
-			button.grid-button:nth-of-type(even) {
-				margin-left: 10px;
-			}
-
-			main img{
+			div.button img {
+				width: 100%;
+				height: 100%;
 				background-position: center;
 				background-repeat: no-repeat;
 				background-size: cover;
-				width: 495px;
-				height: 250px;
 				border-radius: var(--borderRadius);
-				transition: 0.25s;
+				transition: var(--transition);
 				z-index: 0;
 				position: relative;
-				margin-left: -495px;
-				float: left;
+				margin-left: -100%;
 			}
 
-			.grid-button:hover{
+			div.button button:hover {
 				backdrop-filter: none;
 				transform: scale(1.03,1.03);
 				cursor: pointer;
 			}
 
-			button.grid-button:hover + img{
+			div.button button:hover + img {
 				transform: scale(1.03,1.03);
 			}
 
@@ -109,49 +107,77 @@
 			Projects
 		</header>
 
-		<main class="buttons">
+		<main>
 
-			<button class="grid-button" onclick="window.location.href='https://discord.com/invite/7dvEBZjhzJ'">My Discord Server</button>
-			<img style="background-image: url('Style/discord.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://discord.com/invite/7dvEBZjhzJ'">My Discord Server</button>
+				<img style="background-image: url('Style/discord.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://github.com/XDFlame/XDFlameProjects'">GitHub</button>
-			<img style="background-image: url('Style/github.png');">
+			<div class="button">
+				<button onclick="window.location.href='https://github.com/XDFlame/XDFlameProjects'">GitHub</button>
+				<img style="background-image: url('Style/github.png');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://drive.google.com/drive/folders/1-8fsjwf717Bztmbmv4dFK85iUFGgumn_'">Google Drive</button>
-			<img style="background-image: url('Style/fire.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://drive.google.com/drive/folders/1-8fsjwf717Bztmbmv4dFK85iUFGgumn_'">Google Drive</button>
+				<img style="background-image: url('Style/fire.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://docs.google.com/spreadsheets/d/1CHd60lyISM__I7LUxmPh9jhK4gczvCXNj-eqb7ID2MM/edit?usp=sharing'">AO Shipyard</button>
-			<img style="background-image: url('Style/ao.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://docs.google.com/spreadsheets/d/1CHd60lyISM__I7LUxmPh9jhK4gczvCXNj-eqb7ID2MM/edit?usp=sharing'">AO Shipyard</button>
+				<img style="background-image: url('Style/ao.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/vnigpawaop'">AO Substat Scaling</button>
-			<img style="background-image: url('Style/ao.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://www.desmos.com/calculator/vnigpawaop'">AO Substat Scaling</button>
+				<img style="background-image: url('Style/ao.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/gmcvnruek2'">AO Sunken Chance Calculator</button>
-			<img style="background-image: url('Style/ao.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://www.desmos.com/calculator/gmcvnruek2'">AO Sunken Chance Calculator</button>
+				<img style="background-image: url('Style/ao.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://www.desmos.com/calculator/kg6ckup84y'">AO Fishing Stats Calculator</button>
-			<img style="background-image: url('Style/ao.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://www.desmos.com/calculator/kg6ckup84y'">AO Fishing Stats Calculator</button>
+				<img style="background-image: url('Style/ao.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='EP/level_calculator.html'">EP Leveling Time Calculator</button>
-			<img style="background-image: url('Style/ep2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='EP/level_calculator.html'">EP Leveling Time Calculator</button>
+				<img style="background-image: url('Style/ep2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='AR/pity_calculator.html'">AR Pity Calculator</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='AR/pity_calculator.html'">AR Pity Calculator</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='AR/alchemist_calculator.html'">AR Alchemist Calculator</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='AR/alchemist_calculator.html'">AR Alchemist Calculator</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='AR/gear_builder.html'">AR Gear Builder</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='AR/gear_builder.html'">AR Gear Builder</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/1vAJEc_ZQK06p2MBtvgq-1yTzBvAmIK37x8YdSnlMJek'">AR Capturable Islands List</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://docs.google.com/document/d/1vAJEc_ZQK06p2MBtvgq-1yTzBvAmIK37x8YdSnlMJek'">AR Capturable Islands List</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/1uIh6JWrmhvn6PmLqf-5Urbh23fRhlPH4MxvpokagRdM'">AR Fishing Rod Comparison</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://docs.google.com/document/d/1uIh6JWrmhvn6PmLqf-5Urbh23fRhlPH4MxvpokagRdM'">AR Fishing Rod Comparison</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
-			<button class="grid-button" onclick="window.location.href='https://docs.google.com/document/d/16ovPY788HEw_tPZgB3ML_AHXL6UQRMLUspRW0KYV_Ps'">AR Water Type Locations</button>
-			<img style="background-image: url('Style/ar2.webp');">
+			<div class="button">
+				<button onclick="window.location.href='https://docs.google.com/document/d/16ovPY788HEw_tPZgB3ML_AHXL6UQRMLUspRW0KYV_Ps'">AR Water Type Locations</button>
+				<img style="background-image: url('Style/ar2.webp');">
+			</div>
 
 		</main>
 

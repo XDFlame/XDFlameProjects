@@ -793,35 +793,26 @@
 					let filtered_in_gear = [];
 					let filtered_in_enchantments = [];
 
-					for (let i in gear) {
+					for (let i = 0; i < 5; i++) {
 
 						filtered_in_gear[i] = gear[i].filter(
 							(x) => {
-								if (selected_filters[0].includes(x.rarity)) {
 
-									for (let i in selected_filters[1]) {
-
-										if (x[selected_filters[1][i]]) {
-											return true
-										}
+								for (let i in selected_filters[1]) {
+									if (selected_filters[0].includes(x.rarity) && x[selected_filters[1][i]]) {
+										return true
 									}
 								}
 								return false
 							}
 						)
-					}
-
-					for (let i in gear_enchantments) {
 
 						filtered_in_enchantments[i] = gear_enchantments[i].filter(
 							(x) => {
-								if (selected_filters[2].includes(x.rarity)) {
 
-									for (let i in selected_filters[3]) {
-
-										if (x[selected_filters[3][i]]) {
-											return true
-										}
+								for (let i in selected_filters[3]) {
+									if (selected_filters[2].includes(x.rarity) && x[selected_filters[3][i]]) {
+										return true
 									}
 								}
 								return false
@@ -832,7 +823,7 @@
 
 					// Hides options based on filter
 
-					for (let i in selectors) {
+					for (let i = 0; i < 5; i++) {
 
 						for(let i2 in gear[i]) {
 							selectors[i][i2].hidden = true;
