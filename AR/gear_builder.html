@@ -39,66 +39,96 @@
 				content: "Copied!";
 			}
 
-			button#info{
-				width: 45px;
-				height: 45px;
-				margin-top: 52.5px;
+			div.container1 {
+				grid-template-columns: repeat(30, 1fr);
+				grid-template-rows: repeat(3, 40px);
 			}
 
-			main img{
-				float: left;
-				margin-bottom: 5px;
-				width: 150px;
-				height: 150px;
-				background-image: url(images/background.png);
-				background-repeat: no-repeat;
-				background-size: cover;
-				z-index: 0;
+			div.container1 input,
+			div.container1 select {
+				grid-column: span 10
 			}
 
-			button img {
-				background-image: none;
-				height: 90%;
-				width: 27px;
-				margin: 0px;
+			button#copy, input#code_import {
+				grid-column: span 12;
 			}
 
-			img.gear_rarity_image, img.charm_rarity_image{
-				z-index: 1;
-				margin-left: -150px;
-				background-image: url(images/frames/none.png);
+			div.container1 button {
+				grid-column: span 3;
 			}
 
-			select{
-				width: 150px;
+			div.container1  button:nth-of-type(2)::after {
+				content: "Filter"
 			}
 
-			div.container > select {
-				margin-bottom: 7.5px;
-				width: 330px;
+			div.container1  button:nth-of-type(3)::after {
+				content: "Random"
 			}
 
-			input{
-				width: 315px;
-				margin-bottom: 7.5px;
+			div.container2 {
+				grid-template-areas: 
+					"a d o"
+					"b e o"
+					"c . o";
+				grid-template-columns: 35% 35% 30%;
+				grid-template-rows: repeat(3, 200px);
+				column-gap: 0px;
+			}
+
+			@media (max-width: 1000px) {
+				div.container1 button:nth-of-type(2)::after {
+					content: ""
+				}
+
+				div.container1 button:nth-of-type(3)::after {
+					content: ""
+				}
+
+				div.container2 {
+					grid-template-columns: repeat(2, 1fr);
+					grid-template-areas:
+						"a d"
+						"b e"
+						"c ."
+						"o .";
+				}
+			}
+
+			@media (max-width: 500px) {
+				div.container2 {
+					grid-template-columns: 1fr;
+					grid-template-areas:
+						"a"
+						"b"
+						"c"
+						"d"
+						"e"
+						"o";
+				}
 			}
 
 			div.piece{
-				width: 350px;
-				height: 195px;
-				margin-bottom: 10px;
-				transition: var(--transition);
+				display: grid;
+				grid-template-columns: 150px 150px 40px;
+				grid-template-rows: 150px 40px;
+				grid-template-areas:
+					"a b e"
+					"c d ."
+					"f f .";
+				gap: 5px;
 			}
 
-			div.sub-piece{
-				height: 195px;
-				width: 150px;
-				float: left;
+			div.piece img{
+				width: 100%;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+
+			button img {
+				height: 90%;
 			}
 
 			p.output{
-				width: 295px;
-				float: left;
 				background-color: var(--backgroundColor);
 				border: var(--border);
 				border-radius: var(--borderRadius);
@@ -112,18 +142,27 @@
 				overflow: hidden;
 			}
 
+			div.container2 > p.output {
+				visibility: visible;
+				height: calc(100% - 10px);
+				opacity: 1;
+				overflow: auto;
+				grid-area: o;
+			}
+
+			div.piece p.output {
+				position: relative;
+				z-index: 1;
+			}
+
+			button#info {
+				align-self: center;
+			}
+
 			button#info:active + p.output{
 				visibility: visible;
 				opacity: 1;
 				height: 340px;
-				margin-top: 10px;
-				margin-bottom: 10px;
-			}
-
-			.left_column, .right_column{
-				width: 350px;
-				height: 605px;
-				float: left;
 			}
 
 			[popover] {
@@ -175,33 +214,34 @@
 				unless they have different enchantments (or one is unenchanted). Keep both of those things in mind.
 			</article>
 
-			<div class="container" style="height: 135px;">
+			<div class="container container1">
 
 				<input type="number" placeholder="Level" id="level_input" min="1" max="1000" value="350">
 
-				<input type="number" placeholder="Magic Level" id="magic_level_input" class="left" min="1" max="2000" value="700">
+				<input type="number" placeholder="Magic Level" id="magic_level_input" min="1" max="2000" value="700">
 
-				<input type="number" placeholder="Strength Level" id="strength_level_input" class="left" min="1" max="2000" value="700">
+				<input type="number" placeholder="Strength Level" id="strength_level_input" min="1" max="2000" value="700">
 
 				<select id="first_magic_selector">
 				</select>
 
-				<select id="second_magic_selector" class="left">
+				<select id="second_magic_selector">
 				</select>
 
-				<select id="third_magic_selector" class="left">
+				<select id="third_magic_selector">
 				</select>
 
-				<button style="width: 402.5px;" id="copy"></button>
-
-				<input type="text" placeholder="Paste Build Code" class="left" style="width: 387.5px;" id="code_import" onchange="load()">
-
-				<button style="width: 80px;" class="left" popovertarget="filter_selector">
-					<img src="../Style/filter_icon.png">Filter
+				<button id="copy">
 				</button>
 
-				<button style="width: 100px;" class="left" onclick="random_build()">
-					<img src="../Style/dice_icon.png">Random
+				<input type="text" placeholder="Paste Build Code" id="code_import" onchange="load()">
+
+				<button popovertarget="filter_selector">
+					<img src="../Style/filter_icon.png">
+				</button>
+
+				<button onclick="random_build()">
+					<img src="../Style/dice_icon.png">
 				</button>
 
 				<div popover id="filter_selector">
@@ -238,157 +278,99 @@
 
 			</div>
 
-			<div class="container" style="height: 605px;">
+			<div class="container container2">
 
-				<div class="left_column">
+				<div class="piece" style="grid-area: a">
 
-					<div class="piece">
+					<img class="gear_image" style="grid-area: a">
 
-						<div class="sub-piece">
+					<img class="charm_image" style="grid-area: b">
 
-							<img class="gear_image">
-							<img class="gear_rarity_image">
+					<select id="hat_selector" style="grid-area: c">
+					</select>
 
-							<select id="hat_selector">
-							</select>
+					<select id="hat_enchantment_selector" style="grid-area: d">
+					</select>
 
-						</div>
+					<button id="info" style="grid-area: e">ⓘ</button>
 
-						<div class="sub-piece left">
-
-							<img class="charm_image">
-							<img class="charm_rarity_image">
-
-							<select id="hat_enchantment_selector">
-							</select>
-
-						</div>
-
-						<button id="info">ⓘ</button>
-
-						<p class="output"></p>
-
-					</div>
-
-					<div class="piece">
-
-						<div class="sub-piece">
-
-							<img class="gear_image">
-							<img class="gear_rarity_image">
-
-							<select id="shirt_selector">
-							</select>
-
-						</div>
-
-						<div class="sub-piece left">
-
-							<img class="charm_image">
-							<img class="charm_rarity_image">
-
-							<select id="shirt_enchantment_selector">
-							</select>
-
-						</div>
-
-						<button id="info">ⓘ</button>
-
-						<p class="output"></p>
-
-					</div>
-
-					<div class="piece">
-
-						<div class="sub-piece">
-
-							<img class="gear_image">
-							<img class="gear_rarity_image">
-
-							<select id="pants_selector">
-							</select>
-
-						</div>
-
-						<div class="sub-piece left">
-
-							<img class="charm_image">
-							<img class="charm_rarity_image">
-
-							<select id="pants_enchantment_selector">
-							</select>
-
-						</div>
-
-						<button id="info">ⓘ</button>
-
-						<p class="output"></p>
-
-					</div>
+					<p class="output" style="grid-area: f"></p>
 
 				</div>
 
-				<div class="right_column">
+				<div class="piece" style="grid-area: b">
 
-					<div class="piece">
+					<img class="gear_image" style="grid-area: a">
 
-						<div class="sub-piece">
+					<img class="charm_image" style="grid-area: b">
 
-							<img class="gear_image">
-							<img class="gear_rarity_image">
+					<select id="shirt_selector" style="grid-area: c">
+					</select>
 
-							<select id="accessory_1_selector">
-							</select>
+					<select id="shirt_enchantment_selector" style="grid-area: d">
+					</select>
 
-						</div>
+					<button id="info" style="grid-area: e">ⓘ</button>
 
-						<div class="sub-piece left">
-
-							<img class="charm_image">
-							<img class="charm_rarity_image">
-
-							<select id="accessory_1_enchantment_selector">
-							</select>
-
-						</div>
-
-						<button id="info">ⓘ</button>
-
-						<p class="output"></p>
-
-					</div>
-
-					<div class="piece">
-
-						<div class="sub-piece">
-
-							<img class="gear_image">
-							<img class="gear_rarity_image">
-
-							<select id="accessory_2_selector">
-							</select>
-
-						</div>
-
-						<div class="sub-piece left">
-
-							<img class="charm_image">
-							<img class="charm_rarity_image">
-
-							<select id="accessory_2_enchantment_selector">
-							</select>
-
-						</div>
-
-						<button id="info">ⓘ</button>
-
-						<p class="output"></p>
-
-					</div>
+					<p class="output" style="grid-area: f"></p>
 
 				</div>
 
-				<p class="output" style="visibility: visible; opacity: 1; width: 290px; height: 595px; overflow: auto;"></p>
+				<div class="piece" style="grid-area: c">
+
+					<img class="gear_image" style="grid-area: a">
+
+					<img class="charm_image" style="grid-area: b">
+
+					<select id="pants_selector" style="grid-area: c">
+					</select>
+
+					<select id="pants_enchantment_selector" style="grid-area: d">
+					</select>
+
+					<button id="info" style="grid-area: e">ⓘ</button>
+
+					<p class="output" style="grid-area: f"></p>
+
+				</div>
+
+				<div class="piece" style="grid-area: d">
+
+					<img class="gear_image" style="grid-area: a">
+
+					<img class="charm_image" style="grid-area: b">
+
+					<select id="accessory_1_selector" style="grid-area: c">
+					</select>
+
+					<select id="accessory_1_enchantment_selector" style="grid-area: d">
+					</select>
+
+					<button id="info" style="grid-area: e">ⓘ</button>
+
+					<p class="output" style="grid-area: f"></p>
+
+				</div>
+
+				<div class="piece" style="grid-area: e">
+
+					<img class="gear_image" style="grid-area: a">
+
+					<img class="charm_image" style="grid-area: b">
+
+					<select id="accessory_2_selector" style="grid-area: c">
+					</select>
+
+					<select id="accessory_2_enchantment_selector" style="grid-area: d">
+					</select>
+
+					<button id="info" style="grid-area: e">ⓘ</button>
+
+					<p class="output" style="grid-area: f"></p>
+
+				</div>
+
+				<p class="output"></p>
 
 			</div>
 
@@ -921,12 +903,6 @@
 
 					// Warns user if they have identical accessories with identical enchantments
 
-					document.querySelectorAll('button#info')[3].style.borderColor = 'var(--border)'
-					document.querySelectorAll('button#info')[3].textContent = 'ⓘ'
-
-					document.querySelectorAll('button#info')[4].style.borderColor = 'var(--border)'
-					document.querySelectorAll('button#info')[4].textContent = 'ⓘ'
-
 					if (
 						selected[3].name !== 'None' &
 						(selected[3].name === selected[4].name) &&
@@ -937,6 +913,13 @@
 
 						document.querySelectorAll('button#info')[4].style.borderColor = 'yellow'
 						document.querySelectorAll('button#info')[4].textContent = '⚠'
+					}
+					else {
+						document.querySelectorAll('button#info')[3].style.borderColor = ''
+						document.querySelectorAll('button#info')[3].textContent = 'ⓘ'
+
+						document.querySelectorAll('button#info')[4].style.borderColor = ''
+						document.querySelectorAll('button#info')[4].textContent = 'ⓘ'
 					}
 
 
@@ -1232,11 +1215,11 @@
 					];
 
 					for (let i = 0; i < 5; i++) {
-						document.querySelectorAll('.gear_image')[i].src = `images/${gear_strings[i]}/${selected[i].name}.png`
-						document.querySelectorAll('.gear_rarity_image')[i].src = `images/frames/${selected[i].rarity}.png`
+						document.querySelectorAll('.gear_image')[i].style.backgroundImage = `url("images/${gear_strings[i]}/${selected[i].name}.png"), url(images/background.png)`
+						document.querySelectorAll('.gear_image')[i].src = `images/frames/${selected[i].rarity}.png`
 
-						document.querySelectorAll('.charm_image')[i].src = `images/charms/${selected_enchantments[i].name}.png`
-						document.querySelectorAll('.charm_rarity_image')[i].src = `images/frames/${selected_enchantments[i].rarity}.png`
+						document.querySelectorAll('.charm_image')[i].style.backgroundImage = `url("images/charms/${selected_enchantments[i].name}.png"), url(images/background.png)`
+						document.querySelectorAll('.charm_image')[i].src = `images/frames/${selected_enchantments[i].rarity}.png`
 					}
 				}
 

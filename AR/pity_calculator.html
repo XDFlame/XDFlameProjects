@@ -14,6 +14,30 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		<style>
+
+			div.container {
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-rows: repeat(2, 40px);
+			}
+
+			p#output {
+				grid-column: span 2;
+			}
+
+			@media(max-width: 1000px) {
+				div.container {
+					grid-template-columns: 1fr;
+					grid-template-rows: repeat(3, 40px);
+				}
+
+				p#output {
+					grid-column: 1;
+				}
+			}
+
+		</style>
+
 	</head>
 
 	<body>
@@ -28,9 +52,9 @@
 
 			<div class="container">
 
-				<input type="number" id="kills_input" placeholder="Number of Kills" style="width: 482.5px;" onchange="calculate()">
+				<input type="number" id="kills_input" placeholder="Number of Kills" onchange="calculate()">
 
-				<select style="width: 497.5px;" class="left" id="boss_selector" onchange="calculate()">
+				<select id="boss_selector" onchange="calculate()">
 
 					<option hidden selected>None</option>
 					<option value="khnum">Khnum</option>
@@ -45,9 +69,9 @@
 
 				</select>
 
-			</div>
+				<p id="output"></p>
 
-			<p id="output"></p>
+			</div>
 
 		</main>
 

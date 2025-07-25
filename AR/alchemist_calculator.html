@@ -14,6 +14,30 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		<style>
+			
+			div.container {
+				grid-template-columns: repeat(4, 1fr);
+				grid-template-rows: repeat(2, 40px);
+			}
+
+			p#output {
+				grid-column: span 4;
+			}
+
+			@media(max-width: 1000px) {
+				div.container {
+					grid-template-columns: repeat(2, 1fr);
+					grid-template-rows: repeat(3, 40px);
+				}
+
+				p#output {
+					grid-column: span 2;
+				}
+			}
+
+		</style>
+
 	</head>
 
 	<body>
@@ -36,9 +60,9 @@
 
 			<div class="container">
 
-				<input type="number" id="item_level_input" placeholder="Item Level" style="width: 231.25px;" onchange="calculate();" min="1" max="350">
+				<input type="number" id="item_level_input" placeholder="Item Level" onchange="calculate();" min="1" max="350">
 
-				<select class="left" id="item_rarity_selector" style="width: 246.25px;" onchange="calculate();">
+				<select id="item_rarity_selector" onchange="calculate();">
 
 					<option value=45>Common</option>
 					<option value=75>Uncommon</option>
@@ -48,14 +72,14 @@
 
 				</select>
 
-				<input type="number" class="left" id="proficiency_input" placeholder="Proficiency" style="width: 231.25px;" onchange="calculate();" min="1" max="500">
+				<input type="number" id="proficiency_input" placeholder="Proficiency" onchange="calculate();" min="1" max="500">
 
-				<select class="left" id="charm_selector" style="width: 246.25px;" onchange="calculate();">
+				<select id="charm_selector" onchange="calculate();">
 				</select>
 
-			</div>
+				<p id="output"></p>
 
-			<p id="output"></p>
+			</div>
 
 		</main>
 
