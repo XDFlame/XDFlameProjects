@@ -16,6 +16,11 @@
 
 		<style>
 
+			img:nth-of-type(2):has(~:disabled), :disabled {
+				opacity: 1;
+				filter: brightness(0.7);
+			}
+
 			body{
 				height: 1250px;
 			}
@@ -133,6 +138,7 @@
 				width: 100%;
 				background-repeat: no-repeat;
 				background-size: cover;
+				transition: filter var(--transition)
 			}
 
 			button img {
@@ -166,11 +172,23 @@
 				z-index: 1;
 			}
 
-			button#info {
+			button.info {
 				align-self: center;
 			}
 
-			button#info:active + p.output{
+			button.info::after {
+				content: "ⓘ";
+			}
+
+			button.conflict {
+				border-color: yellow;
+			}
+
+			button.conflict::after {
+				content: "⚠";
+			}
+
+			button.info:active + p.output{
 				visibility: visible;
 				opacity: 1;
 				height: 340px;
@@ -303,7 +321,7 @@
 					<select id="hat_enchantment_selector" style="grid-area: d">
 					</select>
 
-					<button id="info" style="grid-area: e">ⓘ</button>
+					<button class="info" style="grid-area: e"></button>
 
 					<p class="output" style="grid-area: f"></p>
 
@@ -321,7 +339,7 @@
 					<select id="shirt_enchantment_selector" style="grid-area: d">
 					</select>
 
-					<button id="info" style="grid-area: e">ⓘ</button>
+					<button class="info" style="grid-area: e"></button>
 
 					<p class="output" style="grid-area: f"></p>
 
@@ -339,7 +357,7 @@
 					<select id="pants_enchantment_selector" style="grid-area: d">
 					</select>
 
-					<button id="info" style="grid-area: e">ⓘ</button>
+					<button class="info" style="grid-area: e"></button>
 
 					<p class="output" style="grid-area: f"></p>
 
@@ -357,7 +375,7 @@
 					<select id="accessory_1_enchantment_selector" style="grid-area: d">
 					</select>
 
-					<button id="info" style="grid-area: e">ⓘ</button>
+					<button class="info" style="grid-area: e"></button>
 
 					<p class="output" style="grid-area: f"></p>
 
@@ -375,7 +393,7 @@
 					<select id="accessory_2_enchantment_selector" style="grid-area: d">
 					</select>
 
-					<button id="info" style="grid-area: e">ⓘ</button>
+					<button class="info" style="grid-area: e"></button>
 
 					<p class="output" style="grid-area: f"></p>
 

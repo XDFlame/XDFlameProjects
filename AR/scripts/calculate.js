@@ -35,7 +35,7 @@ function calculate() {
 
 		enchantment_selectors[i].disabled = !selected[i].enchantable;
 
-		if (selected[i].enchantable === false) {
+		if (!selected[i].enchantable) {
 			enchantment_selectors[i].selectedIndex = 0;
 			selected_enchantments[i] = gear_enchantments[i].find((x) => x.id === 0);
 			update_images();
@@ -68,18 +68,12 @@ function calculate() {
 		(selected[3].name === selected[4].name) &&
 		(selected_enchantments[3].name === selected_enchantments[4].name)
 	) {
-		document.querySelectorAll('button#info')[3].style.borderColor = 'yellow'
-		document.querySelectorAll('button#info')[3].textContent = '⚠'
-
-		document.querySelectorAll('button#info')[4].style.borderColor = 'yellow'
-		document.querySelectorAll('button#info')[4].textContent = '⚠'
+		document.querySelectorAll('button.info')[3].classList.add('conflict');
+		document.querySelectorAll('button.info')[4].classList.add('conflict');
 	}
 	else {
-		document.querySelectorAll('button#info')[3].style.borderColor = ''
-		document.querySelectorAll('button#info')[3].textContent = 'ⓘ'
-
-		document.querySelectorAll('button#info')[4].style.borderColor = ''
-		document.querySelectorAll('button#info')[4].textContent = 'ⓘ'
+		document.querySelectorAll('button.info')[3].classList.remove('conflict');
+		document.querySelectorAll('button.info')[4].classList.remove('conflict');
 	}
 
 
