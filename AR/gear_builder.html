@@ -92,9 +92,20 @@
 						"c ."
 						"o .";
 				}
+
+				[popover]:popover-open {
+					grid-template-columns: repeat(2, 1fr);
+					grid-template-areas:
+						"a a"
+						"c c"
+						"e f"
+						"b b"
+						"d d"
+						"g h";
+				}
 			}
 
-			@media (max-width: 500px) {
+			@media (max-width: 700px) {
 				div.container2 {
 					grid-template-columns: 1fr;
 					grid-template-areas:
@@ -171,8 +182,19 @@
 				border-radius: var(--borderRadius);
 				color: var(--textColor);
 				box-shadow: var(--boxShadow);
-				width: 40%;
-				height: 45%;
+				max-height: 75%;
+				overflow: auto;
+			}
+
+			:popover-open {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				grid-template-areas:
+					"a a b b"
+					"c c d d"
+					"e f g h";
+				column-gap: 15px;
+				padding: 10px 15px 15px 15px;
 			}
 
 			[popover]::backdrop {
@@ -180,22 +202,13 @@
 				background-color: rgba(0, 0, 0, 0.5)
 			}
 
-			.popover-sub {
-				width: 50%;
-				height: 100%;
-				float: left;
-				text-align: center;
-			}
-
-			.popover-sub ul {
-				text-align: left;
-				width: 45%;
-				float: left;
+			[popover] ul {
 				list-style-type: none;
+				padding: 0px;
 			}
 
-			.popover-sub hr {
-				float: none;
+			[popover] span {
+				text-align: center;
 			}
 
 		</style>
@@ -246,33 +259,25 @@
 
 				<div popover id="filter_selector">
 
-					<div class="popover-sub">
+					<span style="grid-area: a">Gear</span>
 
-						Gear
+					<hr style="grid-area: c">
 
-						<hr>
+					<ul id="gear_rarity_filter" style="grid-area: e">
+					</ul>
 
-						<ul id="gear_rarity_filter">
-						</ul>
+					<ul id="gear_stat_filter" style="grid-area: f">
+					</ul>
 
-						<ul id="gear_stat_filter" style="padding: 0px;">
-						</ul>
+					<span style="grid-area: b">Enchantments</span>
 
-					</div>
+					<hr style="grid-area: d">
 
-					<div class="popover-sub">
+					<ul id="enchantment_rarity_filter" style="grid-area: g">
+					</ul>
 
-						Enchantments
-
-						<hr>
-
-						<ul id="enchantment_rarity_filter">
-						</ul>
-
-						<ul id="enchantment_stat_filter" style="padding: 0px;">
-						</ul>
-
-					</div>
+					<ul id="enchantment_stat_filter" style="grid-area: h">
+					</ul>
 
 				</div>
 
@@ -381,847 +386,77 @@
 		<script src="gear/pants.js"></script>
 		<script src="gear/accessories.js"></script>
 		<script src="gear/magics.js"></script>
+		<script src="scripts/initialize.js"></script>
+		<script src="scripts/filter.js"></script>
+		<script src="scripts/calculate.js"></script>
+		<script src="scripts/base64.js"></script>
+		<script src="scripts/saveload.js"></script>
+		<script src="scripts/display.js"></script>
 		<script src="../toggle.js"></script>
 
 		<script>
 
 			// Handles click functionality of copy build button
 
-				copy.onclick = function click() {
-					navigator.clipboard.writeText(save());
-					copy.classList.toggle('active');
-					if (copy.classList[0] == 'active') {
-						setTimeout('copy.classList.toggle(\'active\')', 500);
-					}
+			copy.onclick = function click() {
+				navigator.clipboard.writeText(save());
+				copy.classList.toggle('active');
+				if (copy.classList[0] == 'active') {
+					setTimeout('copy.classList.toggle(\'active\')', 500);
 				}
-
-
-			// Variable declarations
-
-				let selected = [];
-				let selected_enchantments = [];
-				let selected_magics = [];
-				let selected_magic_tiers = [];
-				const gear = [
-					structuredClone(hats),
-					structuredClone(shirts),
-					structuredClone(pants),
-					structuredClone(accessories),
-					structuredClone(accessories),
-				];
-				const gear_enchantments = [
-					structuredClone(hat_enchantments),
-					structuredClone(shirt_enchantments),
-					structuredClone(pants_enchantments),
-					structuredClone(accessory_enchantments),
-					structuredClone(accessory_enchantments),
-				];
-				const selectors = [
-					hat_selector,
-					shirt_selector,
-					pants_selector,
-					accessory_1_selector,
-					accessory_2_selector
-				];
-				const enchantment_selectors = [
-					hat_enchantment_selector,
-					shirt_enchantment_selector,
-					pants_enchantment_selector,
-					accessory_1_enchantment_selector,
-					accessory_2_enchantment_selector
-				];
-				const magic_selectors = [
-					first_magic_selector,
-					second_magic_selector,
-					third_magic_selector
-				];
-				const filter_selectors = [
-					gear_rarity_filter,
-					gear_stat_filter,
-					enchantment_rarity_filter,
-					enchantment_stat_filter,
-				];
-				const finals = [
-					final_hat,
-					final_shirt,
-					final_pants,
-					final_accessory_1,
-					final_accessory_2
-				];
-				let final_build = {};
-				let final_magic_damage = [];
-				const stat_index = [
-					'damage_reduction',
-					'defense',
-					'health_bonus',
-					'health_regen',
-					'jump_power',
-					'magic_energy', 
-					'magic_power',
-					'movement_speed',
-					'stamina',
-					'stamina_regen',
-					'stun_resistance',
-				];
-				const stat_display = [
-					'Defense',
-					'Magic Power',
-					'Damage Reduction',
-					'Health Bonus',
-					'Health Regen',
-					'Magic Energy',
-					'Stamina',
-					'Stamina Regen',
-					'Movement Speed',
-					'Jump Power',
-					'Stun Resistance',
-				];
-				const rarity = [
-					'common',
-					'uncommon',
-					'rare',
-					'exotic',
-					'legendary',
-					'seasonal',
-				]
-				const characters = [
-					'0','1','2','3','4','5','6','7','8','9',
-					'a','b','c','d','e','f','g','h','i','j',
-					'k','l','m','n','o','p','q','r','s','t',
-					'u','v','w','x','y','z','A','B','C','D',
-					'E','F','G','H','I','J','K','L','M','N',
-					'O','P','Q','R','S','T','U','V','W','X',
-					'Y','Z','-','_',
-				];
-
-
-			// Fills in undefined stats with 0 & fills in scaling objects with dummy data
-
-				for (let c = 0; c < 5; c++) {
-
-					for (let i in gear[c]) {
-
-						for (let i2 in stat_index) {
-
-							if (gear[c][i][stat_index[i2]] === undefined) {
-								gear[c][i][stat_index[i2]] = 0
-							}
-
-							if (gear[c][i].scaling === undefined) {
-								gear[c][i].scaling = new Object(
-									{
-										start: gear[c][i].level,
-										end: gear[c][i].level
-									}
-								)
-							}
-
-							if (gear[c][i].scaling[stat_index[i2]] === undefined) {
-								gear[c][i].scaling[stat_index[i2]] = 0
-							}
-
-							if (gear[c][i].enchantable === undefined) {
-								gear[c][i].enchantable = true
-							}
-						}
-					}
-
-					for (let i in gear_enchantments[c]) {
-
-						for (let i2 in stat_index) {
-
-							if (gear_enchantments[c][i][stat_index[i2]] == undefined) {
-								gear_enchantments[c][i][stat_index[i2]] = 0
-							}
-						}
-					}
-				}
-
-				for (let i in magics) {
-					if (magics[i].base_efficiency === undefined) {
-						magics[i].base_efficiency = 1
-					}
-					if (magics[i].power_efficiency === undefined) {
-						magics[i].power_efficiency = 1
-					}
-				}
-
-
-			// Assigns ID to each object based off its index
-
-				for (let i = 0; i < 5; i++) {
-
-					for (let i2 in gear[i]) {
-						gear[i][i2].id = Number(i2);
-					}
-
-					for (let i2 in gear_enchantments[i]) {
-						gear_enchantments[i][i2].id = Number(i2);
-					}
-				}
-
-				for (let i in magics) {
-					magics[i].id = Number(i);
-				}
-
-
-			// Sorts the gear, gear_enchantments, and magics arrays alphabetically
-
-				function compare(a, b) {
-					if (a.name < b.name) {
-						return -1;
-					}
-					if (a.name > b.name) {
-						return 1;
-					}
-					return 0;
-				}
-
-				for (let i = 0; i < 5; i++) {
-					gear[i].sort(compare);
-					gear_enchantments[i].sort(compare);
-				}
-
-				magics = magics.sort(compare)
-
-
-			// Finds the index of each of the array's 'None' object
-
-				let none_index = [];
-				let enchantment_none_index = [];
-
-				for (let i in gear) {
-					none_index[i] = gear[i].findIndex((x) => x.name === 'None');
-					enchantment_none_index[i] = gear_enchantments[i].findIndex((x) => x.name === 'None');
-				}
-
-
-			// Moves none to the top
-
-				let removed = [];
-				let removed_enchantments = [];
-
-				for (let i = 0; i < 5; i++) {
-					removed[i] = gear[i].splice(0, none_index[i]);
-					removed_enchantments[i] = gear_enchantments[i].splice(0, enchantment_none_index[i]);
-
-					for (let i2 in removed[i]) {
-						gear[i].splice(1, 0, removed[i][removed[i].length - 1 - i2]);
-					}
-
-					for (let i2 in removed_enchantments[i]) {
-						gear_enchantments[i].splice(1, 0, removed_enchantments[i][removed_enchantments[i].length - 1 - i2]);
-					}
-				}
-
-
-			// Generates select options based off corresponding objects
-
-				for (let c = 0; c < 5; c++) {
-
-					for (let i in gear[c]) {
-						let name = gear[c][i].name;
-						let id = gear[c][i].id;
-						let option = document.createElement('option');
-						option.textContent = name;
-						selectors[c].appendChild(option);
-						selectors[c][i].value = id;
-					}
-
-					for (let i in gear_enchantments[c]) {
-						let name = gear_enchantments[c][i].name;
-						let id = gear_enchantments[c][i].id;
-						let option = document.createElement('option');
-						option.textContent = name;
-						enchantment_selectors[c].appendChild(option);
-						enchantment_selectors[c][i].value = id;
-					}
-				}
-
-				for (let c in magic_selectors) {
-
-					for (let i in magics) {
-						let name = magics[i].name;
-						let id = magics[i].id;
-						let option = document.createElement('option');
-						option.textContent = name;
-						magic_selectors[c].appendChild(option);
-						magic_selectors[c][i].value = id;
-					}
-				}
-
-				for (let i in rarity) {
-
-					let list = document.createElement('li');
-					let input = document.createElement('input');
-					let label = document.createElement('label');
-
-					input.type = 'checkbox'
-					input.value = rarity[i]
-					input.id = `${filter_selectors[0].id}_${input.value}`
-					input.checked = true
-
-					label.setAttribute('for', input.id)
-					label.textContent = rarity[i].charAt(0).toUpperCase() + rarity[i].slice(1)
-
-					list.append(input, label);
-					gear_rarity_filter.appendChild(list)
-				}
-
-				for (let i in stat_index) {
-
-					let list = document.createElement('li');
-					let input = document.createElement('input');
-					let label = document.createElement('label');
-
-					input.type = 'checkbox'
-					input.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
-					input.id = `${filter_selectors[1].id}_${input.value}`
-					input.checked = true
-
-					label.setAttribute('for', input.id)
-					label.textContent = stat_display[i]
-					list.append(input, label);
-
-					gear_stat_filter.appendChild(list)
-				}
-
-				for (let i = 0; i < 3; i++) {
-
-					let text = ['Tier 1', 'Tier 2', 'Tier 3']
-					let list = document.createElement('li');
-					let input = document.createElement('input');
-					let label = document.createElement('label');
-
-					input.type = 'checkbox'
-					input.value = rarity[i * 2]
-					input.id = `${filter_selectors[2].id}_${input.value}`
-					input.checked = true
-
-					label.setAttribute('for', input.id)
-					label.textContent = text[i]
-
-					list.append(input, label);
-					enchantment_rarity_filter.appendChild(list)
-				}
-
-				for (let i in stat_index) {
-
-					let list = document.createElement('li');
-					let input = document.createElement('input');
-					let label = document.createElement('label');
-
-					input.type = 'checkbox'
-					input.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
-					input.id = `${filter_selectors[3].id}_${input.value}`
-					input.checked = true
-
-					label.setAttribute('for', input.id)
-					label.textContent = stat_display[i]
-					list.append(input, label);
-
-					enchantment_stat_filter.appendChild(list)
-				}
+			}
 
 
 			// Adds event listeners
 
-				for (let i in selectors) {
+			for (let i in selectors) {
 
-					selectors[i].addEventListener('change', calculate);
-					selectors[i].addEventListener('change', update_images)
+				selectors[i].addEventListener('change', calculate);
+				selectors[i].addEventListener('change', update_images)
 
-					enchantment_selectors[i].addEventListener('change', calculate);
-					enchantment_selectors[i].addEventListener('change', update_images);
-				}
+				enchantment_selectors[i].addEventListener('change', calculate);
+				enchantment_selectors[i].addEventListener('change', update_images);
+			}
 
-				for (let i in magic_selectors) {
-					magic_selectors[i].addEventListener('change', calculate);
-				}
+			for (let i in magic_selectors) {
+				magic_selectors[i].addEventListener('change', calculate);
+			}
 
-				for (let i = 0; i < 3; i++) {
-					document.querySelectorAll('input')[i].addEventListener('change', calculate);
-				}
+			for (let i = 0; i < 3; i++) {
+				document.querySelectorAll('input')[i].addEventListener('change', calculate);
+			}
 
-				for(let i in filter_selectors) {
-					filter_selectors[i].addEventListener('change', filter)
-				}
-
-
-			// Filter function
-
-				function filter() {
-
-					let selected_filters = [[],[],[],[]]
-
-					// Stores each value in the selected_filters array
-
-					for (let i in selected_filters) {
-
-						for (let i2 = 0; i2 < filter_selectors[i].children.length; i2++) {
-
-							let name = filter_selectors[i].children[i2].children[0].value
-							let checked = filter_selectors[i].children[i2].children[0].checked
-
-							if (checked) {
-								selected_filters[i].push(name)
-							}
-						}
-					}
-
-
-					// Filters the gear and gear_enchantment arrays using selected_filters and stores result in filtered_in
-
-					let filtered_in_gear = [];
-					let filtered_in_enchantments = [];
-
-					for (let i = 0; i < 5; i++) {
-
-						filtered_in_gear[i] = gear[i].filter(
-							(x) => {
-
-								for (let i in selected_filters[1]) {
-									if (selected_filters[0].includes(x.rarity) && x[selected_filters[1][i]]) {
-										return true
-									}
-								}
-								return false
-							}
-						)
-
-						filtered_in_enchantments[i] = gear_enchantments[i].filter(
-							(x) => {
-
-								for (let i in selected_filters[3]) {
-									if (selected_filters[2].includes(x.rarity) && x[selected_filters[3][i]]) {
-										return true
-									}
-								}
-								return false
-							}
-						)
-					}
-
-
-					// Hides options based on filter
-
-					for (let i = 0; i < 5; i++) {
-
-						for(let i2 in gear[i]) {
-							selectors[i][i2].hidden = true;
-						}
-
-						for(let i2 in gear_enchantments[i]) {
-							enchantment_selectors[i][i2].hidden = true;
-						}
-
-						selectors[i][0].hidden = false;
-						enchantment_selectors[i][0].hidden = false;
-					}
-
-					for (let i = 0; i < 5; i++) {
-
-						for (let i2 = 0; i2 < selectors[i].children.length; i2++) {
-
-							if (filtered_in_gear[i].includes(gear[i][i2])) {
-								selectors[i][i2].hidden = false
-							}
-						}
-
-						for (let i2 = 0; i2 < enchantment_selectors[i].children.length; i2++) {
-
-							if (filtered_in_enchantments[i].includes(gear_enchantments[i][i2])) {
-								enchantment_selectors[i][i2].hidden = false
-							}
-						}
-					}
-				}
-
-
-			// Functions for armor stat calculation
-
-				function clamp(n, min, max) {
-					return Math.min(Math.max(n, min), max);
-				}
-
-				function armor_scaling(piece, stat) {
-					return piece[stat] + clamp(level - piece.scaling.start, 0, piece.scaling.end - piece.scaling.start) * piece.scaling[stat];
-				}
-
-
-			// Primary calculate function
-
-				function calculate() {
-
-					// Defines variables
-
-					level = Number(level_input.value);
-					magic_level = Number(magic_level_input.value);
-					strength_level = Number(strength_level_input.value);
-
-					for (let i in stat_index) {
-						final_build[stat_index[i]] = 0;
-					}
-
-					for (let i = 0; i < 5; i++) {
-						selected[i] = gear[i].find((x) => x.id === Number(selectors[i].value));
-						selected_enchantments[i] = gear_enchantments[i].find((x) => x.id === Number(enchantment_selectors[i].value));
-					}
-
-
-					// If item is unenchantable, disables the enchant selector and sets it to none
-
-					for (let i in selected) {
-
-						enchantment_selectors[i].disabled = !selected[i].enchantable;
-
-						if (selected[i].enchantable === false) {
-							enchantment_selectors[i].selectedIndex = 0;
-							selected_enchantments[i] = gear_enchantments[i].find((x) => x.id === 0);
-							update_images();
-						}
-					}
-
-
-					// Prevents selecting equipment above your level
-
-					for (let i in selectors) {
-
-						for (let i2 = 0; i2 < selectors[i].length; i2++) {
-							gear[i][selectors[i][i2].index].level > level?
-							selectors[i][i2].disabled = true:
-							selectors[i][i2].disabled = false;
-						}
-
-						if (selectors[i][selectors[i].selectedIndex].disabled === true) {
-							selectors[i].selectedIndex = 0;
-							selected[i] = gear[i].find((x) => x.id === 0);
-							update_images();
-						}
-					}
-
-
-					// Warns user if they have identical accessories with identical enchantments
-
-					if (
-						selected[3].name !== 'None' &
-						(selected[3].name === selected[4].name) &&
-						(selected_enchantments[3].name === selected_enchantments[4].name)
-					) {
-						document.querySelectorAll('button#info')[3].style.borderColor = 'yellow'
-						document.querySelectorAll('button#info')[3].textContent = '⚠'
-
-						document.querySelectorAll('button#info')[4].style.borderColor = 'yellow'
-						document.querySelectorAll('button#info')[4].textContent = '⚠'
-					}
-					else {
-						document.querySelectorAll('button#info')[3].style.borderColor = ''
-						document.querySelectorAll('button#info')[3].textContent = 'ⓘ'
-
-						document.querySelectorAll('button#info')[4].style.borderColor = ''
-						document.querySelectorAll('button#info')[4].textContent = 'ⓘ'
-					}
-
-
-					// Sets magic power value for cursed to the extra value cursed would add per piece
-					
-					for (let i in gear_enchantments) {
-						gear_enchantments[i].find((x) => x.name === 'Cursed').magic_power = armor_scaling(selected[i], 'magic_power') * 0.4 + 62;
-					}
-
-
-					// Sets final values for each piece to the stats of the selected one + its respective enchantment
-
-					for (let i in finals) {
-
-						for (let i2 in stat_index) {
-							let stat = stat_index[i2];
-							finals[i][stat] = Math.floor(armor_scaling(selected[i], stat) + selected_enchantments[i][stat]);
-						}
-					}
-
-
-					// Adds the values of all the final pieces into one singular final_build object with the entire build's stats
-
-					for (let i in finals) {
-
-						for (let i2 in stat_index) {
-							let stat = stat_index[i2]
-							final_build[stat] += finals[i][stat]
-						}
-					}
-
-					
-					// Calculates Q damage
-
-					for (let i = 0; i < 3; i++) {
-
-						selected_magics[i] = magics.find((x) => x.id === Number(magic_selectors[i].value));
-						selected_magic_tiers[i] = calculate_tier(i + 1)
-						final_magic_damage[i] = Math.round(
-							(level/2 + magic_level/4 + selected_magics[i].base_damage) * selected_magics[i].base_efficiency +
-							final_build.magic_power * selected_magics[i].power_efficiency * selected_magic_tiers[i]/5
-						)
-					}
-
-
-					// Outputs stats
-
-					for (let i in finals) {
-						document.querySelectorAll('.output')[i].innerHTML = display(finals[i]);
-					}
-
-					document.querySelectorAll('.output')[5].innerHTML = display(final_build);
-					document.querySelectorAll('.output')[5].innerHTML += `
-						<br><hr style="float: none">
-						Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}<br>
-						Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s<br>
-						Magic Energy: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100)))}<br>
-						Magic Energy Regen: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100) * 0.2))}/s<br>
-						Stamina: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + final_build.stamina/100)))}<br>
-						Stamina Regen: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + (final_build.stamina + final_build.stamina_regen)/100) * 0.1))}/s
-						<br><hr style="float: none">
-						First Magic Q Damage: ${number_format(final_magic_damage[0])}<br>
-						Second Magic Q Damage: ${number_format(final_magic_damage[1])}<br>
-						Third Magic Q Damage: ${number_format(final_magic_damage[2])}<br>
-					`
-				}
+			for(let i in filter_selectors) {
+				filter_selectors[i].addEventListener('change', filter)
+			}
 
 
 			// Random build function
 
-				function random_build() {
+			function random_build() {
 
-					let random_gear = [];
-					let random_gear_enchantments = [];
-					let random_magics = [];
+				let random_gear = [];
+				let random_gear_enchantments = [];
+				let random_magics = [];
 
-					for (let i = 0; i < 5; i++) {
+				for (let i = 0; i < 5; i++) {
 
-						random_gear[i] = Math.round(Math.random() * (gear[i].length - 2) + 1);
-						selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === random_gear[i]);
+					random_gear[i] = Math.round(Math.random() * (gear[i].length - 2) + 1);
+					selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === random_gear[i]);
 
-						random_gear_enchantments[i] = Math.round(Math.random() * (gear_enchantments[i].length - 1));
-						enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === random_gear_enchantments[i]);
-					};
+					random_gear_enchantments[i] = Math.round(Math.random() * (gear_enchantments[i].length - 1));
+					enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === random_gear_enchantments[i]);
+				};
 
-					for (let i = 0; i < 3; i++) {
-						random_magics[i] = Math.round(Math.random() * (magics.length - 1));
-						magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
-					}
-
-					calculate();
-					update_images();
+				for (let i = 0; i < 3; i++) {
+					random_magics[i] = Math.round(Math.random() * (magics.length - 1));
+					magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
 				}
 
+				calculate();
+				update_images();
+			}
 
-			// Formats numbers
-
-				function number_format(n) {
-					return Intl.NumberFormat(navigator.language).format(n)
-				}
-
-
-			// Calculates tiers for magic
-
-				function calculate_tier(mind) {
-
-					let tier
-
-					for (let i in magic_tiers) {
-
-						if (magic_level >= (magic_tiers[i] + 100 * (mind - 1) + 100 * (Math.max(mind - 2, 0)))) {
-							tier = magic_tiers.length - i;
-							break;
-						} else {
-							tier = 0;
-						}
-					}
-
-					return tier;
-				}
-
-
-			// Base64 encoding/decoding
-
-				function encode(number, length) {
-
-					let final = '';
-
-					if (length === undefined) {
-
-						for (let i = 0; i <= 9; i++) {
-
-							if (Math.floor(number/64**i) === 0) {
-								length = i;
-								break;
-							}
-						}
-					}
-
-					for (let i = 0; i < length; i++) {
-
-						if (i === 0) {
-							final += characters[Math.floor(number / 64 ** (length - i - 1))];
-						}
-
-						else {
-							final += characters[Math.floor(number % 64 ** (length - i) / 64 ** (length - i - 1))];
-						}
-					}
-
-					return final;
-				}
-
-				function decode(string) {
-
-					let split = string.split('');
-					let final = 0;
-
-					for (let i in split) {
-						final += characters.indexOf(split[i]) * 64 ** (split.length - i - 1)
-					}
-
-					return final;
-				}
-
-
-			// Build code export system
-
-				function save() {
-
-					// First chunk: levels
-
-					const player_levels = [level, magic_level, strength_level];
-					let player_level_strings = [];
-
-					for (let i in player_levels) {
-						player_level_strings[i] = `${player_levels[i]-1}`
-						while (player_level_strings[i].length < 4) {player_level_strings[i] = '0' + player_level_strings[i]}
-					}
-
-					// Second chunk: gear
-
-					let selected_gear_strings = [];
-
-					for (let i in selected) {
-						selected_gear_strings[i] = `${selected[i].id}`
-						while (selected_gear_strings[i].length < 3) {selected_gear_strings[i] = '0' + selected_gear_strings[i]}
-					}
-
-					// Third chunk: enchantments
-
-					let selected_gear_enchantment_strings = [];
-
-					for (let i in selected_enchantments) {
-						selected_gear_enchantment_strings[i] = `${selected_enchantments[i].id}`
-						while (selected_gear_enchantment_strings[i].length < 2) {selected_gear_enchantment_strings[i] = '0' + selected_gear_enchantment_strings[i]}
-					}
-
-					// Fourth chunk: magics
-
-					let selected_magic_strings = [];
-
-					for (let i in selected_magics) {
-						selected_magic_strings[i] = `${selected_magics[i].id}`
-						while (selected_magic_strings[i].length < 2) {selected_magic_strings[i] = '0' + selected_magic_strings[i]}
-					}
-
-					return encode(player_level_strings.join(''), 7) + encode(selected_gear_strings.join(''), 9) +
-						encode(selected_gear_enchantment_strings.join(''), 6) + encode(selected_magic_strings.join(''), 4);
-				}
-
-
-			// Build code import system
-
-				function load() {
-
-					let code = code_import.value
-
-					let levels = String(decode(code.slice(0, 7)));
-					while (levels.length < 11) {levels = "0" + levels};
-					level_input.value = Number(levels.slice(0, 3)) + 1;
-					magic_level_input.value = Number(levels.slice(3, 7)) + 1;
-					strength_level_input.value = Number(levels.slice(7, 11)) + 1;
-
-					let equipment = String(decode(code.slice(7, 16)));
-					while (equipment.length < 15) {equipment = "0" + equipment};
-					for (let i in gear) {
-						selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === Number(equipment.slice(i * 3, i * 3 + 3)));
-					};
-
-					let equipmentEnchantments = String(decode(code.slice(16, 22)));
-					while (equipmentEnchantments.length < 10) {equipmentEnchantments = "0" + equipmentEnchantments};
-					for (let i = 0; i < 5; i++) {
-						enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === Number(equipmentEnchantments.slice(i * 2, i * 2 + 2)));
-					};
-
-					let chosenMagics = String(decode(code.slice(22, 26)))
-					while (chosenMagics.length < 6) {chosenMagics = "0" + chosenMagics};
-					for (let i = 0; i < 3; i++) {
-						magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === Number(chosenMagics.slice(i * 2, i * 2 + 2)));
-					};
-
-					code_import.value = '';
-
-					calculate();
-					update_images();
-				}
-
-
-			// Displays stats
-
-				function display(piece) {
-
-					let final_string = [];
-
-					for (let i in stat_display) {
-
-						if (i <= 1) {
-							final_string[i] = `${stat_display[i]}: ${number_format(piece[stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'))])}`
-						}
-
-						if (i == 2) {
-							final_string[i] = `${stat_display[i]}: ${piece[stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'))]}%`
-						}
-
-						if (i == 3 || i >= 5) {
-							final_string[i] = `${stat_display[i]}: ${sign_check(piece[stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'))])}%`
-						}
-
-						if (i == 4) {
-							final_string[i] = `${stat_display[i]}: ${sign_check(piece[stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'))])} HP/s`;
-						}
-					}
-
-					return final_string.join('<br>')
-				}
-
-				function sign_check(n) {
-					return n <= 0? `${n}` : `+${n}`;
-				}
-
-
-			// Loops through each element and fetches its rarity/name to display the image
-
-				function update_images() {
-
-					const gear_strings = [
-						'hats',
-						'shirts',
-						'pants',
-						'accessories',
-						'accessories',
-					];
-
-					for (let i = 0; i < 5; i++) {
-						document.querySelectorAll('.gear_image')[i].style.backgroundImage = `url("images/${gear_strings[i]}/${selected[i].name}.png"), url(images/background.png)`
-						document.querySelectorAll('.gear_image')[i].src = `images/frames/${selected[i].rarity}.png`
-
-						document.querySelectorAll('.charm_image')[i].style.backgroundImage = `url("images/charms/${selected_enchantments[i].name}.png"), url(images/background.png)`
-						document.querySelectorAll('.charm_image')[i].src = `images/frames/${selected_enchantments[i].rarity}.png`
-					}
-				}
 
 			calculate();
 			update_images();
