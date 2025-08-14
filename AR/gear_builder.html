@@ -45,28 +45,31 @@
 			}
 
 			div.container1 {
-				grid-template-columns: repeat(30, 1fr);
-				grid-template-rows: repeat(3, 40px);
+				grid-template-columns: repeat(36, 1fr);
 			}
 
 			div.container1 input,
 			div.container1 select {
-				grid-column: span 10
+				grid-column: span 12
 			}
 
-			button#copy, input#code_import {
+			button#copy {
 				grid-column: span 12;
 			}
 
 			div.container1 button {
-				grid-column: span 3;
+				grid-column: span 4;
 			}
 
-			div.container1  button:nth-of-type(2)::after {
+			button:nth-of-type(2)::after {
 				content: "Filter"
 			}
 
-			div.container1  button:nth-of-type(3)::after {
+			button:nth-of-type(3)::after {
+				content: "Clear"
+			}
+
+			button:nth-of-type(4)::after {
 				content: "Random"
 			}
 
@@ -81,11 +84,7 @@
 			}
 
 			@media (max-width: 1000px) {
-				div.container1 button:nth-of-type(2)::after {
-					content: ""
-				}
-
-				div.container1 button:nth-of-type(3)::after {
+				div.container1 button:has(img)::after {
 					content: ""
 				}
 
@@ -126,7 +125,6 @@
 			div.piece{
 				display: grid;
 				grid-template-columns: 150px 150px 40px;
-				grid-template-rows: 150px 40px;
 				grid-template-areas:
 					"a b e"
 					"c d ."
@@ -142,7 +140,7 @@
 			}
 
 			button img {
-				height: 90%;
+				height: 100%;
 			}
 
 			p.output{
@@ -157,6 +155,10 @@
 				box-shadow: var(--boxShadow);
 				margin: 0px;
 				overflow: hidden;
+			}
+
+			p.output hr {
+				width: 85%
 			}
 
 			div.container2 > p.output {
@@ -275,6 +277,10 @@
 
 				<button popovertarget="filter_selector">
 					<img src="../Style/filter_icon.png">
+				</button>
+
+				<button onclick="clear_build()">
+					<img src="../Style/clear_icon.png">
 				</button>
 
 				<button onclick="random_build()">
@@ -475,6 +481,24 @@
 				for (let i = 0; i < 3; i++) {
 					random_magics[i] = Math.round(Math.random() * (magics.length - 1));
 					magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
+				}
+
+				calculate();
+				update_images();
+			}
+
+
+			function clear_build() {
+
+				for (let i in gear) {
+
+					for (let i2 in gear[i]) {
+						selectors[i].selectedIndex = 0
+					}
+
+					for (let i2 in gear_enchantments[i]) {
+						enchantment_selectors[i].selectedIndex = 0
+					}
 				}
 
 				calculate();

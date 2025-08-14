@@ -1,7 +1,7 @@
 /*Font import*/
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
-:root{
+:root {
 	--backgroundColor: rgb(35,35,35);
 	--border: solid 5px rgb(255,255,255);
 	--borderRadius: 10px;
@@ -17,7 +17,7 @@
 	}
 }
 
-a{
+a {
 	color: var(--textColor);
 	text-decoration: none;
 	transition: var(--transition);
@@ -30,7 +30,7 @@ a:hover {
 	border-radius: var(--borderRadius);
 }
 
-article{
+article {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -41,7 +41,7 @@ article{
 	margin-bottom: 10px;
 }
 
-body{
+body {
 	color: var(--textColor);
 	font-family: var(--font);
 	font-weight: 300;
@@ -52,7 +52,7 @@ body{
 	overflow-y: scroll;
 }
 
-button{
+button {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -62,11 +62,10 @@ button{
 	height: 40px;
 	box-shadow: var(--boxShadow);
 	font-weight: 300;
-	float: left;
 	transition: var(--transition);
 }
 
-div.container{
+div.container {
 	display: grid;
 	column-gap: 5px;
 	row-gap: 10px;
@@ -75,7 +74,7 @@ div.container{
 	margin-bottom: 10px;
 }
 
-header{
+header {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -88,13 +87,11 @@ header{
 	font-weight: 500;
 }
 
-hr{
+hr {
 	border-color: rgb(125,125,125);
-	width: 85%;
-	float: left;
 }
 
-input{
+input {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -105,30 +102,28 @@ input{
 	padding-left: 5px;
 	box-shadow: var(--boxShadow);
 	font-weight: 300;
-	float: left;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
 	height: 17.5px;
 	width: 17.5px;
 	margin-left: 3px;
 	margin-right: 5px;
 	box-shadow: none;
-	float: none;
 }
 
-input::placeholder{
+input::placeholder {
 	font-family: var(--font);
 	color: rgb(125,125,125);
 	font-weight: 300;
 }
 
-main{
+main {
 	width: 1000px;
 	margin: auto;
 }
 
-nav{
+nav {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -145,29 +140,33 @@ nav{
 	transition: var(--transition);
 }
 
-nav img{
+nav.visible {
+	width: 300px;
+	height: 325px;
+}
+
+nav img {
 	transition: inherit;
 }
 
-nav.visible{
-	width: 300px;
-	height: 340px;
-}
-
 nav.visible img {
-	margin-left: 20px;
-	margin-top: 10px;
+	padding: 20px 0px 0px 20px;
 }
 
-nav ul{
+nav ul {
 	list-style-type: none;
 }
 
-option{
+nav hr {
+	width: 85%;
+	margin: 10px 0px 10px 0px;
+}
+
+option {
 	font-weight: 300;
 }
 
-p#output{
+p#output {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -179,7 +178,7 @@ p#output{
 	box-shadow: var(--boxShadow);
 }
 
-select{
+select {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
@@ -190,10 +189,9 @@ select{
 	height: 40px;
 	box-shadow: var(--boxShadow);
 	font-weight: 300;
-	float: left;
 }
 
-ul{
+ul {
 	margin: 0px;
 	padding-left: 20px;
 }

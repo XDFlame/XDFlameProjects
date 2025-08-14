@@ -10,11 +10,11 @@
 
 	let content = [
 		'<a href="https://xdflame.epizy.com/">Home</a>',
-		'<hr><br>',
+		'<hr>',
 		'<a href="https://xdflame.epizy.com/AR/pity_calculator.html">AR Pity Calculator</a>',
 		'<a href="https://xdflame.epizy.com/AR/alchemist_calculator.html">AR Alchemist Calculator</a>',
 		'<a href="https://xdflame.epizy.com/AR/gear_builder.html">AR Gear Builder</a>',
-		'<hr><br>',
+		'<hr>',
 		'<a href="https://xdflame.epizy.com/EP/level_calculator.html">EP Leveling Time Calculator</a>',
 	];
 

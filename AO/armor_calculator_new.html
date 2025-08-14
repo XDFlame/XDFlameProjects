@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+	</head>
+
+	<body>
+
+		<select id="chest_selector" onchange="calculate()">
+		</select>
+
+		<select id="chest_enchant_selector" onchange="calculate()">
+		</select>
+
+		<select id="chest_modifier_selector">
+		</select>
+
+		<select id="chest_jewel_1_selector">
+		</select>
+
+		<select id="chest_jewel_2_selector">
+		</select>
+
+		<input type="number" id="chest_level_input" step="10" min="0" max="140" onchange="calculate()">
+
+		<script src="chests_new.js"></script>
+
+		<script>
+
+			const bases = {
+				defense: 2.7,
+				power: 0.35,
+			};
+
+			const stat_multiplier_index = [
+				'defense_multiplier',
+				'power_multiplier',
+				'attack_size_multiplier',
+				'attack_speed_multiplier',
+				'agility_multiplier',
+				'intensity_multiplier',
+				'armor_piercing_multiplier',
+				'resistance_multiplier',
+				'regen_multiplier',
+				'warding_multiplier',
+				'insanity_multiplier',
+				'drawback_multiplier',
+			];
+
+			for (let i in stat_multiplier_index) {
+
+				let string = stat_multiplier_index[i].replace('_multiplier', '');
+				if (!bases[string]) {
+					bases[string] = 0.5;
+				}
+			}
+
+			for (let i in chests) {
+
+				for (let i2 in stat_multiplier_index) {
+
+					if (!chests[i][stat_multiplier_index[i2]]) {
+						chests[i][stat_multiplier_index[i2]] = 0;
+					}
+				};
+
+				if (!chests[i].id) {
+					chests[i].id = Number(i)
+				};
+
+				let option = document.createElement('option');
+				option.textContent = chests[i].name;
+				option.value = chests[i].id;
+				chest_selector.append(option);
+			};
+
+			for (let i in enchantments) {
+
+				for (let i2 in stat_multiplier_index) {
+
+					if (!enchantments[i][stat_multiplier_index[i2]]) {
+						enchantments[i][stat_multiplier_index[i2]] = 0;
+					}
+				};
+
+				if (!enchantments[i].id) {
+					enchantments[i].id = Number(i)
+				};
+
+				let option = document.createElement('option');
+				option.textContent = enchantments[i].name;
+				option.value = enchantments[i].id;
+				chest_enchant_selector.append(option);
+			};
+
+			function calculate() {
+
+				let selected_chest = chests.find((x) => x.id === Number(chest_selector.value));
+				let selected_chest_enchant = enchantments.find((x) => x.id === Number(chest_enchant_selector.value));
+				let chest_level = Number(chest_level_input.value);
+
+				for (let i in stat_multiplier_index) {
+					stat_string = stat_multiplier_index[i].replace('_multiplier', '')
+					final_chest[stat_string] = Math.floor(
+						bases[stat_string] * selected_chest[stat_multiplier_index[i]] * chest_level +
+						selected_chest_enchant[stat_multiplier_index[i]] * chest_level/10
+					)
+				}
+
+				console.clear()
+				return console.table(final_chest)
+			}
+
+		</script>
+
+	</body>
+
+</html>
