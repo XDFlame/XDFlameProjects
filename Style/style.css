@@ -57,6 +57,7 @@ button, input, select {
 	max-height: 2em;
 	padding: 0;
 	padding-left: 0.25em;
+	transition: var(--transition);
 }
 
 div.container {

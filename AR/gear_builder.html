@@ -30,7 +30,6 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				transition: var(--transition);
 			}
 
 			button#copy::after{
@@ -59,7 +58,8 @@
 				grid-template-areas: 
 					"a d o"
 					"b e o"
-					"c . o";
+					"c . o"
+					". . o";
 				grid-template-columns: 35% 35% 30%;
 				column-gap: 0px;
 			}
@@ -145,7 +145,7 @@
 
 			div.container2 > p.output {
 				visibility: visible;
-				height: calc(100% - 1rem);
+				height: calc(100% - 3rem);
 				opacity: 1;
 				overflow: auto;
 				grid-area: o;
