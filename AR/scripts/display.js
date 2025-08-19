@@ -6,6 +6,30 @@ function sign_check(n) {
 	return n <= 0? `${n}` : `+${n}`;
 }
 
+
+let mouse
+window.addEventListener('mousemove', (x) => {
+	mouse = x
+})
+
+for (let i = 0; i < 5; i++) {
+
+	document.querySelectorAll('.container2 button')[i].addEventListener('mousemove', function show_output() {
+		output.innerHTML = display(finals[i]);
+		output.style.visibility = 'visible';
+		output.style.opacity = 1;
+		output.style.left = `${mouse.x - output.offsetWidth}px`;
+		output.style.top = `${mouse.y}px`;
+	})
+
+	document.querySelectorAll('.container2 button')[i].addEventListener('mouseout', function test() {
+		output.style.visibility = 'hidden'
+		output.style.opacity = 0;
+		output.textContent = ''
+	})
+}
+
+
 function display(piece) {
 
 	let final_string = [];

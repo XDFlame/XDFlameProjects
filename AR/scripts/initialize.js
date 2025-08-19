@@ -88,6 +88,20 @@ const rarity = [
 ];
 
 
+// Makes CSS rules for ::after {content} for container1 buttons
+
+let buttons = document.querySelectorAll('.container1 button:not(#copy');
+let button_imgs = document.querySelectorAll('.container1 button:not(#copy) img');
+let extracted_text = [];
+
+for (let i = 0; i < buttons.length; i++) {
+	extracted_text[i] = buttons[i].innerText;
+	buttons[i].innerText = ''
+	buttons[i].append(button_imgs[i]);
+	document.styleSheets[1].insertRule(`button:nth-of-type(${i+2})::after {content: "${extracted_text[i]}"}`)
+}
+
+
 // Fills in undefined stats with 0 & fills in scaling objects with dummy data
 
 for (let c = 0; c < 5; c++) {

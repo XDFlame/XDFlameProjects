@@ -22,7 +22,7 @@
 			}
 
 			body{
-				height: 1250px;
+				min-height: 1250px;
 			}
 
 			button {
@@ -30,13 +30,14 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				transition: var(--transition);
 			}
 
 			button#copy::after{
 				content: "Copy Build Code";
 			}
 
-			button:active, button.active{
+			button:active, button.active, button.info:not(.conflict):hover {
 				border-color: rgb(0, 125, 255);
 			}
 
@@ -45,32 +46,13 @@
 			}
 
 			div.container1 {
-				grid-template-columns: repeat(36, 1fr);
+				grid-template-columns: repeat(9, 1fr);
 			}
 
 			div.container1 input,
-			div.container1 select {
-				grid-column: span 12
-			}
-
+			div.container1 select,
 			button#copy {
-				grid-column: span 12;
-			}
-
-			div.container1 button {
-				grid-column: span 4;
-			}
-
-			button:nth-of-type(2)::after {
-				content: "Filter"
-			}
-
-			button:nth-of-type(3)::after {
-				content: "Clear"
-			}
-
-			button:nth-of-type(4)::after {
-				content: "Random"
+				grid-column: span 3
 			}
 
 			div.container2 {
@@ -79,7 +61,6 @@
 					"b e o"
 					"c . o";
 				grid-template-columns: 35% 35% 30%;
-				grid-template-rows: repeat(3, 200px);
 				column-gap: 0px;
 			}
 
@@ -109,7 +90,7 @@
 				}
 			}
 
-			@media (max-width: 700px) {
+			@media (max-width: 850px) {
 				div.container2 {
 					grid-template-columns: 1fr;
 					grid-template-areas:
@@ -124,12 +105,13 @@
 
 			div.piece{
 				display: grid;
-				grid-template-columns: 150px 150px 40px;
+				grid-template-columns:
+					repeat(2, calc(43.75% - 0.25em * 2/3))
+					calc(12.5% - 0.25em * 2/3);
 				grid-template-areas:
 					"a b e"
-					"c d ."
-					"f f .";
-				gap: 5px;
+					"c d .";
+				gap: 0.25em;
 			}
 
 			div.piece img{
@@ -163,15 +145,10 @@
 
 			div.container2 > p.output {
 				visibility: visible;
-				height: calc(100% - 10px);
+				height: calc(100% - 1rem);
 				opacity: 1;
 				overflow: auto;
 				grid-area: o;
-			}
-
-			div.piece p.output {
-				position: relative;
-				z-index: 1;
 			}
 
 			button.info {
@@ -188,12 +165,6 @@
 
 			button.conflict::after {
 				content: "⚠";
-			}
-
-			button.info:active + p.output{
-				visibility: visible;
-				opacity: 1;
-				height: 340px;
 			}
 
 			[popover] {
@@ -277,14 +248,17 @@
 
 				<button popovertarget="filter_selector">
 					<img src="../Style/filter_icon.png">
+					Filter
 				</button>
 
 				<button onclick="clear_build()">
 					<img src="../Style/clear_icon.png">
+					Clear
 				</button>
 
 				<button onclick="random_build()">
 					<img src="../Style/dice_icon.png">
+					Random
 				</button>
 
 				<div popover id="filter_selector">
@@ -329,8 +303,6 @@
 
 					<button class="info" style="grid-area: e"></button>
 
-					<p class="output" style="grid-area: f"></p>
-
 				</div>
 
 				<div class="piece" style="grid-area: b">
@@ -346,8 +318,6 @@
 					</select>
 
 					<button class="info" style="grid-area: e"></button>
-
-					<p class="output" style="grid-area: f"></p>
 
 				</div>
 
@@ -365,8 +335,6 @@
 
 					<button class="info" style="grid-area: e"></button>
 
-					<p class="output" style="grid-area: f"></p>
-
 				</div>
 
 				<div class="piece" style="grid-area: d">
@@ -382,8 +350,6 @@
 					</select>
 
 					<button class="info" style="grid-area: e"></button>
-
-					<p class="output" style="grid-area: f"></p>
 
 				</div>
 
@@ -401,13 +367,13 @@
 
 					<button class="info" style="grid-area: e"></button>
 
-					<p class="output" style="grid-area: f"></p>
-
 				</div>
 
 				<p class="output"></p>
 
 			</div>
+
+			<p class="output" id="output" style="position: fixed; height: auto; width: auto; transition: none; padding: 1em;"></p>
 
 		</main>
 

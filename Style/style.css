@@ -3,18 +3,13 @@
 
 :root {
 	--backgroundColor: rgb(35,35,35);
-	--border: solid 5px rgb(255,255,255);
-	--borderRadius: 10px;
+	--border: solid 0.25rem rgb(255,255,255);
+	--borderRadius: 0.5rem;
 	--font: Oswald, Arial;
 	--textColor: rgb(255,255,255);
-	--boxShadow: inset 0px 0px 15px black;
+	--boxShadow: inset 0px 0px 0.75rem black;
 	--transition: 0.25s;
-}
-
-@media(max-width: 1000px) {
-	main {
-		width: 99vw !important;
-	}
+	font-size: 125%;
 }
 
 a {
@@ -26,7 +21,7 @@ a {
 
 a:hover {
 	background-color: black;
-	padding:  0px 5px 0px 5px;
+	padding:  0px 0.25em 0px 0.25em;
 	border-radius: var(--borderRadius);
 }
 
@@ -35,10 +30,9 @@ article {
 	border: var(--border);
 	border-radius: var(--borderRadius);
 	min-height: 100px;
-	max-width: inherit;
-	padding: 10px;
+	padding: 0.5em;
 	box-shadow: var(--boxShadow);
-	margin-bottom: 10px;
+	margin-bottom: 0.5em;
 }
 
 body {
@@ -48,40 +42,37 @@ body {
 	background: rgb(20,20,20) url("background.webp");
 	background-size: 10%;
 	background-attachment: fixed;
-	font-size: 20px;
 	overflow-y: scroll;
 }
 
-button {
+button, input, select {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
+	box-shadow: var(--boxShadow);
 	color: var(--textColor);
 	font-family: var(--font);
-	font-size: 20px;
-	height: 40px;
-	box-shadow: var(--boxShadow);
+	font-size: inherit;
 	font-weight: 300;
-	transition: var(--transition);
+	max-height: 2em;
+	padding: 0;
+	padding-left: 0.25em;
 }
 
 div.container {
 	display: grid;
-	column-gap: 5px;
-	row-gap: 10px;
-	width: inherit;
-	min-height: 40px;
-	margin-bottom: 10px;
+	column-gap: 0.25em;
+	row-gap: 0.5em;
+	min-height: 2em;
+	margin-bottom: 0.5em;
 }
 
 header {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
-	font-size: 25px;
-	margin-bottom: 10px;
-	max-width: inherit;
-	height: 40px;
+	font-size: 1.25rem;
+	margin-bottom: 0.5em;
 	box-shadow: var(--boxShadow);
 	text-align: center;
 	font-weight: 500;
@@ -91,24 +82,9 @@ hr {
 	border-color: rgb(125,125,125);
 }
 
-input {
-	background-color: var(--backgroundColor);
-	border: var(--border);
-	border-radius: var(--borderRadius);
-	color: var(--textColor);
-	font-family: var(--font);
-	font-size: 20px;
-	padding: 0px;
-	padding-left: 5px;
-	box-shadow: var(--boxShadow);
-	font-weight: 300;
-}
-
 input[type="checkbox"] {
-	height: 17.5px;
-	width: 17.5px;
-	margin-left: 3px;
-	margin-right: 5px;
+	height: 1rem;
+	width: 1rem;
 	box-shadow: none;
 }
 
@@ -123,14 +99,20 @@ main {
 	margin: auto;
 }
 
+@media (max-width: 1000px) {
+	main {
+		width: 97vw;
+	}
+}
+
 nav {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
-	font-size: 25px;
-	width: 50px;
-	height: 50px;
 	box-shadow: var(--boxShadow);
+	font-size: 1.25rem;
+	width: 2em;
+	height: 2em;
 	position: fixed;
 	top: 2.5%;
 	left: 1.25%;
@@ -141,16 +123,17 @@ nav {
 }
 
 nav.visible {
-	width: 300px;
-	height: 325px;
+	width: 12em;
+	height: 13em;
 }
 
 nav img {
+	width: 2em;
 	transition: inherit;
 }
 
 nav.visible img {
-	padding: 20px 0px 0px 20px;
+	padding: 1em 0px 0px 1em;
 }
 
 nav ul {
@@ -159,7 +142,7 @@ nav ul {
 
 nav hr {
 	width: 85%;
-	margin: 10px 0px 10px 0px;
+	margin: 0.5em 0px 0.5em 0px;
 }
 
 option {
@@ -173,25 +156,11 @@ p#output {
 	margin: 0px;
 	opacity: 0;
 	text-align: center;
-	min-height: 30px;
 	transition: var(--transition);
 	box-shadow: var(--boxShadow);
-}
-
-select {
-	background-color: var(--backgroundColor);
-	border: var(--border);
-	border-radius: var(--borderRadius);
-	color: var(--textColor);
-	font-family: var(--font);
-	transition: var(--transition);
-	font-size: 20px;
-	height: 40px;
-	box-shadow: var(--boxShadow);
-	font-weight: 300;
 }
 
 ul {
 	margin: 0px;
-	padding-left: 20px;
+	padding-left: 1em;
 }

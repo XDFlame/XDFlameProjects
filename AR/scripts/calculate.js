@@ -135,12 +135,8 @@ function calculate() {
 
 	// Outputs stats
 
-	for (let i in finals) {
-		document.querySelectorAll('.output')[i].innerHTML = display(finals[i]);
-	}
-
-	document.querySelectorAll('.output')[5].innerHTML = display(final_build);
-	document.querySelectorAll('.output')[5].innerHTML += `
+	document.querySelectorAll('.output')[0].innerHTML = display(final_build);
+	document.querySelectorAll('.output')[0].innerHTML += `
 		<br><hr>
 		Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}<br>
 		Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s<br>
