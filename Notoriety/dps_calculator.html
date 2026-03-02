@@ -98,18 +98,14 @@
 			critChance = Number(document.querySelector('#critChance').value)
 			headshotChance = Number(document.querySelector('#headshotChance').value)
 			primaryBurstDps = (
-				selectedPrimary.damage * (1 - critChance/100) * (1 - headshotChance/100) +
-				selectedPrimary.damage * critChance/100 * 3 * (1 - headshotChance/100) +
-				selectedPrimary.damage * (1 - critChance/100) * headshotChance/100 * 4 +
-				selectedPrimary.damage * critChance/100 * 3 * headshotChance/100 * 4
-			) * Math.floor(selectedPrimary.fire_rate/60)
+				(1 - critChance/100) * (1 - headshotChance/100) +
+				critChance/100 * 3 * (1 - headshotChance/100) +
+				(1 - critChance/100) * headshotChance/100 * 4 +
+				critChance/100 * 3 * headshotChance/100 * 4
+			) * selectedPrimary.damage * selectedPrimary.fire_rate
 
-			primarySustainedDps = (
-				selectedPrimary.damage * (1 - critChance/100) * (1 - headshotChance/100) +
-				selectedPrimary.damage * critChance/100 * 3 * (1 - headshotChance/100) +
-				selectedPrimary.damage * (1 - critChance/100) * headshotChance/100 * 4 +
-				selectedPrimary.damage * critChance/100 * 3 * headshotChance/100 * 4
-			) * 1 / (selectedPrimary.magazine / Math.floor(selectedPrimary.fire_rate/60) + selectedPrimary.reload) * selectedPrimary.magazine
+			primarySustainedDps = primaryBurstDps/selectedPrimary.fire_rate
+				/ (selectedPrimary.magazine/selectedPrimary.fire_rate + selectedPrimary.reload) * selectedPrimary.magazine
 
 			document.querySelector("#output").style.opacity = 1;
 			document.querySelector("#output").innerHTML = `

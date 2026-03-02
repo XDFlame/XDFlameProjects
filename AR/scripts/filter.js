@@ -1,3 +1,6 @@
+let filtered_in_gear;
+let filtered_in_enchantments;
+
 function filter() {
 
 	let selected_filters = [[],[],[],[]]
@@ -20,8 +23,8 @@ function filter() {
 
 	// Filters the gear and gear_enchantment arrays using selected_filters and stores result in filtered_in
 
-	let filtered_in_gear = [];
-	let filtered_in_enchantments = [];
+	filtered_in_gear = [];
+	filtered_in_enchantments = [];
 
 	for (let i = 0; i < 5; i++) {
 

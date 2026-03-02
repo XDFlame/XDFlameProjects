@@ -15,17 +15,17 @@ window.addEventListener('mousemove', (x) => {
 for (let i = 0; i < 5; i++) {
 
 	document.querySelectorAll('.container2 button')[i].addEventListener('mousemove', function show_output() {
-		output.innerHTML = display(finals[i]);
+		output.innerHTML = `<ul>${display(finals[i]).innerHTML}</ul>`;
 		output.style.visibility = 'visible';
 		output.style.opacity = 1;
-		output.style.left = `${mouse.x - output.offsetWidth}px`;
-		output.style.top = `${mouse.y}px`;
+		output.style.left = `${mouse.x - output.offsetWidth - 5}px`;
+		output.style.top = `${mouse.y - output.offsetHeight/2}px`;
 	})
 
-	document.querySelectorAll('.container2 button')[i].addEventListener('mouseout', function test() {
+	document.querySelectorAll('.container2 button')[i].addEventListener('mouseout', function hide_output() {
+		output.textContent = ''
 		output.style.visibility = 'hidden'
 		output.style.opacity = 0;
-		output.textContent = ''
 	})
 }
 
@@ -33,6 +33,7 @@ for (let i = 0; i < 5; i++) {
 function display(piece) {
 
 	let final_string = [];
+	let final_list = document.createElement('ul');
 
 	for (let i in stat_display) {
 
@@ -53,7 +54,14 @@ function display(piece) {
 		}
 	}
 
-	return final_string.join('<br>')
+	for (let i in final_string) {
+
+		let final_list_li = document.createElement('li');
+		final_list_li.append(final_string[i]);
+		final_list.appendChild(final_list_li);
+	}
+
+	return final_list;
 }
 
 

@@ -135,18 +135,21 @@ function calculate() {
 
 	// Outputs stats
 
-	document.querySelectorAll('.output')[0].innerHTML = display(final_build);
-	document.querySelectorAll('.output')[0].innerHTML += `
-		<br><hr>
-		Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}<br>
-		Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s<br>
-		Magic Energy: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100)))}<br>
-		Magic Energy Regen: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100) * 0.2))}/s<br>
-		Stamina: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + final_build.stamina/100)))}<br>
-		Stamina Regen: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + (final_build.stamina + final_build.stamina_regen)/100) * 0.1))}/s
-		<br><hr>
-		First Magic Q Damage: ${number_format(final_magic_damage[0])}<br>
-		Second Magic Q Damage: ${number_format(final_magic_damage[1])}<br>
-		Third Magic Q Damage: ${number_format(final_magic_damage[2])}<br>
-	`
+	document.querySelector('.output').innerHTML = '';
+	document.querySelector('.output').appendChild(display(final_build));
+	document.querySelector('.output').innerHTML += `
+		<ul>
+			<li><hr>
+			<li>Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}
+			<li>Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s
+			<li>Magic Energy: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100)))}
+			<li>Magic Energy Regen: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100) * 0.2))}/s
+			<li>Stamina: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + final_build.stamina/100)))}
+			<li>Stamina Regen: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + (final_build.stamina + final_build.stamina_regen)/100) * 0.1))}/s
+			<li><hr>
+			<li>First Magic Q Damage: ${number_format(final_magic_damage[0])}
+			<li>Second Magic Q Damage: ${number_format(final_magic_damage[1])}
+			<li>Third Magic Q Damage: ${number_format(final_magic_damage[2])}
+		</ul>
+	`;
 }

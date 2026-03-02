@@ -21,12 +21,8 @@
 				filter: brightness(0.7);
 			}
 
-			body{
-				min-height: 1250px;
-			}
-
 			button {
-				padding: 0px;
+				padding: 0;
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -58,10 +54,9 @@
 				grid-template-areas: 
 					"a d o"
 					"b e o"
-					"c . o"
-					". . o";
-				grid-template-columns: 35% 35% 30%;
-				column-gap: 0px;
+					"c . o";
+				grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+				column-gap: 0;
 			}
 
 			@media (max-width: 1000px) {
@@ -70,7 +65,6 @@
 				}
 
 				div.container2 {
-					grid-template-columns: repeat(2, 1fr);
 					grid-template-areas:
 						"a d"
 						"b e"
@@ -79,20 +73,20 @@
 				}
 
 				[popover]:popover-open {
-					grid-template-columns: repeat(2, 1fr);
 					grid-template-areas:
 						"a a"
-						"c c"
-						"e f"
 						"b b"
-						"d d"
-						"g h";
+						"c d"
+						"e e"
+						"f f"
+						"g h"
+						"i i"
+						"j j";
 				}
 			}
 
 			@media (max-width: 850px) {
 				div.container2 {
-					grid-template-columns: 1fr;
 					grid-template-areas:
 						"a"
 						"b"
@@ -114,7 +108,7 @@
 				gap: 0.25em;
 			}
 
-			div.piece img{
+			div.piece img {
 				width: 100%;
 				background-repeat: no-repeat;
 				background-size: cover;
@@ -125,17 +119,17 @@
 				height: 100%;
 			}
 
-			p.output{
+			p.output {
 				background-color: var(--backgroundColor);
 				border: var(--border);
 				border-radius: var(--borderRadius);
 				visibility: hidden;
 				opacity: 0;
-				height: 0px;
+				height: 0;
 				text-align: center;
 				transition: var(--transition);
 				box-shadow: var(--boxShadow);
-				margin: 0px;
+				margin: 0;
 				overflow: hidden;
 			}
 
@@ -145,10 +139,16 @@
 
 			div.container2 > p.output {
 				visibility: visible;
-				height: calc(100% - 3rem);
+				height: auto;
+				max-height: 29.5em;
 				opacity: 1;
 				overflow: auto;
 				grid-area: o;
+			}
+
+			p.output ul {
+				padding-left: 0;
+				list-style-type: none;
 			}
 
 			button.info {
@@ -175,17 +175,19 @@
 				box-shadow: var(--boxShadow);
 				max-height: 75%;
 				overflow: auto;
+				padding: 0.5em 0.75em 0.75em 0.75em;
 			}
 
 			:popover-open {
 				display: grid;
-				grid-template-columns: repeat(4, 1fr);
+				grid-auto-columns: 1fr;
 				grid-template-areas:
-					"a a b b"
-					"c c d d"
-					"e f g h";
-				column-gap: 15px;
-				padding: 10px 15px 15px 15px;
+					"a a e e"
+					"b b f f"
+					"c d g h"
+					"i i i i"
+					"j j j j";
+				column-gap: 0.75rem;
 			}
 
 			[popover]::backdrop {
@@ -199,13 +201,13 @@
 
 			[popover] hr {
 				width: 95%;
-				margin: 5px 0px 5px 0px;
+				margin: 0.25em 0 0.25em 0;
 				justify-self: center;
 			}
 
 			[popover] ul {
 				list-style-type: none;
-				padding: 0px;
+				padding: 0;
 			}
 
 		</style>
@@ -265,23 +267,30 @@
 
 					<span style="grid-area: a">Gear</span>
 
-					<hr style="grid-area: c">
+					<hr style="grid-area: b">
 
-					<ul id="gear_rarity_filter" style="grid-area: e">
+					<ul id="gear_rarity_filter" style="grid-area: c">
 					</ul>
 
-					<ul id="gear_stat_filter" style="grid-area: f">
+					<ul id="gear_stat_filter" style="grid-area: d">
 					</ul>
 
-					<span style="grid-area: b">Enchantments</span>
+					<span style="grid-area: e">Enchantments</span>
 
-					<hr style="grid-area: d">
+					<hr style="grid-area: f">
 
 					<ul id="enchantment_rarity_filter" style="grid-area: g">
 					</ul>
 
 					<ul id="enchantment_stat_filter" style="grid-area: h">
 					</ul>
+
+					<hr style="grid-area: i">
+
+					<span style="grid-area: j">
+						<input type="checkbox" id="random_filters" checked>
+						<label for="random_filters">Apply filters to random builds</label>
+					</span>
 
 				</div>
 
@@ -434,18 +443,68 @@
 				let random_gear = [];
 				let random_gear_enchantments = [];
 				let random_magics = [];
+				let apply_random_filters = random_filters.checked;
+
+				let allowed_gear_ids = [[],[],[],[],[]];
+				let allowed_enchantment_ids = [[],[],[],[],[]];
+
+				if (apply_random_filters) {
+
+					for (let i in filtered_in_gear) {
+						for (let i2 in filtered_in_gear[i]) {
+							allowed_gear_ids[i][i2] = filtered_in_gear[i][i2].id
+						}
+					};
+
+					for (let i in filtered_in_enchantments) {
+						for (let i2 in filtered_in_enchantments[i]) {
+							allowed_enchantment_ids[i][i2] = filtered_in_enchantments[i][i2].id
+						}
+					}
+				} 
+				
+				else {
+
+					for (let i in gear) {
+						for (let i2 in gear[i]) {
+							allowed_gear_ids[i][i2] = gear[i][i2].id
+						}
+
+						allowed_gear_ids[i].splice(0,1);
+					};
+
+					for (let i in gear_enchantments) {
+						for (let i2 in gear_enchantments[i]) {
+							allowed_enchantment_ids[i][i2] = gear_enchantments[i][i2].id
+						}
+
+						allowed_enchantment_ids[i].splice(0,1);
+					}
+				}
+
+				for (let i in allowed_gear_ids) {
+					if (allowed_gear_ids[i].length === 0) {
+						allowed_gear_ids[i][0] = 0
+					}
+				}
+
+				for (let i in allowed_enchantment_ids) {
+					if (allowed_enchantment_ids[i].length === 0) {
+						allowed_enchantment_ids[i][0] = 0
+					}
+				}
 
 				for (let i = 0; i < 5; i++) {
 
-					random_gear[i] = Math.round(Math.random() * (gear[i].length - 2) + 1);
-					selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === random_gear[i]);
+					random_gear[i] = Math.floor(Math.random() * allowed_gear_ids[i].length);
+					selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === allowed_gear_ids[i][random_gear[i]]);
 
-					random_gear_enchantments[i] = Math.round(Math.random() * (gear_enchantments[i].length - 1));
-					enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === random_gear_enchantments[i]);
+					random_gear_enchantments[i] = Math.floor(Math.random() * allowed_enchantment_ids[i].length);
+					enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === allowed_enchantment_ids[i][random_gear_enchantments[i]]);
 				};
 
 				for (let i = 0; i < 3; i++) {
-					random_magics[i] = Math.round(Math.random() * (magics.length - 1));
+					random_magics[i] = Math.floor(Math.random() * magics.length);
 					magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
 				}
 

@@ -7,7 +7,7 @@ const primaryWeapons = [
 		magazine: 30,
 		reserve: 180,
 		reload: 2.5,
-		fire_rate: 800,
+		fire_rate: 800/60,
 		concealment: 29,
 		type: ['rifle']
 	},

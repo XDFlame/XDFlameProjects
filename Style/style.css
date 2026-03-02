@@ -7,7 +7,7 @@
 	--borderRadius: 0.5rem;
 	--font: Oswald, Arial;
 	--textColor: rgb(255,255,255);
-	--boxShadow: inset 0px 0px 0.75rem black;
+	--boxShadow: inset 0 0 0.75rem black;
 	--transition: 0.25s;
 	font-size: 125%;
 }
@@ -21,7 +21,7 @@ a {
 
 a:hover {
 	background-color: black;
-	padding:  0px 0.25em 0px 0.25em;
+	padding:  0 0.25em 0 0.25em;
 	border-radius: var(--borderRadius);
 }
 
@@ -29,7 +29,7 @@ article {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
-	min-height: 100px;
+	min-height: 5em;
 	padding: 0.5em;
 	box-shadow: var(--boxShadow);
 	margin-bottom: 0.5em;
@@ -134,7 +134,7 @@ nav img {
 }
 
 nav.visible img {
-	padding: 1em 0px 0px 1em;
+	padding: 1em 0 0 1em;
 }
 
 nav ul {
@@ -143,7 +143,7 @@ nav ul {
 
 nav hr {
 	width: 85%;
-	margin: 0.5em 0px 0.5em 0px;
+	margin: 0.5em 0 0.5em 0;
 }
 
 option {
@@ -154,7 +154,7 @@ p#output {
 	background-color: var(--backgroundColor);
 	border: var(--border);
 	border-radius: var(--borderRadius);
-	margin: 0px;
+	margin: 0;
 	opacity: 0;
 	text-align: center;
 	transition: var(--transition);
@@ -162,6 +162,6 @@ p#output {
 }
 
 ul {
-	margin: 0px;
+	margin: 0;
 	padding-left: 1em;
 }
