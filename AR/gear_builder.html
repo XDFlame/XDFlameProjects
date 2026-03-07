@@ -81,7 +81,8 @@
 						"f f"
 						"g h"
 						"i i"
-						"j j";
+						"j j"
+						"k k";
 				}
 			}
 
@@ -186,7 +187,7 @@
 					"b b f f"
 					"c d g h"
 					"i i i i"
-					"j j j j";
+					"j j k k";
 				column-gap: 0.75rem;
 			}
 
@@ -208,6 +209,12 @@
 			[popover] ul {
 				list-style-type: none;
 				padding: 0;
+			}
+
+			[popover] select {
+				border: none;
+				box-shadow: none;
+				background-color: rgb(25, 25, 25)
 			}
 
 		</style>
@@ -290,6 +297,26 @@
 					<span style="grid-area: j">
 						<input type="checkbox" id="random_filters" checked>
 						<label for="random_filters">Apply filters to random builds</label>
+					</span>
+
+					<span style="grid-area: k" id="sorting_selector">
+						Sort by:
+
+						<select>
+							<option value="name">Name</option>
+							<option value="level">Level</option>
+							<option value="rarity">Rarity</option>
+							<option value="stat">Stat</option>
+						</select>
+
+						<select>
+							<option value="false">A→Z</option>
+							<option value="true">Z→A</option>
+						</select>
+
+						<select disabled="true">
+
+						</select>
 					</span>
 
 				</div>
@@ -431,8 +458,12 @@
 				document.querySelectorAll('input')[i].addEventListener('change', calculate);
 			}
 
-			for(let i in filter_selectors) {
+			for (let i in filter_selectors) {
 				filter_selectors[i].addEventListener('change', filter)
+			}
+
+			for (let i = 0 ; i < sorting_selector.children.length; i++) {
+				sorting_selector.children[i].addEventListener('change', sort_gear)
 			}
 
 

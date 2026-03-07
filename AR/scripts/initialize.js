@@ -328,3 +328,13 @@ for (let i in stat_index) {
 
 	enchantment_stat_filter.appendChild(list)
 }
+
+for (let i in stat_index) {
+
+	let option = document.createElement('option');
+
+	option.textContent = stat_display[i]
+	option.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
+
+	sorting_selector.children[2].appendChild(option)
+}
