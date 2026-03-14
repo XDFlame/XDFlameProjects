@@ -13,9 +13,7 @@ function level_lock() {
 	for (let i in gear) {
 
 		for (let i2 in gear[i]) {
-			gear[i][i2].level > level?
-			selectors[i][i2].disabled = true:
-			selectors[i][i2].disabled = false;
+			[...selectors[i]].find((x) => x.value == gear[i][i2].id).disabled = (gear[i][i2].level > level);
 		}
 
 		if (selected[i].level > level) {

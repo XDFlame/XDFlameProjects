@@ -1,4 +1,4 @@
-function save() {
+function export_code() {
 
 	// First chunk: levels
 
@@ -42,7 +42,7 @@ function save() {
 }
 
 
-function load() {
+function import_code() {
 
 	let code = code_import.value
 
@@ -74,4 +74,149 @@ function load() {
 
 	calculate();
 	update_images();
+}
+
+
+function save_build() {
+
+	if (document.querySelector("#save_menu input.build") !== null) {
+		return
+	}
+
+	let selected_build = save_menu.querySelector('.build.active');
+	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
+	if (selected_build !== null) {
+
+		if (save.classList.contains('active')) {
+			saved_builds.find((x) => x.id == selected_build.value).code = export_code();
+			localStorage.setItem('saved_builds', JSON.stringify(saved_builds))
+
+			save.innerText = 'Overwritten!'
+		}
+		else {
+			save.classList.add('active')
+			save.innerText = 'Overwrite?'
+			setTimeout(
+				() => {
+					save.classList.remove('active');
+					save.innerText = 'Save'
+				},
+				1000
+			);
+		}
+	}
+	else {
+		save_confirm();
+	}
+}
+
+
+function save_confirm() {
+	let name_input = document.createElement('input');
+	name_input.type = 'text';
+	name_input.placeholder = 'Build Name'
+	name_input.classList.add('build')
+	name_input.addEventListener('change', () => {
+
+		let current_build = {
+			code: export_code(),
+			id: null,
+			name: null,
+		};
+
+		current_build.name = event.target.value;
+
+		if (saved_builds === null || saved_builds.length === 0) {
+			current_build.id = 0;
+			localStorage.setItem('saved_builds', JSON.stringify([current_build]))
+		} else {
+			current_build.id = saved_builds[saved_builds.length - 1].id + 1;
+			saved_builds.push(current_build);
+			localStorage.setItem('saved_builds', JSON.stringify(saved_builds))
+		}
+
+		add_build(current_build)
+		save_menu.removeChild(name_input)
+	})
+	save_menu.appendChild(name_input);
+	name_input.focus();
+}
+
+
+function load_build() {
+	let selected_build = save_menu.querySelector('.build.active');
+
+	if (selected_build === null) {
+		return
+	};
+
+	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
+	code_import.value = saved_builds.find((x) => x.id == selected_build.value).code;
+	import_code();
+	
+	selected_build.classList.toggle('active')
+	save_menu.hidePopover();
+}
+
+
+function rename_build() {
+	let selected_build = save_menu.querySelector('.build.active');
+	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
+	if (selected_build === null) {
+		return
+	};
+
+	let name_input = document.createElement('input');
+	name_input.type = 'text';
+	name_input.placeholder = 'Build Name'
+	name_input.classList.add('build')
+	name_input.addEventListener('change', () => {
+		saved_builds.find((x) => x.id == selected_build.value).name = event.target.value
+		selected_build.innerText = event.target.value
+		localStorage.setItem('saved_builds', JSON.stringify(saved_builds))
+		selected_build.style.display = 'initial'
+		save_menu.removeChild(name_input)
+	})
+	save_menu.insertBefore(name_input, selected_build);
+	selected_build.style.display = 'none'
+	name_input.focus();
+}
+
+
+function delete_build() {
+	let selected_build = save_menu.querySelector('.build.active');
+
+	if (selected_build === null) {
+		return
+	};
+
+	if (delete_button.classList.contains('active')) {
+		delete_confirm();
+		delete_button.innerText = 'Deleted!'
+	}
+	else {
+		delete_button.classList.add('active')
+		delete_button.innerText = 'Confirm?'
+		setTimeout(
+			() => {
+				delete_button.classList.remove('active');
+				delete_button.innerText = 'Delete'
+			},
+			1000
+		);
+	}
+}
+
+
+function delete_confirm() {
+	let selected_build = save_menu.querySelector('.build.active');
+	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
+	saved_builds.splice(saved_builds.findIndex((x) => x.id == selected_build.value), 1)
+	localStorage.setItem('saved_builds', JSON.stringify(saved_builds));
+
+	save_menu.removeChild(selected_build)
 }

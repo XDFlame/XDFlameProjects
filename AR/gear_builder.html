@@ -28,6 +28,10 @@
 				justify-content: center;
 			}
 
+			input[type="text"] {
+				text-align: center;
+			}
+
 			button#copy::after{
 				content: "Copy Build Code";
 			}
@@ -36,18 +40,25 @@
 				border-color: rgb(0, 125, 255);
 			}
 
+			.build.active {
+				background-color: rgb(0, 125, 255);
+			}
+
 			button#copy.active::after{
 				content: "Copied!";
 			}
 
 			div.container1 {
-				grid-template-columns: repeat(9, 1fr);
+				grid-template-columns: repeat(12, 1fr);
 			}
 
 			div.container1 input,
-			div.container1 select,
-			button#copy {
-				grid-column: span 3
+			div.container1 select {
+				grid-column: span 4
+			}
+
+			div.container1 button {
+				grid-column: span 3;
 			}
 
 			div.container2 {
@@ -59,46 +70,7 @@
 				column-gap: 0;
 			}
 
-			@media (max-width: 1000px) {
-				div.container1 button:has(img)::after {
-					content: ""
-				}
-
-				div.container2 {
-					grid-template-areas:
-						"a d"
-						"b e"
-						"c ."
-						"o .";
-				}
-
-				[popover]:popover-open {
-					grid-template-areas:
-						"a a"
-						"b b"
-						"c d"
-						"e e"
-						"f f"
-						"g h"
-						"i i"
-						"j j"
-						"k k";
-				}
-			}
-
-			@media (max-width: 850px) {
-				div.container2 {
-					grid-template-areas:
-						"a"
-						"b"
-						"c"
-						"d"
-						"e"
-						"o";
-				}
-			}
-
-			div.piece{
+			div.piece {
 				display: grid;
 				grid-template-columns:
 					repeat(2, calc(43.75% - 0.25em * 2/3))
@@ -179,16 +151,43 @@
 				padding: 0.5em 0.75em 0.75em 0.75em;
 			}
 
-			:popover-open {
+			#save_menu[popover] {
+				height: 50%;
+				min-width: 25%;
+				align-content: start;
+			}
+
+			#filter_selector:popover-open {
 				display: grid;
 				grid-auto-columns: 1fr;
 				grid-template-areas:
 					"a a e e"
 					"b b f f"
 					"c d g h"
+					"l l l l"
 					"i i i i"
 					"j j k k";
 				column-gap: 0.75rem;
+			}
+
+			#save_menu:popover-open {
+				display: grid;
+				grid-template-columns: repeat(8, 1fr);
+				column-gap: 0.5rem;
+				row-gap: 0.25rem;
+			}
+
+			#save_menu .build, #save_menu hr {
+				grid-column: span 8;
+				max-height: unset;
+			}
+
+			#copy, #code_import {
+				grid-column: span 4;
+			}
+
+			#save, #load, #delete_button {
+				grid-column: span 2
 			}
 
 			[popover]::backdrop {
@@ -211,10 +210,46 @@
 				padding: 0;
 			}
 
-			[popover] select {
+			[popover] select, .build {
 				border: none;
 				box-shadow: none;
 				background-color: rgb(25, 25, 25)
+			}
+
+			@media (max-width: 1000px) {
+				div.container2 {
+					grid-template-areas:
+						"a d"
+						"b e"
+						"c ."
+						"o .";
+				}
+
+				#filter_selector:popover-open {
+					grid-template-areas:
+						"a a"
+						"b b"
+						"c d"
+						"e e"
+						"f f"
+						"g h"
+						"l l"
+						"i i"
+						"j j"
+						"k k";
+				}
+			}
+
+			@media (max-width: 850px) {
+				div.container2 {
+					grid-template-areas:
+						"a"
+						"b"
+						"c"
+						"d"
+						"e"
+						"o";
+				}
 			}
 
 		</style>
@@ -250,10 +285,10 @@
 				<select id="third_magic_selector">
 				</select>
 
-				<button id="copy">
+				<button popovertarget="save_menu">
+					<img src="../Style/save.png">
+					Save/Load
 				</button>
-
-				<input type="text" placeholder="Paste Build Code" id="code_import" onchange="load()">
 
 				<button popovertarget="filter_selector">
 					<img src="../Style/filter_icon.png">
@@ -292,6 +327,11 @@
 					<ul id="enchantment_stat_filter" style="grid-area: h">
 					</ul>
 
+					<span style="grid-area: l">
+						<input  type="checkbox" id="all_selector" checked>
+						<label for="all_selector">All</label>
+					</span>
+
 					<hr style="grid-area: i">
 
 					<span style="grid-area: j">
@@ -310,14 +350,28 @@
 						</select>
 
 						<select>
-							<option value="false">A→Z</option>
-							<option value="true">Z→A</option>
+							<option value="false">Low→High</option>
+							<option value="true">High→Low</option>
 						</select>
 
 						<select disabled="true">
 
 						</select>
 					</span>
+
+				</div>
+
+				<div popover id="save_menu">
+
+					<button id="copy"></button>
+					<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code()">
+
+					<button id="save" onclick="save_build()">Save</button>
+					<button id="load" onclick="load_build()">Load</button>
+					<button id="load" onclick="rename_build()">Rename</button>
+					<button id="delete_button" onclick="delete_build();">Delete</button>
+
+					<hr>
 
 				</div>
 
@@ -431,7 +485,7 @@
 			// Handles click functionality of copy build button
 
 			copy.onclick = function click() {
-				navigator.clipboard.writeText(save());
+				navigator.clipboard.writeText(export_code());
 				copy.classList.toggle('active');
 				if (copy.classList[0] == 'active') {
 					setTimeout('copy.classList.toggle(\'active\')', 500);
@@ -466,6 +520,15 @@
 				sorting_selector.children[i].addEventListener('change', sort_gear)
 			}
 
+			all_selector.addEventListener('change', () => {
+				for (let i in filter_selectors) {
+    				for (let i2 = 0; i2 < filter_selectors[i].children.length; i2++) {
+        				filter_selectors[i].children[i2].children[0].checked = event.target.checked
+					}
+				}
+				filter()
+			})
+
 
 			// Random build function
 
@@ -480,18 +543,8 @@
 				let allowed_enchantment_ids = [[],[],[],[],[]];
 
 				if (apply_random_filters) {
-
-					for (let i in filtered_in_gear) {
-						for (let i2 in filtered_in_gear[i]) {
-							allowed_gear_ids[i][i2] = filtered_in_gear[i][i2].id
-						}
-					};
-
-					for (let i in filtered_in_enchantments) {
-						for (let i2 in filtered_in_enchantments[i]) {
-							allowed_enchantment_ids[i][i2] = filtered_in_enchantments[i][i2].id
-						}
-					}
+					allowed_gear_ids = filtered_in_gear_ids
+					allowed_enchantment_ids = filtered_in_enchantment_ids
 				} 
 				
 				else {
@@ -501,7 +554,7 @@
 							allowed_gear_ids[i][i2] = gear[i][i2].id
 						}
 
-						allowed_gear_ids[i].splice(0,1);
+						allowed_gear_ids[i].shift();
 					};
 
 					for (let i in gear_enchantments) {
@@ -509,9 +562,11 @@
 							allowed_enchantment_ids[i][i2] = gear_enchantments[i][i2].id
 						}
 
-						allowed_enchantment_ids[i].splice(0,1);
+						allowed_enchantment_ids[i].shift();
 					}
 				}
+
+				// If all filters are deselected, sets random gear to "None"
 
 				for (let i in allowed_gear_ids) {
 					if (allowed_gear_ids[i].length === 0) {

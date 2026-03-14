@@ -87,6 +87,7 @@ input[type="checkbox"] {
 	height: 1rem;
 	width: 1rem;
 	box-shadow: none;
+	accent-color: rgb(0, 125, 255)
 }
 
 input::placeholder {

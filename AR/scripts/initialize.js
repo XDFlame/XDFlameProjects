@@ -86,20 +86,7 @@ const rarity = [
 	'legendary',
 	'seasonal',
 ];
-
-
-// Makes CSS rules for ::after {content} for container1 buttons
-
-let buttons = document.querySelectorAll('.container1 button:not(#copy');
-let button_imgs = document.querySelectorAll('.container1 button:not(#copy) img');
-let extracted_text = [];
-
-for (let i = 0; i < buttons.length; i++) {
-	extracted_text[i] = buttons[i].innerText;
-	buttons[i].innerText = ''
-	buttons[i].append(button_imgs[i]);
-	document.styleSheets[1].insertRule(`button:nth-of-type(${i+2})::after {content: "${extracted_text[i]}"}`)
-}
+let saved_builds;
 
 
 // Fills in undefined stats with 0 & fills in scaling objects with dummy data
@@ -172,7 +159,7 @@ for (let i in magics) {
 }
 
 
-// Sorts the gear, gear_enchantments, and magics arrays alphabetically
+// Sorts the gear, gear_enchantments, and magics arrays alphabetically with none at the top
 
 function compare(a, b) {
 	if (a.name < b.name) {
@@ -185,41 +172,17 @@ function compare(a, b) {
 }
 
 for (let i = 0; i < 5; i++) {
+	let none = gear[i].shift()
+	let enchantment_none = gear_enchantments[i].shift();
+
 	gear[i].sort(compare);
 	gear_enchantments[i].sort(compare);
+
+	gear[i].unshift(none);
+	gear_enchantments[i].unshift(enchantment_none)
 }
 
 magics = magics.sort(compare)
-
-
-// Finds the index of each of the array's 'None' object
-
-let none_index = [];
-let enchantment_none_index = [];
-
-for (let i in gear) {
-	none_index[i] = gear[i].findIndex((x) => x.name === 'None');
-	enchantment_none_index[i] = gear_enchantments[i].findIndex((x) => x.name === 'None');
-}
-
-
-// Moves none to the top
-
-let removed = [];
-let removed_enchantments = [];
-
-for (let i = 0; i < 5; i++) {
-	removed[i] = gear[i].splice(0, none_index[i]);
-	removed_enchantments[i] = gear_enchantments[i].splice(0, enchantment_none_index[i]);
-
-	for (let i2 in removed[i]) {
-		gear[i].splice(1, 0, removed[i][removed[i].length - 1 - i2]);
-	}
-
-	for (let i2 in removed_enchantments[i]) {
-		gear_enchantments[i].splice(1, 0, removed_enchantments[i][removed_enchantments[i].length - 1 - i2]);
-	}
-}
 
 
 // Generates select options based off corresponding objects
@@ -337,4 +300,26 @@ for (let i in stat_index) {
 	option.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
 
 	sorting_selector.children[2].appendChild(option)
+}
+
+saved_builds = JSON.parse(localStorage.getItem('saved_builds'))
+
+function add_build(x) {
+	let build = document.createElement('button');
+	build.innerText = x.name;
+	build.value = x.id;
+	build.classList.add('build')
+	build.addEventListener('click', () => {
+		build.classList.toggle('active')
+		for (let i = 0; i < save_menu.querySelectorAll('.active').length; i++) {
+			if (save_menu.querySelectorAll('.active')[i] !== build) {
+				save_menu.querySelectorAll('.active')[i].classList.remove('active');
+			}
+		}
+	})
+	save_menu.appendChild(build);
+}
+
+for (let i in saved_builds) {
+	add_build(saved_builds[i])
 }
