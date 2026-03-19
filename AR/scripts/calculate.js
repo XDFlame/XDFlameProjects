@@ -80,6 +80,39 @@ function calculate_q() {
 }
 
 
+function health_scaling() {
+
+	let value = Number(health_slider.value)
+
+	let damage_reduction = final_build.damage_reduction;
+	let health_decimal = value/100
+
+	if (health_decimal <= 0.8) {
+		let mult = clamp(health_decimal + 0.2, 0.4, 1)
+		damage_reduction = damage_reduction * mult
+	}
+
+	let effective_health = number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100) / (1 - damage_reduction/100)))
+
+	document.querySelector('.output ul li:nth-of-type(3)').innerText = `Damage Reduction: ${Math.round(damage_reduction)}%`
+	document.querySelector('.output ul:nth-of-type(2) li:nth-of-type(2)').innerText = `Effective Health: ${effective_health}`;
+
+	for (let i in selected_enchantments) {
+		if (selected_enchantments[i].name === 'Berserk') {
+			finals[i].magic_power = Math.floor(armor_scaling(selected[i], 'magic_power') + selected_enchantments[i].magic_power * clamp(100/health_slider.value, 1, 4));
+		}
+	}
+
+	final_build.magic_power = 0;
+	for (let i in finals) {
+		final_build.magic_power += finals[i].magic_power
+	}
+
+	document.querySelector('.output ul li:nth-of-type(2)').innerText = `Magic Power: ${Math.round(final_build.magic_power)}`
+	document.querySelector('div.slider span:nth-of-type(2)').innerText = `${value}%`
+}
+
+
 function calculate() {
 
 	// Defines variables
@@ -136,18 +169,23 @@ function calculate() {
 	document.querySelector('.output').innerHTML = '';
 	document.querySelector('.output').appendChild(display(final_build));
 	document.querySelector('.output').innerHTML += `
+		<hr>
 		<ul>
-			<li><hr>
-			<li>Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}
+			<li>Max Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}
+			<li>Effective Health:
 			<li>Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s
 			<li>Magic Energy: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100)))}
 			<li>Magic Energy Regen: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100) * 0.2))}/s
 			<li>Stamina: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + final_build.stamina/100)))}
 			<li>Stamina Regen: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + (final_build.stamina + final_build.stamina_regen)/100) * 0.1))}/s
-			<li><hr>
+		</ul>
+		<hr>
+		<ul>
 			<li>First Magic Q Damage: ${number_format(final_magic_damage[0])}
 			<li>Second Magic Q Damage: ${number_format(final_magic_damage[1])}
 			<li>Third Magic Q Damage: ${number_format(final_magic_damage[2])}
 		</ul>
 	`;
+
+	health_scaling();
 }

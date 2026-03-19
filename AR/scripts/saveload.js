@@ -162,6 +162,11 @@ function load_build() {
 
 
 function rename_build() {
+
+	if (document.querySelector("#save_menu input.build") !== null) {
+		return
+	}
+
 	let selected_build = save_menu.querySelector('.build.active');
 	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 

@@ -131,6 +131,30 @@ for (let c = 0; c < 5; c++) {
 	}
 }
 
+/*let gear_flat = gear.flat()
+gear_flat.forEach(
+
+	(element) => {
+
+		if (element.scaling === undefined) {element.scaling = new Object(
+			{
+				start: element.level,
+				end: element.level
+			}
+		)}
+
+		if (element.enchantable === undefined) {element.enchantable = true}
+
+		stat_index.forEach(
+
+			(element_2) => {
+				if (element[element_2] === undefined) {element[element_2] = 0}
+				if (element.scaling[element_2] === undefined) {element.scaling[element_2] = 0}
+			}
+		)
+	}
+)*/
+
 for (let i in magics) {
 	if (!magics[i].base_efficiency) {
 		magics[i].base_efficiency = 1
