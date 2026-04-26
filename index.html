@@ -8,9 +8,9 @@
 
 		<title>XDFlame's Site</title>
 
-		<link rel="icon" href="Style/fire.webp">
+		<link rel="icon" href="style/images/fire.webp">
 
-		<link rel="stylesheet" href="Style/style.css">
+		<link rel="stylesheet" href="style/style.css">
 
 		<!-- Primary Meta Tags -->
 		<meta name="title" content="XDFlame's Site" />
@@ -21,14 +21,14 @@
 		<meta property="og:url" content="https://xdflame.epizy.com/" />
 		<meta property="og:title" content="XDFlame's Site" />
 		<meta property="og:description" content="A small website to serve as a hub for my various projects" />
-		<meta property="og:image" content="https://xdflame.epizy.com/Style/fire.webp" />
+		<meta property="og:image" content="https://xdflame.epizy.com/style/images/fire.webp" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="https://xdflame.epizy.com/" />
 		<meta property="twitter:title" content="XDFlame's Site" />
 		<meta property="twitter:description" content="A small website to serve as a hub for my various projects" />
-		<meta property="twitter:image" content="https://xdflame.epizy.com/Style/fire.webp" />
+		<meta property="twitter:image" content="https://xdflame.epizy.com/style/images/fire.webp" />
 
 		<!-- Meta Tags Generated with https://metatags.io -->
 
@@ -47,12 +47,27 @@
 				}
 			}
 
-			div.button {
+			.button {
 				width: 100%;
 				height: 10rem;
+				position: relative;
 			}
 
-			div.button button {
+			.button::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: url('style/images/fire.webp');
+				border-radius: var(--borderRadius);
+				transition: var(--transition);
+				background-size: cover;
+				background-position: center;
+			}
+
+			button {
 				width: 100%;
 				height: 100%;
 				line-height: 1em;
@@ -62,33 +77,39 @@
 				font-size: 2.5rem;
 				font-weight: 400;
 				backdrop-filter: blur(5px);
-				z-index: 1;
 				position: relative;
-				float: left;
 			}
 
-			div.button img {
-				width: 100%;
-				height: 100%;
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-				border-radius: var(--borderRadius);
-				transition: var(--transition);
-				z-index: 0;
-				position: relative;
-				margin-left: -100%;
-				float: left;
-			}
-
-			div.button button:hover {
+			button:hover {
 				backdrop-filter: none;
 				transform: scale(1.03,1.03);
 				cursor: pointer;
 			}
 
-			div.button button:hover + img {
+			.button:has(> button:hover)::before {
 				transform: scale(1.03,1.03);
+			}
+
+			.discord::before {
+				background-image: url(style/images/discord.webp)
+			}
+
+			.github::before {
+				background-image: url(style/images/github.webp)
+			}
+
+			.ao::before {
+				background-image: url(style/images/ao.webp)
+			}
+
+			.ep::before {
+				background-image: url(style/images/ep.webp);
+				background-color: rgb(20, 20, 20);
+			}
+
+			.ar::before {
+				background-image: url(style/images/ar.webp);
+				background-color: white
 			}
 
 		</style>
@@ -105,81 +126,67 @@
 
 			<div class="container">
 
-				<div class="button">
+				<div class="button discord">
 					<button onclick="window.location.href='https://discord.com/invite/7dvEBZjhzJ'">My Discord Server</button>
-					<img style="background-image: url('Style/discord.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button github">
 					<button onclick="window.location.href='https://github.com/XDFlame/XDFlameProjects'">GitHub</button>
-					<img style="background-image: url('Style/github.png');">
 				</div>
 
 				<div class="button">
 					<button onclick="window.location.href='https://drive.google.com/drive/folders/1-8fsjwf717Bztmbmv4dFK85iUFGgumn_'">Google Drive</button>
-					<img style="background-image: url('Style/fire.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ao">
 					<button onclick="window.location.href='https://docs.google.com/spreadsheets/d/1CHd60lyISM__I7LUxmPh9jhK4gczvCXNj-eqb7ID2MM/edit?usp=sharing'">AO Shipyard</button>
-					<img style="background-image: url('Style/ao.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ao">
 					<button onclick="window.location.href='https://www.desmos.com/calculator/vnigpawaop'">AO Substat Scaling</button>
-					<img style="background-image: url('Style/ao.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ao">
 					<button onclick="window.location.href='https://www.desmos.com/calculator/gmcvnruek2'">AO Sunken Chance Calculator</button>
-					<img style="background-image: url('Style/ao.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ao">
 					<button onclick="window.location.href='https://www.desmos.com/calculator/kg6ckup84y'">AO Fishing Stats Calculator</button>
-					<img style="background-image: url('Style/ao.webp');">
 				</div>
 
-				<div class="button">
-					<button onclick="window.location.href='EP/level_calculator.html'">EP Leveling Time Calculator</button>
-					<img style="background-image: url('Style/ep2.webp');">
+				<div class="button ep">
+					<button onclick="window.location.href='/ep/level_calculator.html'">EP Leveling Time Calculator</button>
 				</div>
 
-				<div class="button">
-					<button onclick="window.location.href='AR/pity_calculator.html'">AR Pity Calculator</button>
-					<img style="background-image: url('Style/ar2.webp');">
+				<div class="button ar">
+					<button onclick="window.location.href='/ar/pity_calculator.html'">AR Pity Calculator</button>
 				</div>
 
-				<div class="button">
-					<button onclick="window.location.href='AR/alchemist_calculator.html'">AR Alchemist Calculator</button>
-					<img style="background-image: url('Style/ar2.webp');">
+				<div class="button ar">
+					<button onclick="window.location.href='/ar/alchemist_calculator.html'">AR Alchemist Calculator</button>
 				</div>
 
-				<div class="button">
-					<button onclick="window.location.href='AR/gear_builder.html'">AR Gear Builder</button>
-					<img style="background-image: url('Style/ar2.webp');">
+				<div class="button ar">
+					<button onclick="window.location.href='/ar/gear_builder.html'">AR Gear Builder</button>
 				</div>
 
-				<div class="button">
+				<div class="button ar">
 					<button onclick="window.location.href='https://docs.google.com/document/d/1vAJEc_ZQK06p2MBtvgq-1yTzBvAmIK37x8YdSnlMJek'">AR Capturable Islands List</button>
-					<img style="background-image: url('Style/ar2.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ar">
 					<button onclick="window.location.href='https://docs.google.com/document/d/1uIh6JWrmhvn6PmLqf-5Urbh23fRhlPH4MxvpokagRdM'">AR Fishing Rod Comparison</button>
-					<img style="background-image: url('Style/ar2.webp');">
 				</div>
 
-				<div class="button">
+				<div class="button ar">
 					<button onclick="window.location.href='https://docs.google.com/document/d/16ovPY788HEw_tPZgB3ML_AHXL6UQRMLUspRW0KYV_Ps'">AR Water Type Locations</button>
-					<img style="background-image: url('Style/ar2.webp');">
 				</div>
 
 			</div>
 
 		</main>
 
-		<script src="toggle.js"></script>
+		<script src="/nav.js"></script>
 
 	</body>
 

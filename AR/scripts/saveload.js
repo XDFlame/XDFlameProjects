@@ -1,44 +1,46 @@
+"use strict"
+
 function export_code() {
+
+	let final_code = []
 
 	// First chunk: levels
 
-	const player_levels = [level, magic_level, strength_level];
+	let player_levels = [level, magic_level, strength_level];
 	let player_level_strings = [];
 
-	for (let i in player_levels) {
-		player_level_strings[i] = `${player_levels[i]-1}`
-		while (player_level_strings[i].length < 4) {player_level_strings[i] = '0' + player_level_strings[i]}
-	}
+	player_levels.forEach(element => player_level_strings.push((element - 1).toString().padStart(4, '0')))
+
+	final_code.push(encode(player_level_strings.join(''), 7))
 
 	// Second chunk: gear
 
+	let selected_ids = selected.map(element => element.id)
 	let selected_gear_strings = [];
 
-	for (let i in selected) {
-		selected_gear_strings[i] = `${selected[i].id}`
-		while (selected_gear_strings[i].length < 3) {selected_gear_strings[i] = '0' + selected_gear_strings[i]}
-	}
+	selected_ids.forEach(element => selected_gear_strings.push(element.toString().padStart(3, '0')))
+
+	final_code.push(encode(selected_gear_strings.join(''), 9))
 
 	// Third chunk: enchantments
 
-	let selected_gear_enchantment_strings = [];
+	let selected_enchantment_ids = selected_enchantments.map(element => element.id)
+	let selected_enchantment_strings = [];
 
-	for (let i in selected_enchantments) {
-		selected_gear_enchantment_strings[i] = `${selected_enchantments[i].id}`
-		while (selected_gear_enchantment_strings[i].length < 2) {selected_gear_enchantment_strings[i] = '0' + selected_gear_enchantment_strings[i]}
-	}
+	selected_enchantment_ids.forEach(element => selected_enchantment_strings.push(element.toString().padStart(2, '0')))
+
+	final_code.push(encode(selected_enchantment_strings.join(''), 6))
 
 	// Fourth chunk: magics
 
+	let selected_magic_ids = selected_magics.map(element => element.id)
 	let selected_magic_strings = [];
 
-	for (let i in selected_magics) {
-		selected_magic_strings[i] = `${selected_magics[i].id}`
-		while (selected_magic_strings[i].length < 2) {selected_magic_strings[i] = '0' + selected_magic_strings[i]}
-	}
+	selected_magic_ids.forEach(element => selected_magic_strings.push(element.toString().padStart(2, '0')))
 
-	return encode(player_level_strings.join(''), 7) + encode(selected_gear_strings.join(''), 9) +
-		encode(selected_gear_enchantment_strings.join(''), 6) + encode(selected_magic_strings.join(''), 4);
+	final_code.push(encode(selected_magic_strings.join(''), 4))
+
+	return final_code.join('')
 }
 
 
@@ -88,19 +90,19 @@ function save_build() {
 
 	if (selected_build !== null) {
 
-		if (save.classList.contains('active')) {
-			saved_builds.find((x) => x.id == selected_build.value).code = export_code();
+		if (save_button.classList.contains('active')) {
+			saved_builds.find(x => x.id == selected_build.value).code = export_code();
 			localStorage.setItem('saved_builds', JSON.stringify(saved_builds))
 
-			save.innerText = 'Overwritten!'
+			save_button.innerText = 'Overwritten!'
 		}
 		else {
-			save.classList.add('active')
-			save.innerText = 'Overwrite?'
+			save_button.classList.add('active')
+			save_button.innerText = 'Overwrite?'
 			setTimeout(
 				() => {
-					save.classList.remove('active');
-					save.innerText = 'Save'
+					save_button.classList.remove('active');
+					save_button.innerText = 'Save'
 				},
 				1000
 			);
@@ -179,7 +181,7 @@ function rename_build() {
 	name_input.placeholder = 'Build Name'
 	name_input.classList.add('build')
 	name_input.addEventListener('change', () => {
-		saved_builds.find((x) => x.id == selected_build.value).name = event.target.value
+		saved_builds.find(x => x.id == selected_build.value).name = event.target.value
 		selected_build.innerText = event.target.value
 		localStorage.setItem('saved_builds', JSON.stringify(saved_builds))
 		selected_build.style.display = 'initial'
@@ -224,4 +226,19 @@ function delete_confirm() {
 	localStorage.setItem('saved_builds', JSON.stringify(saved_builds));
 
 	save_menu.removeChild(selected_build)
+}
+
+
+function decode_share_link() {
+	let url = window.location.href;
+	let search_params = new URL(url).searchParams;
+	let entries = new URLSearchParams(search_params).entries();
+	
+	let code = Array.from(entries).flat()[1];
+
+	if (code) {
+		code_import.value = code;
+		import_code();
+		history.pushState("object or string", '', window.location.href.split('?code=')[0]);
+	}
 }

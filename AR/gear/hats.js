@@ -108,7 +108,7 @@ const hat_enchantments = [
 	{
 		name: 'Cursed',
 		rarity: 'legendary',
-		health_bonus: -10,
+		health_bonus: -7,
 	},
 	{
 		name: 'Dynamic',
@@ -135,7 +135,6 @@ const hat_enchantments = [
 		name: 'Heavenly',
 		rarity: 'legendary',
 		health_regen: 7,
-		jump_power: 5
 	},
 	{
 		name: 'Heroic',
@@ -152,7 +151,7 @@ const hat_enchantments = [
 		name: 'Indestructible',
 		rarity: 'legendary',
 		defense: 400,
-		stamina_regen: -10,
+		stamina_regen: -4,
 		stun_resistance: 4
 	},
 	{

@@ -1,3 +1,4 @@
+"use strict"
 // Variable declarations
 
 let selected = [];
@@ -37,12 +38,6 @@ const magic_selectors = [
 	second_magic_selector,
 	third_magic_selector
 ];
-const filter_selectors = [
-	gear_rarity_filter,
-	gear_stat_filter,
-	enchantment_rarity_filter,
-	enchantment_stat_filter,
-];
 const finals = [
 	final_hat,
 	final_shirt,
@@ -53,31 +48,19 @@ const finals = [
 let final_build = {};
 let final_magic_damage = [];
 const stat_index = [
-	'damage_reduction',
 	'defense',
+	'magic_power',
+	'damage_reduction',
 	'health_bonus',
 	'health_regen',
-	'jump_power',
-	'magic_energy', 
-	'magic_power',
-	'movement_speed',
+	'magic_energy',
 	'stamina',
 	'stamina_regen',
-	'stun_resistance',
+	'movement_speed',
+	'jump_power',
+	'stun_resistance'
 ];
-const stat_display = [
-	'Defense',
-	'Magic Power',
-	'Damage Reduction',
-	'Health Bonus',
-	'Health Regen',
-	'Magic Energy',
-	'Stamina',
-	'Stamina Regen',
-	'Movement Speed',
-	'Jump Power',
-	'Stun Resistance',
-];
+const stat_display = [];
 const rarity = [
 	'common',
 	'uncommon',
@@ -89,52 +72,33 @@ const rarity = [
 let saved_builds;
 
 
+// Creates stat_display array
+
+stat_index.forEach(element => {
+	stat_display.push(element.replace(/^[a-z]|((?<=_)[a-z])/g, element_2 => element_2.toUpperCase()).replace('_', ' '))
+})
+
+
+// Auto CSS rule for buttons to hide text below 1000px width
+
+let buttons = document.querySelectorAll('button:has(img)');
+let imgs  = document.querySelectorAll('button:has(img) img');
+let text = [...buttons].map(element => element.innerText)
+let style = document.createElement('style');
+buttons.forEach((element, index) => {
+	element.innerText = null;
+	element.appendChild(imgs[index]);
+	style.innerText += `button:has(img):nth-of-type(${index + 1})::after {content: "${text[index]}"}`
+})
+style.innerText += `@media (max-width: 1000px) {button:has(img)::after {content: "" !important}}`
+document.head.appendChild(style)
+
+
 // Fills in undefined stats with 0 & fills in scaling objects with dummy data
 
-for (let c = 0; c < 5; c++) {
+gear.flat().forEach(
 
-	for (let i in gear[c]) {
-
-		for (let i2 in stat_index) {
-
-			if (!gear[c][i][stat_index[i2]]) {
-				gear[c][i][stat_index[i2]] = 0
-			}
-
-			if (!gear[c][i].scaling) {
-				gear[c][i].scaling = new Object(
-					{
-						start: gear[c][i].level,
-						end: gear[c][i].level
-					}
-				)
-			}
-
-			if (!gear[c][i].scaling[stat_index[i2]]) {
-				gear[c][i].scaling[stat_index[i2]] = 0
-			}
-
-			if (gear[c][i].enchantable === undefined) {
-				gear[c][i].enchantable = true
-			}
-		}
-	}
-
-	for (let i in gear_enchantments[c]) {
-
-		for (let i2 in stat_index) {
-
-			if (!gear_enchantments[c][i][stat_index[i2]]) {
-				gear_enchantments[c][i][stat_index[i2]] = 0
-			}
-		}
-	}
-}
-
-/*let gear_flat = gear.flat()
-gear_flat.forEach(
-
-	(element) => {
+	element => {
 
 		if (element.scaling === undefined) {element.scaling = new Object(
 			{
@@ -147,40 +111,58 @@ gear_flat.forEach(
 
 		stat_index.forEach(
 
-			(element_2) => {
+			element_2 => {
 				if (element[element_2] === undefined) {element[element_2] = 0}
 				if (element.scaling[element_2] === undefined) {element.scaling[element_2] = 0}
 			}
 		)
 	}
-)*/
+)
 
-for (let i in magics) {
-	if (!magics[i].base_efficiency) {
-		magics[i].base_efficiency = 1
+gear_enchantments.flat().forEach(
+
+	element => {
+
+		stat_index.forEach(
+
+			element_2 => {
+				if (element[element_2] === undefined) {element[element_2] = 0}
+			}
+		)
 	}
-	if (!magics[i].power_efficiency) {
-		magics[i].power_efficiency = 1
+)
+
+magics.forEach(
+
+	element => {
+		if (element.base_efficiency === undefined) {element.base_efficiency = 1}
+		if (element.power_efficiency === undefined) {element.power_efficiency = 1}
 	}
-}
+)
 
 
 // Assigns ID to each object based off its index
 
 function assign_id(array) {
-	for (let i in array) {
-		for (let i2 in array[i]) {
-			array[i][i2].id = Number(i2);
-		};
-	};
+	array.forEach(
+		element => {
+			element.forEach(
+				(element_2, index) => {
+					element_2.id = index;
+				}
+			)
+		}
+	)
 };
 
 assign_id(gear);
 assign_id(gear_enchantments);
 
-for (let i in magics) {
-	magics[i].id = Number(i);
-}
+magics.forEach(
+	(element, index) => {
+		element.id = index;
+	}
+)
 
 
 // Sorts the gear, gear_enchantments, and magics arrays alphabetically with none at the top
@@ -211,122 +193,77 @@ magics = magics.sort(compare)
 
 // Generates select options based off corresponding objects
 
-function create_options(array1, array2) {
+function create_options(array, select) {
+	array.forEach(
+		(element, index) => {
 
-	for (let i in array1) {
+			element.forEach(element_2 => {
 
-		for (let i2 in array1[i]) {
-
-			let name = array1[i][i2].name;
-			let id = array1[i][i2].id;
-			let option = document.createElement('option');
-			option.textContent = name;
-			array2[i].appendChild(option);
-			array2[i][i2].value = id;
+					let option = document.createElement('option');
+					option.textContent = element_2.name;
+					option.value = element_2.id;
+					select[index].appendChild(option);
+				}
+			)
 		}
-	}
+	)
 }
 
 create_options(gear, selectors);
-create_options(gear_enchantments, enchantment_selectors);
+create_options(gear_enchantments, enchantment_selectors)
 
-for (let c in magic_selectors) {
+magic_selectors.forEach(element => {
 
-	for (let i in magics) {
+	magics.forEach(element_2 => {
 
-		let name = magics[i].name;
-		let id = magics[i].id;
-		let option = document.createElement('option');
-		option.textContent = name;
-		magic_selectors[c].appendChild(option);
-		magic_selectors[c][i].value = id;
-	}
+			let option = document.createElement('option');
+			option.textContent = element_2.name;
+			option.value = element_2.id;
+			element.appendChild(option);
+		}
+	)
+})
+
+function create_filters(value, display, section) {
+	value.forEach(
+		(element, index) => {
+
+			let list = document.createElement('li');
+			let input = document.createElement('input');
+			let label = document.createElement('label');
+
+			input.type = 'checkbox'
+			input.value = element
+			input.id = `${section.id}_${input.value}`
+			input.checked = true
+
+			label.setAttribute('for', input.id)
+			label.textContent = display[index]
+			list.append(input, label);
+
+			section.appendChild(list)
+		}
+	)
 }
 
-for (let i in rarity) {
+create_filters(rarity, ['Common', 'Uncommon', 'Rare', 'Exotic', 'Legendary', 'Seasonal'], gear_rarity_filter);
+create_filters(stat_index, stat_display, gear_stat_filter);
 
-	let list = document.createElement('li');
-	let input = document.createElement('input');
-	let label = document.createElement('label');
+create_filters(['common', 'rare', 'legendary'], ['Tier 1', 'Tier 2', 'Tier 3'], enchantment_rarity_filter);
+create_filters(stat_index, stat_display, enchantment_stat_filter);
 
-	input.type = 'checkbox'
-	input.value = rarity[i]
-	input.id = `${filter_selectors[0].id}_${input.value}`
-	input.checked = true
-
-	label.setAttribute('for', input.id)
-	label.textContent = rarity[i].charAt(0).toUpperCase() + rarity[i].slice(1)
-	list.append(input, label);
-
-	gear_rarity_filter.appendChild(list)
-}
-
-for (let i in stat_index) {
-
-	let list = document.createElement('li');
-	let input = document.createElement('input');
-	let label = document.createElement('label');
-
-	input.type = 'checkbox'
-	input.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
-	input.id = `${filter_selectors[1].id}_${input.value}`
-	input.checked = true
-
-	label.setAttribute('for', input.id)
-	label.textContent = stat_display[i]
-	list.append(input, label);
-
-	gear_stat_filter.appendChild(list)
-}
-
-for (let i = 0; i < 3; i++) {
-
-	let text = ['Tier 1', 'Tier 2', 'Tier 3']
-	let list = document.createElement('li');
-	let input = document.createElement('input');
-	let label = document.createElement('label');
-
-	input.type = 'checkbox'
-	input.value = rarity[i * 2]
-	input.id = `${filter_selectors[2].id}_${input.value}`
-	input.checked = true
-
-	label.setAttribute('for', input.id)
-	label.textContent = text[i]
-	list.append(input, label);
-
-	enchantment_rarity_filter.appendChild(list)
-}
-
-for (let i in stat_index) {
-
-	let list = document.createElement('li');
-	let input = document.createElement('input');
-	let label = document.createElement('label');
-
-	input.type = 'checkbox'
-	input.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
-	input.id = `${filter_selectors[3].id}_${input.value}`
-	input.checked = true
-
-	label.setAttribute('for', input.id)
-	label.textContent = stat_display[i]
-	list.append(input, label);
-
-	enchantment_stat_filter.appendChild(list)
-}
-
-for (let i in stat_index) {
+stat_display.forEach((element, index) => {
 
 	let option = document.createElement('option');
 
-	option.textContent = stat_display[i]
-	option.value = stat_index.find((x) => x === stat_display[i].toLowerCase().replace(' ', '_'));
+	option.textContent = element
+	option.value = stat_index[index]
 
 	sorting_selector.children[2].appendChild(option)
-}
+})
 
-saved_builds = JSON.parse(localStorage.getItem('saved_builds'))
+
+// Generates buttons for saved builds
 
 function add_build(x) {
 	let build = document.createElement('button');
@@ -344,6 +281,5 @@ function add_build(x) {
 	save_menu.appendChild(build);
 }
 
-for (let i in saved_builds) {
-	add_build(saved_builds[i])
-}
+saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+saved_builds.forEach(element => add_build(element))

@@ -1,3 +1,5 @@
+"use strict"
+
 function number_format(n) {
 	return Intl.NumberFormat(navigator.language).format(n)
 }
@@ -8,24 +10,20 @@ function sign_check(n) {
 
 
 let mouse
-window.addEventListener('mousemove', (x) => {
-	mouse = x
-})
+window.addEventListener('mousemove', x => mouse = x)
 
 for (let i = 0; i < 5; i++) {
 
 	document.querySelectorAll('.container2 button')[i].addEventListener('mousemove', function show_output() {
-		output.innerHTML = `<ul>${display(finals[i]).innerHTML}</ul>`;
-		output.style.visibility = 'visible';
-		output.style.opacity = 1;
-		output.style.left = `${mouse.x - output.offsetWidth - 5}px`;
-		output.style.top = `${mouse.y - output.offsetHeight/2}px`;
+		piece_output.innerHTML = display(finals[i]).outerHTML;
+		piece_output.style.display = 'unset';
+		piece_output.style.left = `${mouse.x - piece_output.offsetWidth - 5}px`;
+		piece_output.style.top = `${mouse.y - piece_output.offsetHeight/2}px`;
 	})
 
 	document.querySelectorAll('.container2 button')[i].addEventListener('mouseout', function hide_output() {
-		output.textContent = ''
-		output.style.visibility = 'hidden'
-		output.style.opacity = 0;
+		piece_output.textContent = ''
+		piece_output.style.display = 'none'
 	})
 }
 

@@ -8,273 +8,12 @@
 
 		<title>Gear Builder</title>
 
-		<link rel="icon" href="../Style/ar.webp">
+		<link rel="icon" href="/style/images/ar.webp">
 
-		<link rel="stylesheet" href="../Style/style.css">
+		<link rel="stylesheet" href="/style/style.css">
+		<link rel="stylesheet" href="gear_builder.css">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<style>
-
-			img:nth-of-type(2):has(~:disabled), :disabled {
-				opacity: 1;
-				filter: brightness(0.7);
-			}
-
-			button {
-				padding: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-
-			input[type="text"] {
-				text-align: center;
-			}
-
-			button#copy::after{
-				content: "Copy Build Code";
-			}
-
-			button:active, button.active, button.info:not(.conflict):hover {
-				border-color: rgb(0, 125, 255);
-			}
-
-			.build.active {
-				background-color: rgb(0, 125, 255);
-			}
-
-			button#copy.active::after{
-				content: "Copied!";
-			}
-
-			div.container1 {
-				grid-template-columns: repeat(12, 1fr);
-			}
-
-			div.container1 input,
-			div.container1 select {
-				grid-column: span 4
-			}
-
-			div.container1 button {
-				grid-column: span 3;
-			}
-
-			div.slider  {
-				background-color: var(--backgroundColor);
-				border: var(--border);
-				border-radius: var(--borderRadius);
-				box-shadow: var(--boxShadow);
-				grid-column: span 12;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				column-gap: 0.5rem;
-			}
-
-			div.slider input[type=range] {
-				width: 75%;
-				box-shadow: none;
-				accent-color: rgb(0, 125, 255)
-			}
-
-			div.container2 {
-				grid-template-areas: 
-					"a d o"
-					"b e o"
-					"c . o";
-				grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
-				column-gap: 0;
-			}
-
-			div.piece {
-				display: grid;
-				grid-template-columns:
-					repeat(2, calc(43.75% - 0.25em * 2/3))
-					calc(12.5% - 0.25em * 2/3);
-				grid-template-areas:
-					"a b e"
-					"c d .";
-				gap: 0.25em;
-			}
-
-			div.piece img {
-				width: 100%;
-				background-repeat: no-repeat;
-				background-size: cover;
-				transition: filter var(--transition)
-			}
-
-			button img {
-				height: 100%;
-			}
-
-			p.output {
-				background-color: var(--backgroundColor);
-				border: var(--border);
-				border-radius: var(--borderRadius);
-				visibility: hidden;
-				opacity: 0;
-				height: 0;
-				text-align: center;
-				transition: var(--transition);
-				box-shadow: var(--boxShadow);
-				margin: 0;
-				overflow: hidden;
-			}
-
-			p.output hr {
-				width: 85%
-			}
-
-			div.container2 > p.output {
-				visibility: visible;
-				height: auto;
-				max-height: 29.5em;
-				opacity: 1;
-				overflow: auto;
-				grid-area: o;
-			}
-
-			p.output ul {
-				padding-left: 0;
-				list-style-type: none;
-			}
-
-			button.info {
-				align-self: center;
-			}
-
-			button.info::after {
-				content: "ⓘ";
-			}
-
-			button.conflict {
-				border-color: yellow;
-			}
-
-			button.conflict::after {
-				content: "⚠";
-			}
-
-			[popover] {
-				background-color: var(--backgroundColor);
-				border: var(--border);
-				border-radius: var(--borderRadius);
-				color: var(--textColor);
-				box-shadow: var(--boxShadow);
-				max-height: 75%;
-				overflow: auto;
-				padding: 0.5em 0.75em 0.75em 0.75em;
-			}
-
-			#save_menu[popover] {
-				height: 50%;
-				min-width: 25%;
-				align-content: start;
-			}
-
-			#filter_selector:popover-open {
-				display: grid;
-				grid-auto-columns: 1fr;
-				grid-template-areas:
-					"a a e e"
-					"b b f f"
-					"c d g h"
-					"l l l l"
-					"i i i i"
-					"j j k k";
-				column-gap: 0.75rem;
-			}
-
-			#save_menu:popover-open {
-				display: grid;
-				grid-template-columns: repeat(8, 1fr);
-				column-gap: 0.5rem;
-				row-gap: 0.25rem;
-			}
-
-			#save_menu .build, #save_menu hr, #save_search {
-				grid-column: span 8;
-				max-height: unset;
-			}
-
-			#save_menu .build {
-				min-height: 1.5em;
-			}
-
-			#copy, #code_import {
-				grid-column: span 4;
-			}
-
-			#save, #load, #delete_button {
-				grid-column: span 2
-			}
-
-			[popover]::backdrop {
-				backdrop-filter: blur(5px);
-				background-color: rgba(0, 0, 0, 0.5)
-			}
-
-			[popover] span {
-				text-align: center;
-			}
-
-			[popover] hr {
-				width: 95%;
-				margin: 0.25em 0 0.25em 0;
-				justify-self: center;
-			}
-
-			[popover] ul {
-				list-style-type: none;
-				padding: 0;
-			}
-
-			[popover] select, .build {
-				border: none;
-				box-shadow: none;
-				background-color: rgb(25, 25, 25)
-			}
-
-			@media (max-width: 1000px) {
-				div.container2 {
-					grid-template-areas:
-						"a d"
-						"b e"
-						"c ."
-						"o .";
-				}
-
-				#filter_selector:popover-open {
-					grid-template-areas:
-						"a a"
-						"b b"
-						"c d"
-						"e e"
-						"f f"
-						"g h"
-						"l l"
-						"i i"
-						"j j"
-						"k k";
-				}
-			}
-
-			@media (max-width: 850px) {
-				div.container2 {
-					grid-template-areas:
-						"a"
-						"b"
-						"c"
-						"d"
-						"e"
-						"o";
-				}
-			}
-
-		</style>
 
 	</head>
 
@@ -292,114 +31,135 @@
 
 			<div class="container container1">
 
-				<input type="number" placeholder="Level" id="level_input" min="1" max="1000" value="350">
+				<div class="container sub-container" style="grid-area: a;">
 
-				<input type="number" placeholder="Magic Level" id="magic_level_input" min="1" max="2000" value="700">
+					<input type="number" placeholder="Level" id="level_input" min="1" max="1000" value="350">
 
-				<input type="number" placeholder="Strength Level" id="strength_level_input" min="1" max="2000" value="700">
+					<input type="number" placeholder="Magic Level" id="magic_level_input" min="1" max="2000" value="700">
 
-				<select id="first_magic_selector">
-				</select>
+					<input type="number" placeholder="Strength Level" id="strength_level_input" min="1" max="2000" value="700">
 
-				<select id="second_magic_selector">
-				</select>
+					<select id="first_magic_selector">
+					</select>
 
-				<select id="third_magic_selector">
-				</select>
+					<select id="second_magic_selector">
+					</select>
 
-				<button popovertarget="save_menu">
-					<img src="../Style/save.png">
-					Save/Load
-				</button>
-
-				<button popovertarget="filter_selector">
-					<img src="../Style/filter_icon.png">
-					Filter
-				</button>
-
-				<button onclick="clear_build()">
-					<img src="../Style/clear_icon.png">
-					Clear
-				</button>
-
-				<button onclick="random_build()">
-					<img src="../Style/dice_icon.png">
-					Random
-				</button>
-
-				<div popover id="filter_selector">
-
-					<span style="grid-area: a">Gear</span>
-
-					<hr style="grid-area: b">
-
-					<ul id="gear_rarity_filter" style="grid-area: c">
-					</ul>
-
-					<ul id="gear_stat_filter" style="grid-area: d">
-					</ul>
-
-					<span style="grid-area: e">Enchantments</span>
-
-					<hr style="grid-area: f">
-
-					<ul id="enchantment_rarity_filter" style="grid-area: g">
-					</ul>
-
-					<ul id="enchantment_stat_filter" style="grid-area: h">
-					</ul>
-
-					<span style="grid-area: l">
-						<input  type="checkbox" id="all_selector" checked>
-						<label for="all_selector">All</label>
-					</span>
-
-					<hr style="grid-area: i">
-
-					<span style="grid-area: j">
-						<input type="checkbox" id="random_filters" checked>
-						<label for="random_filters">Apply filters to random builds</label>
-					</span>
-
-					<span style="grid-area: k" id="sorting_selector">
-						Sort by:
-
-						<select>
-							<option value="name">Name</option>
-							<option value="level">Level</option>
-							<option value="rarity">Rarity</option>
-							<option value="stat">Stat</option>
-						</select>
-
-						<select>
-							<option value="false">Low→High</option>
-							<option value="true">High→Low</option>
-						</select>
-
-						<select disabled="true">
-
-						</select>
-					</span>
+					<select id="third_magic_selector">
+					</select>
 
 				</div>
 
-				<div popover id="save_menu">
+				<div class="container sub-container" style="grid-area: b;">
 
-					<button id="copy"></button>
-					<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code()">
+					<button popovertarget="save_menu">
+						<img src="../Style/icons/save.svg">
+						Save/Load
+					</button>
 
-					<button id="save" onclick="save_build()">Save</button>
-					<button id="load" onclick="load_build()">Load</button>
-					<button id="load" onclick="rename_build()">Rename</button>
-					<button id="delete_button" onclick="delete_build();">Delete</button>
+					<button popovertarget="filter_selector">
+						<img src="../Style/icons/filter.svg">
+						Filter
+					</button>
 
-					<input id="save_search" type="text" placeholder="Search" oninput="search_saves();">
+					<button onclick="clear_build('gear')">
+						<img src="../Style/icons/clear.svg">
+						Clear Gear
+					</button>
 
-					<hr>
+					<button onclick="clear_build('enchantments')">
+						<img src="../Style/icons/clear.svg">
+						Clear Charms
+					</button>
+
+					<button onclick="random_build()">
+						<img src="../Style/icons/dice.svg">
+						Random
+					</button>
+
+					<!--<button>
+						<img src="../Style/icons/compare.svg">
+						Compare
+					</button>-->
+
+					<div popover id="filter_selector">
+
+						<span style="grid-area: a">Gear</span>
+
+						<hr style="grid-area: b">
+
+						<ul id="gear_rarity_filter" style="grid-area: c">
+						</ul>
+
+						<ul id="gear_stat_filter" style="grid-area: d">
+						</ul>
+
+						<span style="grid-area: e">Enchantments</span>
+
+						<hr style="grid-area: f">
+
+						<ul id="enchantment_rarity_filter" style="grid-area: g">
+						</ul>
+
+						<ul id="enchantment_stat_filter" style="grid-area: h">
+						</ul>
+
+						<span style="grid-area: l">
+							<input  type="checkbox" id="all_selector" checked>
+							<label for="all_selector">All</label>
+						</span>
+
+						<hr style="grid-area: i">
+
+						<span style="grid-area: j">
+							<input type="checkbox" id="random_filters" checked>
+							<label for="random_filters">Apply filters to random builds</label>
+						</span>
+
+						<span style="grid-area: k" id="sorting_selector">
+							Sort by:
+
+							<select id="sorting_type">
+								<option value="name">Name</option>
+								<option value="level">Level</option>
+								<option value="rarity">Rarity</option>
+								<option value="stat">Stat</option>
+							</select>
+
+							<select id="sorting_method">
+								<option value="false">Low→High</option>
+								<option value="true">High→Low</option>
+							</select>
+
+							<select disabled="true" id="sorting_stat">
+
+							</select>
+						</span>
+
+					</div>
+
+					<div popover id="save_menu">
+
+						<div class="container sub-container">
+							<button id="copy" onclick="copy_code()"></button>
+							<button id="share" onclick="share_link()"></button>
+							<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code()">
+						</div>
+
+						<button id="save_button" onclick="save_build()">Save</button>
+						<button onclick="load_build()">Load</button>
+						<button onclick="rename_build()">Rename</button>
+						<button id="delete_button" onclick="delete_build();">Delete</button>
+
+						<input id="save_search" type="text" placeholder="Search" oninput="search_saves();">
+
+						<hr>
+
+					</div>
 
 				</div>
 
-				<div class="slider">
+				<div class="slider" style="grid-area: c;">
 					<span>Health Percent:</span>
 					<input type="range" id="health_slider" value="100" oninput="health_scaling()">
 					<span style="display: inline-block; width: 4.5ch"></span>
@@ -489,11 +249,11 @@
 
 				</div>
 
-				<p class="output"></p>
+				<p class="output" style="grid-area: o;"></p>
 
 			</div>
 
-			<p class="output" id="output" style="position: fixed; height: auto; width: auto; transition: none; padding: 1em;"></p>
+			<p class="output" id="piece_output" style="position: fixed;"></p>
 
 		</main>
 
@@ -508,170 +268,18 @@
 		<script src="scripts/base64.js"></script>
 		<script src="scripts/saveload.js"></script>
 		<script src="scripts/display.js"></script>
-		<script src="../toggle.js"></script>
+		<script src="scripts/misc.js"></script>
 
 		<script>
-
-			// Handles click functionality of copy build button
-
-			copy.onclick = function click() {
-				navigator.clipboard.writeText(export_code());
-				copy.classList.toggle('active');
-				if (copy.classList[0] == 'active') {
-					setTimeout('copy.classList.toggle(\'active\')', 500);
-				}
-			}
-
-
-			// Adds event listeners
-
-			for (let i in selectors) {
-
-				selectors[i].addEventListener('change', calculate);
-				selectors[i].addEventListener('change', update_images)
-
-				enchantment_selectors[i].addEventListener('change', calculate);
-				enchantment_selectors[i].addEventListener('change', update_images);
-			}
-
-			for (let i in magic_selectors) {
-				magic_selectors[i].addEventListener('change', calculate);
-			}
-
-			for (let i = 0; i < 3; i++) {
-				document.querySelectorAll('input')[i].addEventListener('change', calculate);
-			}
-
-			for (let i in filter_selectors) {
-				filter_selectors[i].addEventListener('change', filter)
-			}
-
-			for (let i = 0 ; i < sorting_selector.children.length; i++) {
-				sorting_selector.children[i].addEventListener('change', sort_gear)
-			}
-
-			all_selector.addEventListener('change', () => {
-				for (let i in filter_selectors) {
-    				for (let i2 = 0; i2 < filter_selectors[i].children.length; i2++) {
-        				filter_selectors[i].children[i2].children[0].checked = event.target.checked
-					}
-				}
-				filter()
-			})
-
-
-			// Random build function
-
-			function random_build() {
-
-				let random_gear = [];
-				let random_gear_enchantments = [];
-				let random_magics = [];
-				let apply_random_filters = random_filters.checked;
-
-				let allowed_gear_ids = [[],[],[],[],[]];
-				let allowed_enchantment_ids = [[],[],[],[],[]];
-
-				if (apply_random_filters) {
-					allowed_gear_ids = filtered_in_gear_ids
-					allowed_enchantment_ids = filtered_in_enchantment_ids
-				} 
-				
-				else {
-
-					for (let i in gear) {
-						for (let i2 in gear[i]) {
-							allowed_gear_ids[i][i2] = gear[i][i2].id
-						}
-
-						allowed_gear_ids[i].shift();
-					};
-
-					for (let i in gear_enchantments) {
-						for (let i2 in gear_enchantments[i]) {
-							allowed_enchantment_ids[i][i2] = gear_enchantments[i][i2].id
-						}
-
-						allowed_enchantment_ids[i].shift();
-					}
-				}
-
-				// If all filters are deselected, sets random gear to "None"
-
-				for (let i in allowed_gear_ids) {
-					if (allowed_gear_ids[i].length === 0) {
-						allowed_gear_ids[i][0] = 0
-					}
-				}
-
-				for (let i in allowed_enchantment_ids) {
-					if (allowed_enchantment_ids[i].length === 0) {
-						allowed_enchantment_ids[i][0] = 0
-					}
-				}
-
-				for (let i = 0; i < 5; i++) {
-
-					random_gear[i] = Math.floor(Math.random() * allowed_gear_ids[i].length);
-					selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === allowed_gear_ids[i][random_gear[i]]);
-
-					random_gear_enchantments[i] = Math.floor(Math.random() * allowed_enchantment_ids[i].length);
-					enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === allowed_enchantment_ids[i][random_gear_enchantments[i]]);
-				};
-
-				for (let i = 0; i < 3; i++) {
-					random_magics[i] = Math.floor(Math.random() * magics.length);
-					magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === random_magics[i]);
-				}
-
-				calculate();
-				update_images();
-			}
-
-
-			function clear_build() {
-
-				for (let i in gear) {
-
-					for (let i2 in gear[i]) {
-						selectors[i].selectedIndex = 0
-					}
-
-					for (let i2 in gear_enchantments[i]) {
-						enchantment_selectors[i].selectedIndex = 0
-					}
-				}
-
-				health_slider.value = 100;
-
-				calculate();
-				update_images();
-			}
-
-
-			function search_saves() {
-
-				let query = save_search.value.toLowerCase();
-
-				let builds = save_menu.querySelectorAll('button.build')
-				builds.forEach((element) => element.style.display = 'none')
-
-				let build_names = [...builds].map((element) => element.innerText.toLowerCase())
-				build_names.forEach(
-					(element, index) => {
-						if (element.includes(query)) {
-							builds[index].removeAttribute('style')
-						}
-					}
-				);
-			}
-
 
 			calculate();
 			update_images();
 			filter();
+			decode_share_link();
 
 		</script>
+
+		<script src="/nav.js"></script>
 
 	</body>
 

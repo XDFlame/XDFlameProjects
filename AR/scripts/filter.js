@@ -1,7 +1,15 @@
+"use strict"
+
 let filtered_in_gear;
 let filtered_in_enchantments;
 let filtered_in_gear_ids
 let filtered_in_enchantment_ids
+const filter_selectors = [
+	gear_rarity_filter,
+	gear_stat_filter,
+	enchantment_rarity_filter,
+	enchantment_stat_filter,
+];
 
 function filter() {
 
@@ -9,29 +17,31 @@ function filter() {
 
 	// Stores each value in the selected_filters array
 
-	for (let i in selected_filters) {
+	filter_selectors.forEach((element, index) => {
 
-		for (let i2 = 0; i2 < filter_selectors[i].children.length; i2++) {
+		[...element.children].forEach(element_2 => {
 
-			let name = filter_selectors[i].children[i2].children[0].value
-			let checked = filter_selectors[i].children[i2].children[0].checked
+			let name = element_2.querySelector('input').value;
+			let checked = element_2.querySelector('input').checked;
 
-			if (checked) {
-				selected_filters[i].push(name)
+			if (checked === true) {
+				selected_filters[index].push(name)
 			}
-		}
-	}
+		})
+	})
 
 
 	// Filters the gear and gear_enchantment arrays using selected_filters and stores result in filtered_in
 
 	filtered_in_gear = [];
 	filtered_in_enchantments = [];
+	filtered_in_gear_ids = []
+	filtered_in_enchantment_ids = []
 
 	for (let i = 0; i < 5; i++) {
 
 		filtered_in_gear[i] = gear[i].filter(
-			(x) => {
+			x => {
 
 				for (let i in selected_filters[1]) {
 					if (selected_filters[0].includes(x.rarity) && x[selected_filters[1][i]]) {
@@ -42,16 +52,10 @@ function filter() {
 			}
 		)
 
-		filtered_in_gear_ids = [[],[],[],[],[]]
-
-		for (let i in filtered_in_gear) {
-			for (let i2 in filtered_in_gear[i]) {
-				filtered_in_gear_ids[i][i2] = filtered_in_gear[i][i2].id
-			}
-		}
+		filtered_in_gear_ids[i] = filtered_in_gear[i].map(x => x.id)
 
 		filtered_in_enchantments[i] = gear_enchantments[i].filter(
-			(x) => {
+			x => {
 
 				for (let i in selected_filters[3]) {
 					if (selected_filters[2].includes(x.rarity) && x[selected_filters[3][i]]) {
@@ -62,13 +66,7 @@ function filter() {
 			}
 		)
 
-		filtered_in_enchantment_ids = [[],[],[],[],[]]
-
-		for (let i in filtered_in_enchantments) {
-			for (let i2 in filtered_in_enchantments[i]) {
-				filtered_in_enchantment_ids[i][i2] = filtered_in_enchantments[i][i2].id
-			}
-		}
+		filtered_in_enchantment_ids[i] = filtered_in_enchantments[i].map(x => x.id)
 	}
 
 
@@ -119,27 +117,48 @@ function filter() {
 }
 
 
-
 function sort_gear() {
 
-	let value = sorting_selector.children[0].value;
-	let reversed = sorting_selector.children[1].value;
+	let value = sorting_type.value
+	let reversed = sorting_method.value;
 
 	if (value === 'stat') {
-		sorting_selector.children[2].disabled = false;
-		value = sorting_selector.children[2].value;
+		sorting_stat.disabled = false;
+		value = sorting_stat.value;
 	} else {
-		sorting_selector.children[2].disabled= true;
+		sorting_stat.disabled= true;
 	}
 
 	let sorted_gear = structuredClone(gear)
 	let sorted_enchantments = structuredClone(gear_enchantments)
 	
-	for (let i in sorted_gear) {
+	sorted_gear.forEach((element, index) => {
 
-		let none = sorted_gear[i].shift();
+		let none = element.shift();
 
-		sorted_gear[i].sort(
+		element.sort(
+			(a, b) => {
+				if (a[value] > b[value]) {return 1}
+				else if (a[value] < b[value]) {return -1}
+				else {return 0}
+			}
+		);
+
+		if (reversed === 'true') {
+			element.reverse();
+		}
+
+		element.unshift(none);
+		selectors[index].replaceChildren();
+	})
+
+	create_options(sorted_gear, selectors)
+
+	sorted_enchantments.forEach((element, index) => {
+
+		let none = element.shift();
+
+		element.sort(
 			(a,b) => {
 				if (a[value] > b[value]) {return 1}
 				else if (a[value] < b[value]) {return -1}
@@ -148,59 +167,21 @@ function sort_gear() {
 		);
 
 		if (reversed === 'true') {
-			sorted_gear[i].reverse();
+			element.reverse();
 		}
 
-		sorted_gear[i].unshift(none)
+		element.unshift(none)
+		enchantment_selectors[index].replaceChildren();
+	})
 
-		selectors[i].replaceChildren();
-
-		for (let i2 in sorted_gear[i]) {
-
-			let option = document.createElement('option')
-			option.value = sorted_gear[i][i2].id
-			option.innerText = sorted_gear[i][i2].name
-
-			selectors[i].appendChild(option)
-		}
-	}
-
-	for (let i in sorted_enchantments) {
-
-		let none = sorted_enchantments[i].shift();
-
-		sorted_enchantments[i].sort(
-			(a,b) => {
-				if (a[value] > b[value]) {return 1}
-				else if (a[value] < b[value]) {return -1}
-				else {return 0}
-			}
-		);
-
-		if (reversed === 'true') {
-			sorted_enchantments[i].reverse();
-		}
-
-		sorted_enchantments[i].unshift(none)
-
-		enchantment_selectors[i].replaceChildren();
-
-		for (let i2 in sorted_enchantments[i]) {
-
-			let option = document.createElement('option')
-			option.value = sorted_enchantments[i][i2].id
-			option.innerText = sorted_enchantments[i][i2].name
-
-			enchantment_selectors[i].appendChild(option)
-		}
-	}
+	create_options(sorted_enchantments, enchantment_selectors)
 
 	// Sets selected index to what it was before select options were removed and readded
 	// (bug fix for when it would just default to none after sorting)
 
 	for (let i in selectors) {
-		selectors[i].selectedIndex = sorted_gear[i].findIndex((x) => x.id === selected[i].id)
-		enchantment_selectors[i].selectedIndex = sorted_enchantments[i].findIndex((x) => x.id === selected_enchantments[i].id)
+		selectors[i].selectedIndex = sorted_gear[i].findIndex(x => x.id === selected[i].id)
+		enchantment_selectors[i].selectedIndex = sorted_enchantments[i].findIndex(x => x.id === selected_enchantments[i].id)
 	}
 
 	filter();
