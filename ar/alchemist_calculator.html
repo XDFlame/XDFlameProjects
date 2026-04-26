@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<title>Alchemist Calculator</title>
+
+		<link rel="icon" href="/style/images/ar.webp">
+
+		<link rel="stylesheet" href="/style/style.css">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+			
+			div.container {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
+			p#output {
+				grid-column: span 4;
+			}
+
+			@media(max-width: 1000px) {
+				div.container {
+					grid-template-columns: repeat(2, 1fr);
+				}
+
+				p#output {
+					grid-column: span 2;
+				}
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<main>
+
+			<header>Instructions</header>
+
+			<article>
+
+				Fill out ALL fields.
+				<ul>
+					<li>Item Level: The level requirement to equip the item.
+					<li>Rarity: The item rarity.
+					<li>Proficiency: The proficiency of an alchemist.
+					<li>Charm: The charm you want to add to the item.
+				</ul>
+
+			</article>
+
+			<div class="container">
+
+				<input type="number" id="item_level_input" placeholder="Item Level" onchange="calculate();" min="1" max="350">
+
+				<select id="item_rarity_selector" onchange="calculate();">
+
+					<option value=45>Common</option>
+					<option value=75>Uncommon</option>
+					<option value=250>Rare</option>
+					<option value=315>Exotic</option>
+					<option value=400>Legendary</option>
+
+				</select>
+
+				<input type="number" id="proficiency_input" placeholder="Proficiency" onchange="calculate();" min="1" max="500">
+
+				<select id="charm_selector" onchange="calculate();">
+				</select>
+
+				<p id="output"></p>
+
+			</div>
+
+		</main>
+
+		<script src="charms.js"></script>
+
+		<script>
+
+			// Generates select options
+
+				for (let i in Object.keys(charms)) {
+					let name = Object.keys(charms)[i].charAt(0).toUpperCase() + Object.keys(charms)[i].slice(1);
+					let value = Object.keys(charms)[i];
+					let option = document.createElement('option');
+					option.textContent = name;
+					option.value = value;
+					charm_selector.appendChild(option);
+				}
+
+			// Calculate function
+
+				function calculate() {
+
+					let item_level = Number(item_level_input.value);
+					let item_rarity = Number(item_rarity_selector.value);
+					let proficiency = Number(proficiency_input.value);
+					let selected_charm = charm_selector.value;
+
+					let success_chance = Math.max((100 - item_rarity * charms[selected_charm].tier / proficiency).toFixed(2), 0);
+					let aurem_cost = Math.floor(charms[selected_charm].price + item_rarity / 3.75 * charms[selected_charm].tier / 10.5 + item_level * 0.85);
+
+					output.style.opacity = 1;
+					output.textContent = `${success_chance}% chance of success with a cost of ${aurem_cost} aurem`;
+				}
+
+		</script>
+
+		<script src="/nav.js"></script>
+
+	</body>
+
+</html>
