@@ -176,7 +176,7 @@ function sort_gear() {
 
 	create_options(sorted_enchantments, enchantment_selectors)
 
-	// Sets selected index to what it was before select options were removed and readded
+	// Sets selected index to what it was before select options were removed and re-added
 	// (bug fix for when it would just default to none after sorting)
 
 	for (let i in selectors) {

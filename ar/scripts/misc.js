@@ -146,3 +146,8 @@ function search_saves() {
 		}
 	);
 }
+
+
+function find_by_id(array, value) {
+	return array.find(element => element.id === Number(value))
+}

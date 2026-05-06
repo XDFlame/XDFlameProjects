@@ -52,34 +52,28 @@
 
 				<div class="container sub-container" style="grid-area: b;">
 
-					<button popovertarget="save_menu">
+					<button popovertarget="save_menu" data-text="Save/Load">
 						<img src="/style/icons/save.svg">
-						Save/Load
 					</button>
 
-					<button popovertarget="filter_selector">
+					<button popovertarget="filter_selector" data-text="Filter">
 						<img src="/style/icons/filter.svg">
-						Filter
 					</button>
 
-					<button onclick="clear_build('gear')">
+					<button onclick="clear_build('gear')" data-text="Clear Gear">
 						<img src="/style/icons/clear.svg">
-						Clear Gear
 					</button>
 
-					<button onclick="clear_build('enchantments')">
+					<button onclick="clear_build('enchantments')" data-text="Clear Charms">
 						<img src="/style/icons/clear.svg">
-						Clear Charms
 					</button>
 
-					<button onclick="random_build()">
+					<button onclick="random_build()" data-text="Random">
 						<img src="/style/icons/dice.svg">
-						Random
 					</button>
 
-					<!--<button>
+					<!--<button popovertarget="compare_menu" data-text="Compare">
 						<img src="/style/icons/compare.svg">
-						Compare
 					</button>-->
 
 					<div popover id="filter_selector">
@@ -143,7 +137,7 @@
 						<div class="container sub-container">
 							<button id="copy" onclick="copy_code()"></button>
 							<button id="share" onclick="share_link()"></button>
-							<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code()">
+							<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code(code_import.value)">
 						</div>
 
 						<button id="save_button" onclick="save_build()">Save</button>
@@ -155,6 +149,12 @@
 
 						<hr>
 
+					</div>
+
+					<div popover id="compare_menu">
+						<input type="text" placeholder="Code 1" onchange="compare()">
+						vs
+						<input type="text" placeholder="Code 2" onchange="compare()">
 					</div>
 
 				</div>
@@ -269,6 +269,7 @@
 		<script src="scripts/saveload.js"></script>
 		<script src="scripts/display.js"></script>
 		<script src="scripts/misc.js"></script>
+		<script src="scripts/compare.js"></script>
 
 		<script>
 

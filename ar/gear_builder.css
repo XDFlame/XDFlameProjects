@@ -55,6 +55,10 @@ div.container1 {
 	grid-template-columns: repeat(auto-fit, minmax(10%, 1fr))
 }
 
+button:has(img)::after {
+	content: attr(data-text)
+}
+
 div.slider  {
 	background-color: var(--backgroundColor);
 	border: var(--border);
@@ -72,13 +76,24 @@ div.slider input[type=range] {
 	accent-color: rgb(0, 125, 255)
 }
 
-div.container2 {
+.container2 {
 	grid-template-areas: 
 		"a d o"
 		"b e o"
 		"c . o"
 		". . o";
 	grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+}
+
+.compare {
+	grid-template-areas:
+		"a bo a2"
+		"b bo b2"
+		"c bo c2"
+		"d bo d2"
+		"e bo e2"
+		"o bo o2";
+	column-gap: 0.5rem;
 }
 
 div.piece {
@@ -215,6 +230,10 @@ button.conflict::after {
 }
 
 @media (max-width: 1000px) {
+	button:has(img)::after {
+		content: ''
+	}
+
 	div.container2 {
 		grid-template-areas:
 			"a d"

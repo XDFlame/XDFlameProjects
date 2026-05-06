@@ -46,7 +46,6 @@ const finals = [
 	final_accessory_2
 ];
 let final_build = {};
-let final_magic_damage = [];
 const stat_index = [
 	'defense',
 	'magic_power',
@@ -77,21 +76,6 @@ let saved_builds;
 stat_index.forEach(element => {
 	stat_display.push(element.replace(/^[a-z]|((?<=_)[a-z])/g, element_2 => element_2.toUpperCase()).replace('_', ' '))
 })
-
-
-// Auto CSS rule for buttons to hide text below 1000px width
-
-let buttons = document.querySelectorAll('button:has(img)');
-let imgs  = document.querySelectorAll('button:has(img) img');
-let text = [...buttons].map(element => element.innerText)
-let style = document.createElement('style');
-buttons.forEach((element, index) => {
-	element.innerText = null;
-	element.appendChild(imgs[index]);
-	style.innerText += `button:has(img):nth-of-type(${index + 1})::after {content: "${text[index]}"}`
-})
-style.innerText += `@media (max-width: 1000px) {button:has(img)::after {content: "" !important}}`
-document.head.appendChild(style)
 
 
 // Fills in undefined stats with 0 & fills in scaling objects with dummy data
@@ -282,4 +266,10 @@ function add_build(x) {
 }
 
 saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
+if (!saved_builds) {
+	localStorage.setItem('saved_builds', '[]');
+	saved_builds = [];
+}
+
 saved_builds.forEach(element => add_build(element))

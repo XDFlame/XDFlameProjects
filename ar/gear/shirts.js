@@ -20,7 +20,7 @@ const shirts = [
 		name: 'Ancient Legionnaire\'s Gauntlets',
 		level: 350,
 		rarity: 'exotic',
-		defense: 1000,
+		defense: 950,
 		damage_reduction: 3,
 	},
 	{
@@ -47,7 +47,7 @@ const shirts = [
 		name: 'Prometheus\' Toga',
 		level: 320,
 		rarity: 'exotic',
-		magic_power: 130,
+		magic_power: 145,
 	},
 	{
 		name: 'Quartermaster\'s Cloak',
@@ -169,7 +169,7 @@ const shirt_enchantments = [
 	{
 		name: 'Indestructible',
 		rarity: 'legendary',
-		defense: 600,
+		defense: 500,
 		stamina_regen: -7,
 		stun_resistance: 7
 	},

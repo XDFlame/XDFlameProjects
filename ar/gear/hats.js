@@ -8,7 +8,7 @@ const hats = [
 		name: 'Ancient Legionnaire\'s Helmet',
 		level: 350,
 		rarity: 'exotic',
-		defense: 250,
+		defense: 300,
 		damage_reduction: 3,
 	},
 	{
@@ -150,7 +150,7 @@ const hat_enchantments = [
 	{
 		name: 'Indestructible',
 		rarity: 'legendary',
-		defense: 400,
+		defense: 300,
 		stamina_regen: -4,
 		stun_resistance: 4
 	},

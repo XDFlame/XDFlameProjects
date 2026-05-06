@@ -14,7 +14,7 @@ function encode(number, length) {
 	}
 
 	if (final.length < length) {
-		final = final.padStart(length, '0')
+		final = final.padStart(length, characters[0])
 	}
 
 	return final;

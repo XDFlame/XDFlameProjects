@@ -44,36 +44,45 @@ function export_code() {
 }
 
 
-function import_code() {
+function import_code(code, return_object) {
 
-	let code = code_import.value
+	code = code.match(/(.{7})(.{9})(.{6})(.{4})/).slice(1, 5);
 
-	let levels = String(decode(code.slice(0, 7)));
-	while (levels.length < 11) {levels = "0" + levels};
-	level_input.value = Number(levels.slice(0, 3)) + 1;
-	magic_level_input.value = Number(levels.slice(3, 7)) + 1;
-	strength_level_input.value = Number(levels.slice(7, 11)) + 1;
+	let levels = String(decode(code[0])).padStart(12, '0').match(/.{4}/g).map(Number);
+	let equipment = String(decode(code[1])).padStart(15, '0').match(/.{3}/g).map(Number);
+	let equipment_enchantments = String(decode(code[2])).padStart(10, '0').match(/.{2}/g).map(Number);
+	let chosen_magics = String(decode(code[3])).padStart(6, '0').match(/.{2}/g).map(Number);
 
-	let equipment = String(decode(code.slice(7, 16)));
-	while (equipment.length < 15) {equipment = "0" + equipment};
-	for (let i in gear) {
-		selectors[i].selectedIndex = gear[i].findIndex((x) => x.id === Number(equipment.slice(i * 3, i * 3 + 3)));
-	};
+	if (return_object === true) {
+		let object = {
+			levels: [],
+			gear: [],
+			gear_enchantments: [],
+			magics: [],
+		}
 
-	let equipment_enchantments = String(decode(code.slice(16, 22)));
-	while (equipment_enchantments.length < 10) {equipment_enchantments = "0" + equipment_enchantments};
-	for (let i = 0; i < 5; i++) {
-		enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex((x) => x.id === Number(equipment_enchantments.slice(i * 2, i * 2 + 2)));
-	};
+		levels.forEach(element => object.levels.push(element + 1))
+		equipment.forEach((element, index) => object.gear.push(find_by_id(gear[index], element)));
+		equipment_enchantments.forEach((element, index) => object.gear_enchantments.push(find_by_id(gear_enchantments[index], element)));
+		chosen_magics.forEach(element => object.magics.push(find_by_id(magics, element)));
 
-	let chosen_magics = String(decode(code.slice(22, 26)))
-	while (chosen_magics.length < 6) {chosen_magics = "0" + chosen_magics};
-	for (let i = 0; i < 3; i++) {
-		magic_selectors[i].selectedIndex = magics.findIndex((x) => x.id === Number(chosen_magics.slice(i * 2, i * 2 + 2)));
-	};
+		return object;
+	}
+
+	level_input.value = levels[0] + 1;
+	magic_level_input.value = levels[1] + 1;
+	strength_level_input.value = levels[2] + 1;
+
+	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], equipment[index])));
+
+	enchantment_selectors.forEach((element, index) => {
+		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], equipment_enchantments[index]));
+	});
+
+	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
+
 
 	code_import.value = '';
-
 	calculate();
 	update_images();
 }
@@ -155,8 +164,7 @@ function load_build() {
 
 	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
-	code_import.value = saved_builds.find((x) => x.id == selected_build.value).code;
-	import_code();
+	import_code(saved_builds.find(x => x.id == selected_build.value).code);
 	
 	selected_build.classList.toggle('active')
 	save_menu.hidePopover();
@@ -237,8 +245,7 @@ function decode_share_link() {
 	let code = Array.from(entries).flat()[1];
 
 	if (code) {
-		code_import.value = code;
-		import_code();
+		import_code(code);
 		history.pushState("object or string", '', window.location.href.split('?code=')[0]);
 	}
 }

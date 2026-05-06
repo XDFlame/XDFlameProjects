@@ -3,6 +3,16 @@
 let level;
 let magic_level;
 let strength_level;
+let gear_map = {}
+
+
+// Creates object map
+
+let id_prefix = ['a', 'b', 'c', 'd', 'e']
+gear.forEach((element, index) => {
+	element.forEach((element_2, index_2) => gear_map[`${id_prefix[index]}${element_2.id}`] = selectors[index][index_2])
+})
+
 
 function clamp(n, min, max) {
 	return Math.min(Math.max(n, min), max);
@@ -24,7 +34,7 @@ function level_lock() {
 
 		if (selected[i].level > level) {
 			selectors[i].selectedIndex = 0;
-			selected[i] = gear[i].find(x => x.id === 0);
+			selected[i] = find_by_id(gear[i], 0);
 			update_images();
 		}
 	}
@@ -85,8 +95,9 @@ function dupe_warn() {
 
 function calculate_q() {
 
-	let strings = ['First', 'Second', 'Third']
-	let ul = document.createElement('ul')
+	let strings = ['First', 'Second', 'Third'];
+	let ul = document.createElement('ul');
+	let final_magic_damage = [];
 
 	for (let i = 0; i < 3; i++) {
 
@@ -139,8 +150,8 @@ function health_scaling() {
 	let health_decimal = value/100
 
 	if (health_decimal <= 0.8) {
-		let mult = clamp(health_decimal + 0.2, 0.4, 1)
-		damage_reduction = damage_reduction * mult
+		let multiplier = clamp(health_decimal + 0.2, 0.4, 1)
+		damage_reduction = damage_reduction * multiplier
 	}
 
 	let effective_health = number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100) / (1 - damage_reduction/100)))

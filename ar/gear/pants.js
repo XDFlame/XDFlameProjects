@@ -35,7 +35,7 @@ const pants = [
 		name: 'Prometheus\' Pants',
 		level: 350,
 		rarity: 'exotic',
-		magic_power: 70,
+		magic_power: 85,
 	},
 	{
 		name: 'Quartermaster\'s Legs',
@@ -157,7 +157,7 @@ const pants_enchantments = [
 	{
 		name: 'Indestructible',
 		rarity: 'legendary',
-		defense: 500,
+		defense: 400,
 		stamina_regen: -6,
 		stun_resistance: 6
 	},
