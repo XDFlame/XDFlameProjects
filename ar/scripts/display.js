@@ -74,7 +74,11 @@ function update_images() {
 	];
 
 	for (let i = 0; i < 5; i++) {
-		document.querySelectorAll('.gear_image')[i].style.backgroundImage = `url("images/${gear_strings[i]}/${selected[i].name}.png"), url(images/background.png)`
+		document.querySelectorAll('.gear_image')[i].style.backgroundImage = `
+			url("images/overlays/${selected_enchantments[i].name}.png"),
+			url("images/${gear_strings[i]}/${selected[i].name}.png"),
+			url(images/background.png)
+		`
 		document.querySelectorAll('.gear_image')[i].src = `images/frames/${selected[i].rarity}.png`
 
 		document.querySelectorAll('.charm_image')[i].style.backgroundImage = `url("images/charms/${selected_enchantments[i].name}.png"), url(images/background.png)`

@@ -76,6 +76,14 @@ const hats = [
 			defense: 0.75,
 			magic_power: 0.05,
 		},
+	},
+	{
+		name: "Khnum's Mask",
+		level: 250,
+		rarity: 'rare',
+		defense: 225,
+		magic_power: 10,
+		stamina: 3,
 	}
 ]
 

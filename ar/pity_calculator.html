@@ -94,13 +94,13 @@
 						scaling: 1,
 					},
 					nestor: {
-						base: 300,
-						max: 250,
+						base: 50,
+						max: 20,
 						scaling: 3
 					},
 					prometheus: {
-						base: 250,
-						max: 125,
+						base: 100,
+						max: 50,
 						scaling: 3
 					},
 					ramses: {
@@ -134,7 +134,7 @@
 					let kills = Number(kills_input.value);
 					let chance = Math.max(bosses[selected_boss].base - Math.floor(kills / bosses[selected_boss].scaling), bosses[selected_boss].max);
 					output.style.opacity = 1;
-					output.textContent = `The drop rate is 1/${chance}`;
+					output.textContent = `The drop rate is 1/${chance} (${(1/chance * 100).toFixed(2)}%)`;
 				}
 
 		</script>
