@@ -9,7 +9,7 @@ function sign_check(n) {
 }
 
 
-let mouse
+/*let mouse
 window.addEventListener('mousemove', x => mouse = x)
 
 for (let i = 0; i < 5; i++) {
@@ -25,7 +25,7 @@ for (let i = 0; i < 5; i++) {
 		piece_output.textContent = ''
 		piece_output.style.display = 'none'
 	})
-}
+}*/
 
 
 function display(piece) {

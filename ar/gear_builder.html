@@ -152,9 +152,9 @@
 					</div>
 
 					<div popover id="compare_menu">
-						<input type="text" placeholder="Code 1" onchange="compare()">
+						<input type="text" placeholder="Code 1" onchange="compare_build()">
 						vs
-						<input type="text" placeholder="Code 2" onchange="compare()">
+						<input type="text" placeholder="Code 2" onchange="compare_build()">
 					</div>
 
 				</div>
@@ -271,12 +271,23 @@
 		<script src="scripts/misc.js"></script>
 		<script src="scripts/compare.js"></script>
 
-		<script>
+		<script type="module">
 
 			calculate();
 			update_images();
 			filter();
 			decode_share_link();
+
+			import * as data from './gear/gear.json' with {type: "json"}
+			let gear2 = data.default
+
+			let gear_map = new Map();
+			let id_prefix = ['a', 'b', 'c', 'd', 'e']
+			gear.forEach((element, index) => {
+				element.forEach(element_2 => gear_map.set(`${id_prefix[index]}${element_2.id}`, element_2))
+			})
+
+			console.log(gear2, gear_map)
 
 		</script>
 

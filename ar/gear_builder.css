@@ -101,7 +101,8 @@ div.piece {
 	grid-template-columns: repeat(2, 42.5%) 12.5%;
 	grid-template-areas:
 		"a b e"
-		"c d .";
+		"c d ."
+		"f f .";
 	gap: 0.25em;
 }
 

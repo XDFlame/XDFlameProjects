@@ -76,8 +76,52 @@ const accessories = [
 		name: 'Stone Mask',
 		level: 300,
 		rarity: 'rare',
-		defense: 120,
-		magic_power: 50,
+		defense: 300,
+		magic_power: 45,
+		variants: [
+			{
+				name: "[name] of Shield (White)",
+				defense: 70,
+			},
+			{
+				name: "[name] of Power (Red)",
+				magic_power: 10
+			},
+			{
+				name: "[name] of Mana (Pink)",
+				magic_energy: 10,
+			},
+			{
+				name: "[name] of Sky (Yellow)",
+				jump_power: 4,
+			},
+			{
+				name: "[name] of Life (Green)",
+				health_regen: 1,
+			},
+			{
+				name: "[name] of Swiftness (Teal)",
+				movement_speed: 2,
+				jump_power: 2,
+			},
+			{
+				name: "[name] of Vigor (Blue)",
+				stamina: 10,
+			},
+			{
+				name: "[name] of Resistance (Purple)",
+				damage_reduction: 1,
+			},
+			{
+				name: "[name] of Speed (Black)",
+				movement_speed: 4,
+			},
+			{
+				name: "[name] of Cross (Orange)",
+				defense: 35,
+				magic_power: 5,
+			}
+		]
 	},
 	{
 		name: 'The Kraken\'s Band',

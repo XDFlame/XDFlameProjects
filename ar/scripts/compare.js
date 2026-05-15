@@ -1,6 +1,6 @@
 "use strict"
 
-function compare() {
+function compare_builds() {
 
 	let code_1 = compare_menu.querySelector('input:nth-of-type(1)').value;
 	let code_2 = compare_menu.querySelector('input:nth-of-type(2)').value;

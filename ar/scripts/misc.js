@@ -5,7 +5,7 @@
 function copy_code() {
 	navigator.clipboard.writeText(export_code());
 	copy.classList.toggle('active');
-	setTimeout(x => copy.classList.toggle('active'), 500);
+	setTimeout(() => copy.classList.toggle('active'), 500);
 }
 
 
@@ -18,20 +18,50 @@ function share_link() {
 
 	navigator.clipboard.writeText(`${url}?${query_string}`)
 	share.classList.toggle('active');
-	setTimeout(x => share.classList.toggle('active'), 500);
+	setTimeout(() => share.classList.toggle('active'), 500);
 }
 
 
 // Adds event listeners
 
-for (let i in selectors) {
+document.addEventListener('click', event => {
 
-	selectors[i].addEventListener('change', calculate);
-	selectors[i].addEventListener('change', update_images)
+	let level_selectors = [level_input, magic_level_input, strength_level_input];
 
-	enchantment_selectors[i].addEventListener('change', calculate);
-	enchantment_selectors[i].addEventListener('change', update_images);
-}
+	if (/*selectors.includes(event.target) || */enchantment_selectors.includes(event.target) || event.target.matches('.variant-selector')) {calculate(); update_images()};
+
+	if (magic_selectors.includes(event.target) || level_selectors.includes(event.target)) {calculate()};
+
+	if (event.target.matches('#filter_selector *')) {filter()}
+
+	if (event.target.matches('#sorting_selector *')) {sort_gear()}
+
+	if (event.target === all_selector) {
+		filter_selector.querySelectorAll('li input').forEach(element => element.checked = event.target.checked);
+		filter();
+	}
+})
+
+let output_buttons = Array.from(document.querySelectorAll('.info'));
+
+output_buttons.forEach((element, index) => {
+
+	element.addEventListener('mouseenter', event => {
+		piece_output.innerHTML = display(finals[index]).outerHTML;
+		piece_output.style.display = 'unset';
+		piece_output.style.left = `${event.x - piece_output.offsetWidth - 5}px`;
+		piece_output.style.top = `${event.y - piece_output.offsetHeight/2}px`;
+	})
+
+	element.addEventListener('mouseleave', event => {
+		piece_output.style.display = 'none';
+	})
+})
+
+selectors.forEach(element => {
+	element.addEventListener('change', calculate);
+	element.addEventListener('change', update_images)
+})/*
 
 for (let i in magic_selectors) {
 	magic_selectors[i].addEventListener('change', calculate);
@@ -56,7 +86,7 @@ all_selector.addEventListener('change', () => {
 		}
 	}
 	filter()
-})
+})*/
 
 
 // Random build function

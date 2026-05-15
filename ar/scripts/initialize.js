@@ -84,12 +84,12 @@ gear.flat().forEach(
 
 	element => {
 
-		if (element.scaling === undefined) {element.scaling = new Object(
-			{
+		if (element.scaling === undefined) {
+			element.scaling = {
 				start: element.level,
 				end: element.level
 			}
-		)}
+		}
 
 		if (element.enchantable === undefined) {element.enchantable = true}
 

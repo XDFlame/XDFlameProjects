@@ -48,7 +48,7 @@ const pants = [
 		level: 285,
 		rarity: 'exotic',
 		defense: 220,
-		magic_power: 40,
+		magic_power: 45,
 	},
 	{
 		name: 'Sunken Champion Leggings',
@@ -82,6 +82,14 @@ const pants = [
 		rarity: 'exotic',
 		defense: 150,
 		magic_power: 30,
+	},
+	{
+		name: "Khnum's Boots",
+		level: 250,
+		rarity: 'rare',
+		defense: 500,
+		magic_power: 5,
+		stamina: 5
 	}
 ]
 

@@ -3,15 +3,7 @@
 let level;
 let magic_level;
 let strength_level;
-let gear_map = {}
-
-
-// Creates object map
-
-let id_prefix = ['a', 'b', 'c', 'd', 'e']
-gear.forEach((element, index) => {
-	element.forEach((element_2, index_2) => gear_map[`${id_prefix[index]}${element_2.id}`] = selectors[index][index_2])
-})
+let selected_variants = []
 
 
 function clamp(n, min, max) {
@@ -177,6 +169,39 @@ function health_scaling() {
 }
 
 
+function variant_handler() {
+	
+	selected.forEach((element, index) => {
+
+		if (element.variants && !selectors[index].parentElement.querySelector('.variant-selector')) {
+
+			let variant_selector = document.createElement('select');
+			variant_selector.style.gridArea = 'f'
+			variant_selector.classList.add('variant-selector')
+
+			element.variants.forEach((element_2, index) => {
+				element_2.id = index
+				let option = document.createElement('option');
+				option.value = element_2.id;
+				option.innerText = element_2.name.replace('[name]', element.name)
+				variant_selector.appendChild(option);
+			})
+			
+			selectors[index].parentElement.appendChild(variant_selector)
+		}
+		
+		else if (!element.variants && selectors[index].parentElement.querySelector('.variant-selector')) {
+			selectors[index].parentElement.querySelector('.variant-selector').remove();
+		}
+	})
+
+	for (let i = 0; i < 5; i++) {
+		if (selectors[i].parentElement.querySelector('.variant-selector')) {
+			selected_variants[i] = selected[i].variants[selectors[i].parentElement.querySelector('.variant-selector').value];
+		};
+	}
+}
+
 function calculate() {
 
 	// Defines variables
@@ -194,6 +219,7 @@ function calculate() {
 		selected_enchantments[i] = gear_enchantments[i].find(x => x.id === Number(enchantment_selectors[i].value));
 	}
 
+	variant_handler();
 	level_lock();
 	enchantment_lock();
 	dupe_warn();
@@ -211,6 +237,9 @@ function calculate() {
 	finals.forEach((element, index) => {
 		stat_index.forEach(stat => {
 			element[stat] = Math.floor(armor_scaling(selected[index], stat) + selected_enchantments[index][stat]);
+			if (selected[index].variants && selected_variants[index][stat] !== undefined) {
+				element[stat] += selected_variants[index][stat]
+			}
 			final_build[stat] += element[stat];
 		})
 	})
