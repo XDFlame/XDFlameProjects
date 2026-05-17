@@ -1,5 +1,11 @@
 "use strict"
 
+import {gear, gear_enchantments, finals, selectors, enchantment_selectors, magic_selectors} from './initialize.js';
+import {display, update_images} from './display.js';
+import {calculate, health_scaling} from './calculate.js';
+import {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids} from './filter.js';
+import {decode_share_link, delete_build, export_code, import_code, load_build, rename_build, save_build} from './saveload.js';
+
 // Handles click functionality of copy build button
 
 function copy_code() {
@@ -28,7 +34,7 @@ document.addEventListener('click', event => {
 
 	let level_selectors = [level_input, magic_level_input, strength_level_input];
 
-	if (/*selectors.includes(event.target) || */enchantment_selectors.includes(event.target) || event.target.matches('.variant-selector')) {calculate(); update_images()};
+	if (enchantment_selectors.includes(event.target) || event.target.matches('.variant-selector')) {calculate(); update_images()};
 
 	if (magic_selectors.includes(event.target) || level_selectors.includes(event.target)) {calculate()};
 
@@ -61,32 +67,23 @@ output_buttons.forEach((element, index) => {
 selectors.forEach(element => {
 	element.addEventListener('change', calculate);
 	element.addEventListener('change', update_images)
-})/*
+})
 
-for (let i in magic_selectors) {
-	magic_selectors[i].addEventListener('change', calculate);
-}
+copy.addEventListener('click', copy_code);
+share.addEventListener('click', share_link);
+code_import.addEventListener('change', () => import_code(code_import.value));
 
-for (let i = 0; i < 3; i++) {
-	document.querySelectorAll('input')[i].addEventListener('change', calculate);
-}
+save_button.addEventListener('click', save_build);
+load_button.addEventListener('click', load_build);
+rename_button.addEventListener('click', rename_build);
+delete_button.addEventListener('click', delete_build);
+save_search.addEventListener('input', search_saves);
 
-for (let i in filter_selectors) {
-	filter_selectors[i].addEventListener('change', filter)
-}
+health_slider.addEventListener('input', health_scaling)
 
-for (let i = 0 ; i < sorting_selector.children.length; i++) {
-	sorting_selector.children[i].addEventListener('change', sort_gear)
-}
-
-all_selector.addEventListener('change', () => {
-	for (let i in filter_selectors) {
-		for (let i2 = 0; i2 < filter_selectors[i].children.length; i2++) {
-			filter_selectors[i].children[i2].children[0].checked = event.target.checked
-		}
-	}
-	filter()
-})*/
+document.querySelector('[data-text="Clear Gear"]').addEventListener('click', () => clear_build('gear'));
+document.querySelector('[data-text="Clear Charms"]').addEventListener('click', () => clear_build('enchantments'));
+document.querySelector('[data-text="Random"]').addEventListener('click', random_build);
 
 
 // Random build function
@@ -181,3 +178,5 @@ function search_saves() {
 function find_by_id(array, value) {
 	return array.find(element => element.id === Number(value))
 }
+
+export {copy_code, share_link, find_by_id}

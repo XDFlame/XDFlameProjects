@@ -1,5 +1,11 @@
 "use strict"
 
+import {selected, selected_enchantments, selected_magics, selectors, enchantment_selectors, magic_selectors, gear, gear_enchantments, add_build} from './initialize.js';
+import {level, magic_level, strength_level, calculate} from './calculate.js';
+import {encode, decode} from './base64.js';
+import {find_by_id} from './misc.js';
+import {update_images} from './display.js';
+
 function export_code() {
 
 	let final_code = []
@@ -95,7 +101,7 @@ function save_build() {
 	}
 
 	let selected_build = save_menu.querySelector('.build.active');
-	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+	let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
 	if (selected_build !== null) {
 
@@ -138,6 +144,8 @@ function save_confirm() {
 
 		current_build.name = event.target.value;
 
+		let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+
 		if (saved_builds === null || saved_builds.length === 0) {
 			current_build.id = 0;
 			localStorage.setItem('saved_builds', JSON.stringify([current_build]))
@@ -162,7 +170,7 @@ function load_build() {
 		return
 	};
 
-	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+	let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
 	import_code(saved_builds.find(x => x.id == selected_build.value).code);
 	
@@ -178,7 +186,7 @@ function rename_build() {
 	}
 
 	let selected_build = save_menu.querySelector('.build.active');
-	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+	let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
 	if (selected_build === null) {
 		return
@@ -228,7 +236,7 @@ function delete_build() {
 
 function delete_confirm() {
 	let selected_build = save_menu.querySelector('.build.active');
-	saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+	let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
 	saved_builds.splice(saved_builds.findIndex((x) => x.id == selected_build.value), 1)
 	localStorage.setItem('saved_builds', JSON.stringify(saved_builds));
@@ -248,4 +256,9 @@ function decode_share_link() {
 		import_code(code);
 		history.pushState("object or string", '', window.location.href.split('?code=')[0]);
 	}
+}
+
+export {
+	export_code, import_code, decode_share_link,
+	save_build, load_build, rename_build, delete_build
 }

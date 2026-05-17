@@ -31,3 +31,5 @@ function decode(string) {
 
 	return final;
 }
+
+export {encode, decode}

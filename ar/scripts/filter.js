@@ -11,6 +11,10 @@ const filter_selectors = [
 	enchantment_stat_filter,
 ];
 
+import {gear, gear_enchantments, selectors, enchantment_selectors, selected, selected_enchantments, create_options} from './initialize.js';
+import {calculate} from './calculate.js';
+import {update_images} from './display.js';
+
 function filter() {
 
 	let selected_filters = [[],[],[],[]]
@@ -85,7 +89,7 @@ function filter() {
 		selectors[i][0].hidden = false;
 		enchantment_selectors[i][0].hidden = false;
 
-		if (!filtered_in_gear[i].includes(selected[i])) {
+		if (!filtered_in_gear[i].map(element => element.name).includes(selected[i].name)) {
 			selectors[i].selectedIndex = 0;
 			calculate();
 			update_images()
@@ -135,6 +139,10 @@ function sort_gear() {
 	sorted_gear.forEach((element, index) => {
 
 		let none = element.shift();
+
+		element.forEach(element_2 => {
+			if (!element_2[value]) {element_2[value] = 0}
+		})
 
 		element.sort(
 			(a, b) => {
@@ -186,3 +194,5 @@ function sort_gear() {
 
 	filter();
 }
+
+export {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids}

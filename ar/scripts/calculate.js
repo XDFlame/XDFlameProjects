@@ -1,9 +1,20 @@
 "use strict"
 
+import {
+	gear, gear_enchantments,
+	finals, final_build,
+	selected, selected_enchantments, selected_magics,
+	selectors, enchantment_selectors, magic_selectors,
+	stat_index, stat_display
+} from './initialize.js';
+import {find_by_id} from './misc.js';
+import {number_format, display, update_images} from './display.js';
+
 let level;
 let magic_level;
 let strength_level;
-let selected_variants = []
+let selected_variants = [];
+let selected_magic_tiers = [];
 
 
 function clamp(n, min, max) {
@@ -12,7 +23,8 @@ function clamp(n, min, max) {
 
 
 function armor_scaling(piece, stat) {
-	return piece[stat] + clamp(level - piece.scaling.start, 0, piece.scaling.end - piece.scaling.start) * piece.scaling[stat];
+	if (!piece.scaling || !piece.scaling[stat]) {return piece[stat]}
+	else {return piece[stat] + clamp(level - piece.scaling.start, 0, piece.scaling.end - piece.scaling.start) * piece.scaling[stat]}
 }
 
 
@@ -35,16 +47,17 @@ function level_lock() {
 
 function enchantment_lock() {
 
-	for (let i in selected) {
+	selected.forEach((element, index) => {
 
-		enchantment_selectors[i].disabled = !selected[i].enchantable;
+		enchantment_selectors[index].disabled = false
 
-		if (selected[i].enchantable === false) {
-			enchantment_selectors[i].selectedIndex = 0;
-			selected_enchantments[i] = gear_enchantments[i].find(x => x.id === 0);
+		if (element.enchantable === false) {
+			enchantment_selectors[index].disabled = true
+			enchantment_selectors[index].selectedIndex = 0;
+			selected_enchantments[index] = find_by_id(gear_enchantments[index], 0);
 			update_images();
 		}
-	}
+	})
 }
 
 
@@ -186,20 +199,25 @@ function variant_handler() {
 				option.innerText = element_2.name.replace('[name]', element.name)
 				variant_selector.appendChild(option);
 			})
-			
+
 			selectors[index].parentElement.appendChild(variant_selector)
 		}
 		
 		else if (!element.variants && selectors[index].parentElement.querySelector('.variant-selector')) {
 			selectors[index].parentElement.querySelector('.variant-selector').remove();
 		}
-	})
 
-	for (let i = 0; i < 5; i++) {
-		if (selectors[i].parentElement.querySelector('.variant-selector')) {
-			selected_variants[i] = selected[i].variants[selectors[i].parentElement.querySelector('.variant-selector').value];
-		};
-	}
+		if (element.variants) {
+
+			selected_variants[index] = element.variants[selectors[index].parentElement.querySelector('.variant-selector').value];
+
+			stat_index.forEach(stat => {
+				if (!selected[index][stat]) {selected[index][stat] = 0}
+				if (!selected_variants[index][stat]) {selected_variants[index][stat] = 0}
+				element[stat] += selected_variants[index][stat]
+			})
+		}
+	})
 }
 
 function calculate() {
@@ -210,13 +228,14 @@ function calculate() {
 	magic_level = Number(magic_level_input.value);
 	strength_level = Number(strength_level_input.value);
 
-	stat_index.forEach(
-		element => final_build[element] = 0
-	)
+	stat_index.forEach(stat => {
+		final_build[stat] = 0;
+		finals.forEach(element => element[stat] = 0)
+	})
 
 	for (let i = 0; i < 5; i++) {
-		selected[i] = gear[i].find(x => x.id === Number(selectors[i].value));
-		selected_enchantments[i] = gear_enchantments[i].find(x => x.id === Number(enchantment_selectors[i].value));
+		selected[i] = structuredClone(find_by_id(gear[i], Number(selectors[i].value)));
+		selected_enchantments[i] = find_by_id(gear_enchantments[i], Number(enchantment_selectors[i].value));
 	}
 
 	variant_handler();
@@ -228,6 +247,7 @@ function calculate() {
 	// Sets magic power value for cursed to the extra value cursed would add per piece
 	
 	gear_enchantments.forEach((element, index) => {
+		if (!selected[index].magic_power) {selected[index].magic_power = 0};
 		element.find(x => x.name === 'Cursed').magic_power = armor_scaling(selected[index], 'magic_power') * 0.4 + 62;
 	})
 
@@ -236,13 +256,13 @@ function calculate() {
 
 	finals.forEach((element, index) => {
 		stat_index.forEach(stat => {
+			if (!selected[index][stat]) {selected[index][stat] = 0}
+			if (!selected_enchantments[index][stat]) {selected_enchantments[index][stat] = 0}
+
 			element[stat] = Math.floor(armor_scaling(selected[index], stat) + selected_enchantments[index][stat]);
-			if (selected[index].variants && selected_variants[index][stat] !== undefined) {
-				element[stat] += selected_variants[index][stat]
-			}
 			final_build[stat] += element[stat];
 		})
-	})
+	});
 
 
 	// Outputs stats
@@ -266,3 +286,5 @@ function calculate() {
 
 	health_scaling();
 }
+
+export {calculate, health_scaling, level, magic_level, strength_level, selected_variants}

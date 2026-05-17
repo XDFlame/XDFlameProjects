@@ -60,15 +60,15 @@
 						<img src="/style/icons/filter.svg">
 					</button>
 
-					<button onclick="clear_build('gear')" data-text="Clear Gear">
+					<button data-text="Clear Gear">
 						<img src="/style/icons/clear.svg">
 					</button>
 
-					<button onclick="clear_build('enchantments')" data-text="Clear Charms">
+					<button data-text="Clear Charms">
 						<img src="/style/icons/clear.svg">
 					</button>
 
-					<button onclick="random_build()" data-text="Random">
+					<button data-text="Random">
 						<img src="/style/icons/dice.svg">
 					</button>
 
@@ -135,17 +135,17 @@
 					<div popover id="save_menu">
 
 						<div class="container sub-container">
-							<button id="copy" onclick="copy_code()"></button>
-							<button id="share" onclick="share_link()"></button>
-							<input type="text" placeholder="Paste Build Code" id="code_import" onchange="import_code(code_import.value)">
+							<button id="copy"></button>
+							<button id="share"></button>
+							<input type="text" placeholder="Paste Build Code" id="code_import">
 						</div>
 
-						<button id="save_button" onclick="save_build()">Save</button>
-						<button onclick="load_build()">Load</button>
-						<button onclick="rename_build()">Rename</button>
-						<button id="delete_button" onclick="delete_build();">Delete</button>
+						<button id="save_button">Save</button>
+						<button id="load_button">Load</button>
+						<button id="rename_button">Rename</button>
+						<button id="delete_button">Delete</button>
 
-						<input id="save_search" type="text" placeholder="Search" oninput="search_saves();">
+						<input id="save_search" type="text" placeholder="Search">
 
 						<hr>
 
@@ -161,7 +161,7 @@
 
 				<div class="slider" style="grid-area: c;">
 					<span>Health Percent:</span>
-					<input type="range" id="health_slider" value="100" oninput="health_scaling()">
+					<input type="range" id="health_slider" value="100">
 					<span style="display: inline-block; width: 4.5ch"></span>
 				</div>
 
@@ -257,37 +257,35 @@
 
 		</main>
 
-		<script src="gear/hats.js"></script>
-		<script src="gear/shirts.js"></script>
-		<script src="gear/pants.js"></script>
-		<script src="gear/accessories.js"></script>
 		<script src="gear/magics.js"></script>
-		<script src="scripts/initialize.js"></script>
-		<script src="scripts/filter.js"></script>
-		<script src="scripts/calculate.js"></script>
-		<script src="scripts/base64.js"></script>
-		<script src="scripts/saveload.js"></script>
-		<script src="scripts/display.js"></script>
-		<script src="scripts/misc.js"></script>
+		<script src="scripts/initialize.js" type="module"></script>
+		<script src="scripts/filter.js" type="module"></script>
+		<script src="scripts/calculate.js" type="module"></script>
+		<script src="scripts/base64.js" type="module"></script>
+		<script src="scripts/saveload.js" type="module"></script>
+		<script src="scripts/display.js" type="module"></script>
+		<script src="scripts/misc.js" type="module"></script>
 		<script src="scripts/compare.js"></script>
 
 		<script type="module">
+
+			import {calculate} from './scripts/calculate.js';
+			import {update_images} from './scripts/display.js'
+			import {filter} from './scripts/filter.js';
+			import {decode_share_link} from './scripts/saveload.js';
 
 			calculate();
 			update_images();
 			filter();
 			decode_share_link();
 
-			import * as data from './gear/gear.json' with {type: "json"}
-			let gear2 = data.default
-
-			let gear_map = new Map();
+			/*let gear_map = new Map();
 			let id_prefix = ['a', 'b', 'c', 'd', 'e']
 			gear.forEach((element, index) => {
 				element.forEach(element_2 => gear_map.set(`${id_prefix[index]}${element_2.id}`, element_2))
 			})
 
-			console.log(gear2, gear_map)
+			console.log(gear2, gear_map)*/
 
 		</script>
 

@@ -4,21 +4,15 @@
 let selected = [];
 let selected_enchantments = [];
 let selected_magics = [];
-let selected_magic_tiers = [];
-const gear = [
-	structuredClone(hats),
-	structuredClone(shirts),
-	structuredClone(pants),
-	structuredClone(accessories),
-	structuredClone(accessories),
-];
-const gear_enchantments = [
-	structuredClone(hat_enchantments),
-	structuredClone(shirt_enchantments),
-	structuredClone(pants_enchantments),
-	structuredClone(accessory_enchantments),
-	structuredClone(accessory_enchantments),
-];
+
+import * as gear_data from '/ar/gear/gear.json' with {type: "json"}
+let gear = gear_data.default
+gear[4] = gear[3]
+
+import * as enchantment_data from '/ar/gear/enchantments.json' with {type: "json"}
+let gear_enchantments = enchantment_data.default
+gear_enchantments[4] = gear_enchantments[3];
+
 const selectors = [
 	hat_selector,
 	shirt_selector,
@@ -38,13 +32,7 @@ const magic_selectors = [
 	second_magic_selector,
 	third_magic_selector
 ];
-const finals = [
-	final_hat,
-	final_shirt,
-	final_pants,
-	final_accessory_1,
-	final_accessory_2
-];
+let finals = [{}, {}, {}, {}, {}];
 let final_build = {};
 const stat_index = [
 	'defense',
@@ -68,7 +56,6 @@ const rarity = [
 	'legendary',
 	'seasonal',
 ];
-let saved_builds;
 
 
 // Creates stat_display array
@@ -80,42 +67,6 @@ stat_index.forEach(element => {
 
 // Fills in undefined stats with 0 & fills in scaling objects with dummy data
 
-gear.flat().forEach(
-
-	element => {
-
-		if (element.scaling === undefined) {
-			element.scaling = {
-				start: element.level,
-				end: element.level
-			}
-		}
-
-		if (element.enchantable === undefined) {element.enchantable = true}
-
-		stat_index.forEach(
-
-			element_2 => {
-				if (element[element_2] === undefined) {element[element_2] = 0}
-				if (element.scaling[element_2] === undefined) {element.scaling[element_2] = 0}
-			}
-		)
-	}
-)
-
-gear_enchantments.flat().forEach(
-
-	element => {
-
-		stat_index.forEach(
-
-			element_2 => {
-				if (element[element_2] === undefined) {element[element_2] = 0}
-			}
-		)
-	}
-)
-
 magics.forEach(
 
 	element => {
@@ -123,6 +74,17 @@ magics.forEach(
 		if (element.power_efficiency === undefined) {element.power_efficiency = 1}
 	}
 )
+
+
+// Replaces [name] with parent name for variants
+
+gear.flat().forEach(element => {
+	if (element.variants) {
+		element.variants.forEach(element_2 => {
+			element_2.name = element_2.name.replace('[name]', element.name);
+		})
+	}
+})
 
 
 // Assigns ID to each object based off its index
@@ -265,7 +227,7 @@ function add_build(x) {
 	save_menu.appendChild(build);
 }
 
-saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
+let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
 if (!saved_builds) {
 	localStorage.setItem('saved_builds', '[]');
@@ -273,3 +235,14 @@ if (!saved_builds) {
 }
 
 saved_builds.forEach(element => add_build(element))
+
+export {
+	gear, gear_enchantments,
+	finals, final_build,
+	selected, selected_enchantments, selected_magics,
+	selectors, enchantment_selectors, magic_selectors,
+	stat_index, stat_display,
+	create_options, add_build
+};
+
+console.log(gear)
