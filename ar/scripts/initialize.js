@@ -5,15 +5,15 @@ let selected = [];
 let selected_enchantments = [];
 let selected_magics = [];
 
-import * as gear_data from '/ar/gear/gear.json' with {type: "json"}
+import * as gear_data from '/ar/data/gear.json' with {type: "json"}
 let gear = gear_data.default
-gear[4] = gear[3]
+gear[4] = structuredClone(gear[3])
 
-import * as enchantment_data from '/ar/gear/enchantments.json' with {type: "json"}
+import * as enchantment_data from '/ar/data/enchantments.json' with {type: "json"}
 let gear_enchantments = enchantment_data.default
-gear_enchantments[4] = gear_enchantments[3];
+gear_enchantments[4] = structuredClone(gear_enchantments[3]);
 
-import * as magic_data from '/ar/gear/magics.json' with {type: "json"}
+import * as magic_data from '/ar/data/magics.json' with {type: "json"}
 let magics = magic_data.default
 
 const selectors = [

@@ -99,6 +99,7 @@ div.slider input[type=range] {
 div.piece {
 	display: grid;
 	grid-template-columns: repeat(2, 42.5%) 12.5%;
+	grid-auto-rows: min-content;
 	grid-template-areas:
 		"a b e"
 		"c d ."
