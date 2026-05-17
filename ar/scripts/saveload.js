@@ -1,6 +1,6 @@
 "use strict"
 
-import {selected, selected_enchantments, selected_magics, selectors, enchantment_selectors, magic_selectors, gear, gear_enchantments, add_build} from './initialize.js';
+import {selected, selected_enchantments, magics, selected_magics, selectors, enchantment_selectors, magic_selectors, gear, gear_enchantments, add_build} from './initialize.js';
 import {level, magic_level, strength_level, calculate} from './calculate.js';
 import {encode, decode} from './base64.js';
 import {find_by_id} from './misc.js';

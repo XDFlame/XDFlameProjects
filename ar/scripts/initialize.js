@@ -13,6 +13,9 @@ import * as enchantment_data from '/ar/gear/enchantments.json' with {type: "json
 let gear_enchantments = enchantment_data.default
 gear_enchantments[4] = gear_enchantments[3];
 
+import * as magic_data from '/ar/gear/magics.json' with {type: "json"}
+let magics = magic_data.default
+
 const selectors = [
 	hat_selector,
 	shirt_selector,
@@ -237,12 +240,10 @@ if (!saved_builds) {
 saved_builds.forEach(element => add_build(element))
 
 export {
-	gear, gear_enchantments,
+	gear, gear_enchantments, magics,
 	finals, final_build,
 	selected, selected_enchantments, selected_magics,
 	selectors, enchantment_selectors, magic_selectors,
 	stat_index, stat_display,
 	create_options, add_build
 };
-
-console.log(gear)

@@ -1,6 +1,6 @@
 "use strict"
 
-import {gear, gear_enchantments, finals, selectors, enchantment_selectors, magic_selectors} from './initialize.js';
+import {gear, gear_enchantments, magics, finals, selectors, enchantment_selectors, magic_selectors} from './initialize.js';
 import {display, update_images} from './display.js';
 import {calculate, health_scaling} from './calculate.js';
 import {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids} from './filter.js';

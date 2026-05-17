@@ -1,7 +1,7 @@
 "use strict"
 
 import {
-	gear, gear_enchantments,
+	gear, gear_enchantments, magics,
 	finals, final_build,
 	selected, selected_enchantments, selected_magics,
 	selectors, enchantment_selectors, magic_selectors,
@@ -103,6 +103,13 @@ function calculate_q() {
 	let strings = ['First', 'Second', 'Third'];
 	let ul = document.createElement('ul');
 	let final_magic_damage = [];
+	let magic_tiers = [
+		361,
+		241,
+		121,
+		61,
+		1,
+	]
 
 	for (let i = 0; i < 3; i++) {
 
