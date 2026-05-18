@@ -144,6 +144,10 @@ function sort_gear() {
 			if (!element_2[value]) {element_2[value] = 0}
 		})
 
+		sorted_enchantments[index].forEach(element_2 => {
+			if (!element_2[value]) {element_2[value] = 0}
+		})
+
 		element.sort(
 			(a, b) => {
 				if (a[value] > b[value]) {return 1}

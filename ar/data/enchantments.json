@@ -70,8 +70,8 @@
 		{
 			"name": "Indestructible",
 			"rarity": "legendary",
-			"defense": 300,
-			"stamina_regen": -4,
+			"defense": 350,
+			"stamina_regen": -6,
 			"stun_resistance": 4
 		},
 		{
@@ -203,8 +203,8 @@
 		{
 			"name": "Indestructible",
 			"rarity": "legendary",
-			"defense": 500,
-			"stamina_regen": -7,
+			"defense": 600,
+			"stamina_regen": -10,
 			"stun_resistance": 7
 		},
 		{
@@ -336,8 +336,8 @@
 		{
 			"name": "Indestructible",
 			"rarity": "legendary",
-			"defense": 400,
-			"stamina_regen": -6,
+			"defense": 500,
+			"stamina_regen": -8,
 			"stun_resistance": 6
 		},
 		{
@@ -470,7 +470,7 @@
 			"name": "Indestructible",
 			"rarity": "legendary",
 			"defense": 375,
-			"stamina_regen": -4,
+			"stamina_regen": -6,
 			"stun_resistance": 5
 		},
 		{
