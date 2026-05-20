@@ -85,6 +85,13 @@
 			"defense": 225,
 			"magic_power": 10,
 			"stamina": 3
+		},
+		{
+			"name": "Tutenrah's Mask",
+			"level": 280,
+			"rarity": "exotic",
+			"magic_power": 50,
+			"magic_energy": 5
 		}
 	],
 	[
