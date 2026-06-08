@@ -107,26 +107,6 @@
 			"movement_speed": 6,
 			"jump_power": 6,
 			"enchantable": false
-		},
-		{
-			"name": "Tutenrah's Mask",
-			"level": 280,
-			"rarity": "exotic",
-			"magic_power": 50,
-			"magic_energy": 5
-		},
-		{
-			"name": "Legend's Resolve",
-			"level": 1,
-			"rarity": "legendary",
-			"defense": 450,
-			"magic_power": 50,
-			"magic_energy": 33,
-			"health_regen": 3,
-			"damage_reduction": 3,
-			"movement_speed": 6,
-			"jump_power": 6,
-			"enchantable": false
 		}
 	],
 	[
