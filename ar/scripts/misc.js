@@ -1,10 +1,10 @@
 "use strict"
 
-import {gear, gear_enchantments, magics, finals, selectors, enchantment_selectors, magic_selectors} from './initialize.js';
+import {gear, gear_enchantments, magics, finals, selectors, enchantment_selectors, magic_selectors, variant_selectors} from './initialize.js';
 import {display, update_images} from './display.js';
-import {calculate, health_scaling} from './calculate.js';
+import {calculate, health_scaling, level} from './calculate.js';
 import {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids} from './filter.js';
-import {decode_share_link, delete_build, export_code, import_code, load_build, rename_build, save_build} from './saveload.js';
+import {decode_share_link, delete_build, export_code, sort_code, load_build, rename_build, save_build} from './saveload.js';
 
 // Handles click functionality of copy build button
 
@@ -32,11 +32,9 @@ function share_link() {
 
 document.addEventListener('click', event => {
 
-	let level_selectors = [level_input, magic_level_input, strength_level_input];
+	if (enchantment_selectors.includes(event.target) || variant_selectors.includes(event.target)) {calculate(); update_images()};
 
-	if (enchantment_selectors.includes(event.target) || event.target.matches('.variant-selector')) {calculate(); update_images()};
-
-	if (magic_selectors.includes(event.target) || level_selectors.includes(event.target)) {calculate()};
+	if (magic_selectors.includes(event.target)) {calculate()};
 
 	if (event.target.matches('#filter_selector *')) {filter()}
 
@@ -47,6 +45,10 @@ document.addEventListener('click', event => {
 		filter();
 	}
 })
+
+let level_selectors = [level_input, magic_level_input, strength_level_input];
+
+level_selectors.forEach(element => element.addEventListener('change', calculate));
 
 let output_buttons = Array.from(document.querySelectorAll('.info'));
 
@@ -64,6 +66,14 @@ output_buttons.forEach((element, index) => {
 	})
 })
 
+let clear_buttons = Array.from(document.querySelectorAll('.clear'));
+
+clear_buttons.forEach((element, index) => {
+	element.addEventListener('click', event => {
+		clear_build('piece', index)
+	})
+})
+
 selectors.forEach(element => {
 	element.addEventListener('change', calculate);
 	element.addEventListener('change', update_images)
@@ -71,7 +81,7 @@ selectors.forEach(element => {
 
 copy.addEventListener('click', copy_code);
 share.addEventListener('click', share_link);
-code_import.addEventListener('change', () => import_code(code_import.value));
+code_import.addEventListener('change', () => sort_code(code_import.value));
 
 save_button.addEventListener('click', save_build);
 load_button.addEventListener('click', load_build);
@@ -122,13 +132,18 @@ function random_build() {
 	allowed_enchantment_ids.forEach(element => {if (element.length === 0) {element.push(0)}});
 
 	for (let i = 0; i < 5; i++) {
-
-		random_gear[i] = allowed_gear_ids[i][Math.floor(Math.random() * allowed_gear_ids[i].length)]
-		selectors[i].selectedIndex = gear[i].findIndex(x => x.id === random_gear[i]);
-
-		random_gear_enchantments[i] = allowed_enchantment_ids[i][Math.floor(Math.random() * allowed_enchantment_ids[i].length)]
-		enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex(x => x.id === random_gear_enchantments[i]);
+		random_gear[i] = allowed_gear_ids[i][Math.floor(Math.random() * allowed_gear_ids[i].length)];
+		random_gear_enchantments[i] = allowed_enchantment_ids[i][Math.floor(Math.random() * allowed_enchantment_ids[i].length)];
 	};
+
+	while (random_gear[3] === random_gear[4]) {
+		random_gear[3] = allowed_gear_ids[3][Math.floor(Math.random() * allowed_gear_ids[3].length)];
+	}
+
+	for (let i = 0; i < 5; i++) {
+		selectors[i].selectedIndex = gear[i].findIndex(x => x.id === random_gear[i]);
+		enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex(x => x.id === random_gear_enchantments[i]);
+	}
 
 	for (let i = 0; i < 3; i++) {
 		random_magics[i] = Math.floor(Math.random() * magics.length);
@@ -140,7 +155,7 @@ function random_build() {
 }
 
 
-function clear_build(target) {
+function clear_build(target, n) {
 
 	switch(target) {
 		case 'gear':
@@ -148,6 +163,11 @@ function clear_build(target) {
 			break;
 		case 'enchantments':
 			enchantment_selectors.forEach(element => element.selectedIndex = 0);
+			break;
+		case 'piece':
+			selectors[n].selectedIndex = 0;
+			enchantment_selectors[n].selectedIndex = 0;
+			break;
 	}
 
 	health_slider.value = 100;

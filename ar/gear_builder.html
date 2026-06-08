@@ -140,6 +140,9 @@
 							<input type="text" placeholder="Paste Build Code" id="code_import">
 						</div>
 
+						<button id="download_button">Download Saved Builds</button>
+						<button id="upload_button">Upload Saved Builds</button>
+
 						<button id="save_button">Save</button>
 						<button id="load_button">Load</button>
 						<button id="rename_button">Rename</button>
@@ -181,7 +184,14 @@
 					<select id="hat_enchantment_selector" style="grid-area: d">
 					</select>
 
+					<select id="hat_variant_selector" class="variant-selector" style="grid-area: f">
+					</select>
+
 					<button class="info" style="grid-area: e"></button>
+
+					<button class="clear" style="grid-area: g">
+						<img src="/style/icons/clear.svg">
+					</button>
 
 				</div>
 
@@ -197,7 +207,14 @@
 					<select id="shirt_enchantment_selector" style="grid-area: d">
 					</select>
 
+					<select id="shirt_variant_selector" class="variant-selector" style="grid-area: f">
+					</select>
+
 					<button class="info" style="grid-area: e"></button>
+
+					<button class="clear" style="grid-area: g">
+						<img src="/style/icons/clear.svg">
+					</button>
 
 				</div>
 
@@ -213,7 +230,14 @@
 					<select id="pants_enchantment_selector" style="grid-area: d">
 					</select>
 
+					<select id="pants_variant_selector" class="variant-selector" style="grid-area: f">
+					</select>
+
 					<button class="info" style="grid-area: e"></button>
+
+					<button class="clear" style="grid-area: g">
+						<img src="/style/icons/clear.svg">
+					</button>
 
 				</div>
 
@@ -229,7 +253,14 @@
 					<select id="accessory_1_enchantment_selector" style="grid-area: d">
 					</select>
 
+					<select id="accessory_1_variant_selector" class="variant-selector" style="grid-area: f">
+					</select>
+
 					<button class="info" style="grid-area: e"></button>
+
+					<button class="clear" style="grid-area: g">
+						<img src="/style/icons/clear.svg">
+					</button>
 
 				</div>
 
@@ -245,7 +276,14 @@
 					<select id="accessory_2_enchantment_selector" style="grid-area: d">
 					</select>
 
+					<select id="accessory_2_variant_selector" class="variant-selector" style="grid-area: f">
+					</select>
+
 					<button class="info" style="grid-area: e"></button>
+
+					<button class="clear" style="grid-area: g">
+						<img src="/style/icons/clear.svg">
+					</button>
 
 				</div>
 
@@ -272,19 +310,57 @@
 			import {update_images} from './scripts/display.js'
 			import {filter} from './scripts/filter.js';
 			import {decode_share_link} from './scripts/saveload.js';
+			import {add_build} from './scripts/initialize.js';
 
 			calculate();
 			update_images();
 			filter();
 			decode_share_link();
 
-			/*let gear_map = new Map();
-			let id_prefix = ['a', 'b', 'c', 'd', 'e']
-			gear.forEach((element, index) => {
-				element.forEach(element_2 => gear_map.set(`${id_prefix[index]}${element_2.id}`, element_2))
-			})
+			function download_builds() {
 
-			console.log(gear2, gear_map)*/
+				let saved_builds = localStorage.getItem('saved_builds');
+
+				let blob = new Blob([saved_builds], {type: 'application/json'});
+				let url = URL.createObjectURL(blob);
+
+				let anchor = document.createElement('a');
+
+				anchor.href = url;
+				anchor.download = "builds.json";
+
+				anchor.style.display = 'none';
+				document.body.appendChild(anchor);
+				anchor.click();
+				document.body.removeChild(anchor);
+			}
+
+			function upload_builds() {
+
+				window.alert('Warning: uploading locally saved builds will completely OVERWRITE the currently saved ones!');
+
+				let upload = document.createElement('input')
+				upload.type ='file';
+				upload.accept = '.json';
+
+				upload.style.display = 'none';
+				upload.addEventListener('change', async () => {
+					let file = upload.files[0];
+					let contents = await file.text();
+					contents = JSON.stringify(JSON.parse(contents));
+					localStorage.setItem('saved_builds', JSON.stringify(JSON.parse(contents)));
+
+					save_menu.querySelectorAll('.build').forEach(element => element.remove())
+					JSON.parse(contents).forEach(element => add_build(element))
+				})
+
+				document.body.appendChild(upload);
+				upload.click();
+				document.body.removeChild(upload);
+			}
+
+			download_button.addEventListener('click', download_builds)
+			upload_button.addEventListener('click', upload_builds)
 
 		</script>
 

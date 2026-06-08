@@ -30,6 +30,13 @@ const enchantment_selectors = [
 	accessory_1_enchantment_selector,
 	accessory_2_enchantment_selector
 ];
+const variant_selectors = [
+	hat_variant_selector,
+	shirt_variant_selector,
+	pants_variant_selector,
+	accessory_1_variant_selector,
+	accessory_2_variant_selector
+];
 const magic_selectors = [
 	first_magic_selector,
 	second_magic_selector,
@@ -68,17 +75,6 @@ stat_index.forEach(element => {
 })
 
 
-// Fills in undefined stats with 0 & fills in scaling objects with dummy data
-
-magics.forEach(
-
-	element => {
-		if (element.base_efficiency === undefined) {element.base_efficiency = 1}
-		if (element.power_efficiency === undefined) {element.power_efficiency = 1}
-	}
-)
-
-
 // Replaces [name] with parent name for variants
 
 gear.flat().forEach(element => {
@@ -106,6 +102,14 @@ function assign_id(array) {
 
 assign_id(gear);
 assign_id(gear_enchantments);
+
+gear.flat().forEach(element => {
+	if (element.variants) {
+		element.variants.forEach((element_2, index) => {
+			element_2.id = index
+		})
+	}
+})
 
 magics.forEach(
 	(element, index) => {
@@ -243,7 +247,7 @@ export {
 	gear, gear_enchantments, magics,
 	finals, final_build,
 	selected, selected_enchantments, selected_magics,
-	selectors, enchantment_selectors, magic_selectors,
+	selectors, enchantment_selectors, variant_selectors, magic_selectors,
 	stat_index, stat_display,
 	create_options, add_build
 };

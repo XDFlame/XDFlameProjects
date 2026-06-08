@@ -1,57 +1,168 @@
 "use strict"
 
-import {selected, selected_enchantments, magics, selected_magics, selectors, enchantment_selectors, magic_selectors, gear, gear_enchantments, add_build} from './initialize.js';
-import {level, magic_level, strength_level, calculate} from './calculate.js';
-import {encode, decode} from './base64.js';
+import {
+	selected, selected_enchantments, magics, selected_magics,
+	selectors, enchantment_selectors, magic_selectors,
+	gear, gear_enchantments, add_build, variant_selectors
+} from './initialize.js';
+import {level, magic_level, strength_level, calculate, selected_variants} from './calculate.js';
+import {encode, big_encode, decode, big_decode} from './base64.js';
 import {find_by_id} from './misc.js';
 import {update_images} from './display.js';
 
 function export_code() {
 
-	let final_code = []
+	let version = 1;
+	let final_code = [version];
 
 	// First chunk: levels
 
 	let player_levels = [level, magic_level, strength_level];
 	let player_level_strings = [];
 
-	player_levels.forEach(element => player_level_strings.push((element - 1).toString().padStart(4, '0')))
+	player_levels.forEach(element => {
+		element++;
+		let max = Math.max(...player_levels.map(n=>n+1)).toString(2).length;
+		player_level_strings.push(element.toString(2).padStart(max, '0'))
+	})
 
-	final_code.push(encode(player_level_strings.join(''), 7))
+	final_code.push(encode(parseInt(player_level_strings.join(''), 2)))
+
 
 	// Second chunk: gear
 
-	let selected_ids = selected.map(element => element.id)
+	let selected_ids = selected.map(element => element.id);
 	let selected_gear_strings = [];
 
-	selected_ids.forEach(element => selected_gear_strings.push(element.toString().padStart(3, '0')))
+	selected_ids.forEach(element => {
+		element++;
+		let max = Math.max(...selected_ids.map(n=>n+1)).toString(2).length;
+		selected_gear_strings.push(element.toString(2).padStart(max, '0'))
+	});
 
-	final_code.push(encode(selected_gear_strings.join(''), 9))
+	final_code.push(encode(parseInt(selected_gear_strings.join(''), 2)))
 
-	// Third chunk: enchantments
+
+	// Third chunk: variants
+
+	let selected_variant_ids = selected_variants.map(element => element.id);
+	for (let i = 0; i < 5; i++) {
+		if (!selected_variant_ids[i]) {selected_variant_ids[i] = 0}
+	};
+	let selected_variant_strings = [];
+
+	selected_variant_ids.forEach(element => {
+		element++;
+		let max = Math.max(...selected_variant_ids.map(n=>n+1)).toString(2).length;
+		selected_variant_strings.push(element.toString(2).padStart(max, '0'))
+	})
+
+	final_code.push(encode(parseInt(selected_variant_strings.join(''), 2)))
+
+
+	// Fourth chunk: enchantments
 
 	let selected_enchantment_ids = selected_enchantments.map(element => element.id)
 	let selected_enchantment_strings = [];
 
-	selected_enchantment_ids.forEach(element => selected_enchantment_strings.push(element.toString().padStart(2, '0')))
+	selected_enchantment_ids.forEach(element => {
+		element++;
+		let max = Math.max(...selected_enchantment_ids.map(n=>n+1)).toString(2).length;
+		selected_enchantment_strings.push(element.toString(2).padStart(max, '0'))
+	})
 
-	final_code.push(encode(selected_enchantment_strings.join(''), 6))
+	final_code.push(encode(parseInt(selected_enchantment_strings.join(''), 2)))
 
-	// Fourth chunk: magics
+
+	// Fifth chunk: magics
 
 	let selected_magic_ids = selected_magics.map(element => element.id)
 	let selected_magic_strings = [];
 
-	selected_magic_ids.forEach(element => selected_magic_strings.push(element.toString().padStart(2, '0')))
+	selected_magic_ids.forEach(element => {
+		element++;
+		let max = Math.max(...selected_magic_ids.map(n=>n+1)).toString(2).length;
+		selected_magic_strings.push(element.toString(2).padStart(max, '0'))
+	})
 
-	final_code.push(encode(selected_magic_strings.join(''), 4))
+	final_code.push(encode(parseInt(selected_magic_strings.join(''), 2)));
 
-	return final_code.join('')
+	return final_code.join('|')
+}
+
+
+function sort_code(code) {
+	if (code.includes('|')) {
+		import_code(code);
+	} else if (code.length === 26 && !code.includes('|')) {
+		legacy_import_code(code);
+	}
 }
 
 
 function import_code(code, return_object) {
 
+	code = code.split('|').map(element => decode(element).toString(2));
+	code.splice(0, 1);
+	let item_count = [3, 5, 5, 5, 3];
+	let container = [];
+
+	for (let i = 0; i < item_count.length; i++) {
+		container[i] = code[i].padStart(Math.ceil(code[i].length / item_count[i]) * item_count[i], '0');
+		let regex = new RegExp(`.{${container[i].length / item_count[i]}}`, 'g');
+		container[i] = container[i].match(regex).map(n => parseInt(n, 2) - 1);
+	};
+
+	let levels = container[0];
+	let equipment = container[1];
+	let equipment_variants = container[2];
+	let equipment_enchantments = container[3];
+	let chosen_magics = container[4];
+
+	if (return_object === true) {
+		let object = {
+			levels: [],
+			gear: [],
+			variants: [],
+			gear_enchantments: [],
+			magics: [],
+		}
+
+		levels.forEach(element => object.levels.push(element))
+		equipment.forEach((element, index) => object.gear.push(find_by_id(gear[index], element)));
+		equipment_variants.forEach((element, index) => object.variants.push(find_by_id(gear[index].variants, element)));
+		equipment_enchantments.forEach((element, index) => object.gear_enchantments.push(find_by_id(gear_enchantments[index], element)));
+		chosen_magics.forEach(element => object.magics.push(find_by_id(magics, element)));
+
+		return object;
+	}
+
+	level_input.value = container[0][0];
+	magic_level_input.value = container[0][1];
+	strength_level_input.value =container[0][2];
+
+	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], equipment[index])));
+
+	variant_selectors.forEach((element, index) => {
+		if (equipment_variants[index] !== 0) {
+			element.setAttribute('data-selected', equipment_variants[index]);
+		}
+	});
+
+	enchantment_selectors.forEach((element, index) => {
+		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], equipment_enchantments[index]));
+	});
+
+	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
+
+
+	code_import.value = '';
+	calculate();
+	update_images();
+}
+
+
+function legacy_import_code(code, return_object) {
 	code = code.match(/(.{7})(.{9})(.{6})(.{4})/).slice(1, 5);
 
 	let levels = String(decode(code[0])).padStart(12, '0').match(/.{4}/g).map(Number);
@@ -172,7 +283,7 @@ function load_build() {
 
 	let saved_builds = JSON.parse(localStorage.getItem('saved_builds'));
 
-	import_code(saved_builds.find(x => x.id == selected_build.value).code);
+	sort_code(saved_builds.find(x => x.id == selected_build.value).code);
 	
 	selected_build.classList.toggle('active')
 	save_menu.hidePopover();
@@ -253,12 +364,12 @@ function decode_share_link() {
 	let code = Array.from(entries).flat()[1];
 
 	if (code) {
-		import_code(code);
+		sort_code(code);
 		history.pushState("object or string", '', window.location.href.split('?code=')[0]);
 	}
 }
 
 export {
-	export_code, import_code, decode_share_link,
+	export_code, sort_code, decode_share_link,
 	save_build, load_build, rename_build, delete_build
 }

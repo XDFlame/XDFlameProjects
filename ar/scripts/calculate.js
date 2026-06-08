@@ -4,7 +4,7 @@ import {
 	gear, gear_enchantments, magics,
 	finals, final_build,
 	selected, selected_enchantments, selected_magics,
-	selectors, enchantment_selectors, magic_selectors,
+	selectors, enchantment_selectors, variant_selectors, magic_selectors,
 	stat_index, stat_display
 } from './initialize.js';
 import {find_by_id} from './misc.js';
@@ -141,8 +141,8 @@ function calculate_q() {
 		};
 
 		final_magic_damage[i] = Math.round(
-			(level/2 + magic_level/4 + selected_magics[i].base_damage) * selected_magics[i].base_efficiency +
-			final_build.magic_power * selected_magics[i].power_efficiency * selected_magic_tiers[i]/5
+			(level/2 + magic_level/4 + selected_magics[i].base_damage) * (selected_magics[i].base_efficiency ?? 1) +
+			final_build.magic_power * (selected_magics[i].power_efficiency ?? 1) * selected_magic_tiers[i]/5
 		)
 
 		let li = document.createElement('li');
@@ -193,36 +193,34 @@ function variant_handler() {
 	
 	selected.forEach((element, index) => {
 
-		if (element.variants && !selectors[index].parentElement.querySelector('.variant-selector')) {
-
-			let variant_selector = document.createElement('select');
-			variant_selector.style.gridArea = 'f'
-			variant_selector.classList.add('variant-selector')
-
-			element.variants.forEach((element_2, index) => {
-				element_2.id = index
-				let option = document.createElement('option');
-				option.value = element_2.id;
-				option.innerText = element_2.name.replace('[name]', element.name)
-				variant_selector.appendChild(option);
-			})
-
-			selectors[index].parentElement.appendChild(variant_selector)
-		}
-		
-		else if (!element.variants && selectors[index].parentElement.querySelector('.variant-selector')) {
-			selectors[index].parentElement.querySelector('.variant-selector').remove();
-		}
-
 		if (element.variants) {
 
-			selected_variants[index] = element.variants[selectors[index].parentElement.querySelector('.variant-selector').value];
+			if (variant_selectors[index].children.length === 0) {
+				element.variants.forEach(element_2 => {
+					let option = document.createElement('option');
+					option.value = element_2.id;
+					option.innerText = element_2.name;
+					variant_selectors[index].appendChild(option);
+				});
+			}
+
+			if (variant_selectors[index].getAttribute('data-selected')) {
+				let data = variant_selectors[index].getAttribute('data-selected');
+				variant_selectors[index].selectedIndex = element.variants.indexOf(find_by_id(element.variants, data));
+				variant_selectors[index].removeAttribute('data-selected');
+			}
+
+			selected_variants[index] = element.variants[variant_selectors[index].value];
 
 			stat_index.forEach(stat => {
 				if (!selected[index][stat]) {selected[index][stat] = 0}
 				if (!selected_variants[index][stat]) {selected_variants[index][stat] = 0}
 				element[stat] += selected_variants[index][stat]
 			})
+		}
+		
+		else if (!element.variants) {
+			variant_selectors[index].replaceChildren();
 		}
 	})
 }

@@ -56,8 +56,8 @@
 			"name": "Sunken Champion Helm",
 			"level": 250,
 			"rarity": "legendary",
-			"defense": 150,
-			"magic_power": 10,
+			"defense": 175,
+			"magic_power": 15,
 			"scaling": {
 				"start": 250,
 				"end": 350,
@@ -85,6 +85,26 @@
 			"defense": 225,
 			"magic_power": 10,
 			"stamina": 3
+		},
+		{
+			"name": "Tutenrah's Mask",
+			"level": 280,
+			"rarity": "exotic",
+			"magic_power": 50,
+			"magic_energy": 5
+		},
+		{
+			"name": "Legend's Resolve",
+			"level": 1,
+			"rarity": "legendary",
+			"defense": 450,
+			"magic_power": 50,
+			"magic_energy": 33,
+			"health_regen": 3,
+			"damage_reduction": 3,
+			"movement_speed": 6,
+			"jump_power": 6,
+			"enchantable": false
 		}
 	],
 	[
@@ -109,7 +129,7 @@
 			"name": "Ancient Legionnaire's Gauntlets",
 			"level": 350,
 			"rarity": "exotic",
-			"defense": 950,
+			"defense": 1000,
 			"damage_reduction": 3
 		},
 		{
@@ -155,8 +175,8 @@
 			"name": "Sunken Champion Armor",
 			"level": 250,
 			"rarity": "legendary",
-			"defense": 450,
-			"magic_power": 30,
+			"defense": 550,
+			"magic_power": 40,
 			"scaling": {
 				"start": 250,
 				"end": 350,
@@ -183,6 +203,15 @@
 			"rarity": "exotic",
 			"defense": 350,
 			"magic_power": 50
+		},
+		{
+			"name": "Khnum's Crimson Bandages",
+			"level": 300,
+			"rarity": "rare",
+			"defense": 800,
+			"magic_power": 20,
+			"health_regen": 2,
+			"stamina": 10
 		}
 	],
 	[
@@ -445,6 +474,14 @@
 			"movement_speed": 10,
 			"jump_power": 10,
 			"enchantable": false
+		},
+		{
+			"name": "Khnum's Frayed Cape",
+			"level": 300,
+			"rarity": "exotic",
+			"defense": 450,
+			"magic_power": 20,
+			"stamina": 10
 		}
 	]
 ]
