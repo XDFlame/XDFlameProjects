@@ -58,8 +58,6 @@
 			"rarity": "legendary",
 			"defense": 175,
 			"magic_power": 15,
-			"defense": 175,
-			"magic_power": 15,
 			"scaling": {
 				"start": 250,
 				"end": 350,
@@ -107,26 +105,6 @@
 			"movement_speed": 6,
 			"jump_power": 6,
 			"enchantable": false
-		},
-		{
-			"name": "Tutenrah's Mask",
-			"level": 280,
-			"rarity": "exotic",
-			"magic_power": 50,
-			"magic_energy": 5
-		},
-		{
-			"name": "Legend's Resolve",
-			"level": 1,
-			"rarity": "legendary",
-			"defense": 450,
-			"magic_power": 50,
-			"magic_energy": 33,
-			"health_regen": 3,
-			"damage_reduction": 3,
-			"movement_speed": 6,
-			"jump_power": 6,
-			"enchantable": false
 		}
 	],
 	[
@@ -151,7 +129,6 @@
 			"name": "Ancient Legionnaire's Gauntlets",
 			"level": 350,
 			"rarity": "exotic",
-			"defense": 1000,
 			"defense": 1000,
 			"damage_reduction": 3
 		},
@@ -198,8 +175,6 @@
 			"name": "Sunken Champion Armor",
 			"level": 250,
 			"rarity": "legendary",
-			"defense": 550,
-			"magic_power": 40,
 			"defense": 550,
 			"magic_power": 40,
 			"scaling": {
@@ -505,7 +480,7 @@
 			"level": 300,
 			"rarity": "exotic",
 			"defense": 450,
-			"magic_power": 20,
+			"magic_power": 25,
 			"stamina": 10
 		}
 	]
