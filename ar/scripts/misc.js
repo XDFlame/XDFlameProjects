@@ -1,8 +1,8 @@
 "use strict"
 
-import {gear, gear_enchantments, magics, finals, selectors, enchantment_selectors, magic_selectors, variant_selectors} from './initialize.js';
+import {gear, gear_enchantments, magics, selectors, enchantment_selectors, magic_selectors, variant_selectors, stat_index, stat_display} from './initialize.js';
 import {display, update_images} from './display.js';
-import {calculate, health_scaling, level} from './calculate.js';
+import {calculate, health_scaling, level, finals} from './calculate.js';
 import {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids} from './filter.js';
 import {decode_share_link, delete_build, export_code, sort_code, load_build, rename_build, save_build} from './saveload.js';
 
@@ -96,12 +96,24 @@ document.querySelector('[data-text="Clear Charms"]').addEventListener('click', (
 document.querySelector('[data-text="Random"]').addEventListener('click', random_build);
 
 
+// Add preset buttons
+
+stat_display.forEach((element, index) => {
+	let btn = document.createElement('button');
+	btn.classList.add('build');
+	btn.textContent = `Max ${element}`;
+	btn.addEventListener('click', () => preset_build(stat_index[index]))
+	preset_menu.appendChild(btn);
+})
+
+
 // Random build function
 
 function random_build() {
 
 	let random_gear = [];
 	let random_gear_enchantments = [];
+	let random_variants = [];
 	let random_magics = [];
 	let apply_random_filters = random_filters.checked;
 
@@ -134,15 +146,18 @@ function random_build() {
 	for (let i = 0; i < 5; i++) {
 		random_gear[i] = allowed_gear_ids[i][Math.floor(Math.random() * allowed_gear_ids[i].length)];
 		random_gear_enchantments[i] = allowed_enchantment_ids[i][Math.floor(Math.random() * allowed_enchantment_ids[i].length)];
-	};
 
-	while (random_gear[3] === random_gear[4]) {
-		random_gear[3] = allowed_gear_ids[3][Math.floor(Math.random() * allowed_gear_ids[3].length)];
-	}
+		if (find_by_id(gear[i], random_gear[i]).variants) {
+			random_variants[i] = find_by_id(gear[i], random_gear[i]).variants[Math.floor(Math.random() * find_by_id(gear[i], random_gear[i]).variants.length)].id;	
+		}
+	};
 
 	for (let i = 0; i < 5; i++) {
 		selectors[i].selectedIndex = gear[i].findIndex(x => x.id === random_gear[i]);
 		enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex(x => x.id === random_gear_enchantments[i]);
+		if (random_variants[i] !== undefined) {
+			variant_selectors[i].setAttribute('data-selected', find_by_id(gear[i], random_gear[i]).variants.findIndex(x => x.id === random_variants[i]));
+		}
 	}
 
 	for (let i = 0; i < 3; i++) {
@@ -199,4 +214,65 @@ function find_by_id(array, value) {
 	return array.find(element => element.id === Number(value))
 }
 
-export {copy_code, share_link, find_by_id}
+
+function preset_build(stat) {
+
+	const sort_alg = (a, b) => (b[stat] ?? 0) - (a[stat] ?? 0);
+
+	let sorted_gear = structuredClone(gear).map(element => element.sort(sort_alg));
+	let sorted_enchantments = structuredClone(gear_enchantments).map(element => element.sort(sort_alg));
+	let combined_gear = structuredClone(gear);
+	let final_preset = {gear: [], enchantments: [], variants: []};
+
+	for (let [index, element] of combined_gear.entries()) {
+		for (let [index_2, element_2] of element.entries()) {
+			if (element_2.enchantable !== false) {
+				element_2[stat] = (element_2[stat] ?? 0) + (sorted_enchantments[index][0][stat] ?? 0)
+			}
+			if (element_2.variants) {
+				element_2.variants.sort(sort_alg);
+				element_2[stat] = (element_2[stat] ?? 0) + (element_2.variants[0][stat] ?? 0)
+			}
+		}
+	}
+
+	combined_gear.map(element => element.sort(sort_alg))	
+
+	for (let [index, element] of sorted_gear.entries()) {
+
+		if (find_by_id(sorted_gear[index], combined_gear[index][0].id).enchantable !== false) {
+			final_preset.gear[index] = find_by_id(sorted_gear[index], combined_gear[index][0].id);
+			final_preset.enchantments[index] = sorted_enchantments[index][0];
+		} else {
+			final_preset.gear[index] = find_by_id(sorted_gear[index], combined_gear[index][0].id);
+			final_preset.enchantments[index] = gear_enchantments[index][0];
+		}
+
+		if (index === 4) {
+			if (find_by_id(sorted_gear[4], (combined_gear[4][1].id ?? 0)).enchantable !== false) {
+				final_preset.gear[4] = find_by_id(sorted_gear[4], (combined_gear[4][1].id ?? 0))
+				final_preset.enchantments[4] = sorted_enchantments[4][0]
+			} else {
+				final_preset.gear[4] = find_by_id(sorted_gear[4], (combined_gear[4][1].id ?? 0));
+				final_preset.enchantments[4] = gear_enchantments[index][0]
+			}
+		}
+
+		if (final_preset.gear[index].variants) {
+			final_preset.variants[index] = combined_gear[index].find(element => element.id === final_preset.gear[index].id).variants[0];
+		} else {
+			final_preset.variants[index] = gear[index][0]
+		}
+	}
+
+	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], (final_preset.gear[index].id ?? 0))));
+	enchantment_selectors.forEach((element, index) => {
+		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], final_preset.enchantments[index].id))
+	});
+	variant_selectors.forEach((element, index) => element.setAttribute('data-selected', final_preset.variants[index].id))
+
+	calculate();
+	update_images();
+}
+
+export {copy_code, share_link, find_by_id, preset_build}

@@ -28,7 +28,8 @@
 		{
 			"name": "Cursed",
 			"rarity": "legendary",
-			"health_bonus": -7
+			"health_bonus": -7,
+			"magic_power": 62
 		},
 		{
 			"name": "Dynamic",
@@ -161,7 +162,8 @@
 		{
 			"name": "Cursed",
 			"rarity": "legendary",
-			"health_bonus": -7
+			"health_bonus": -7,
+			"magic_power": 62
 		},
 		{
 			"name": "Dynamic",
@@ -294,7 +296,8 @@
 		{
 			"name": "Cursed",
 			"rarity": "legendary",
-			"health_bonus": -7
+			"health_bonus": -7,
+			"magic_power": 62
 		},
 		{
 			"name": "Dynamic",
@@ -427,7 +430,8 @@
 		{
 			"name": "Cursed",
 			"rarity": "legendary",
-			"health_bonus": -7
+			"health_bonus": -7,
+			"magic_power": 62
 		},
 		{
 			"name": "Dynamic",

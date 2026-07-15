@@ -3,7 +3,8 @@
 		{
 			"name": "None",
 			"level": 0,
-			"rarity": "none"
+			"rarity": "none",
+			"enchantable": false
 		},
 		{
 			"name": "Ancient Legionnaire's Helmet",
@@ -111,7 +112,8 @@
 		{
 			"name": "None",
 			"level": 0,
-			"rarity": "none"
+			"rarity": "none",
+			"enchantable": false
 		},
 		{
 			"name": "Alalean Guard's Armor",
@@ -218,7 +220,8 @@
 		{
 			"name": "None",
 			"level": 0,
-			"rarity": "none"
+			"rarity": "none",
+			"enchantable": false
 		},
 		{
 			"name": "Evil Wizard Pants",
@@ -312,7 +315,8 @@
 		{
 			"name": "None",
 			"level": 0,
-			"rarity": "none"
+			"rarity": "none",
+			"enchantable": false
 		},
 		{
 			"name": "Apex Predator Eyepatch",

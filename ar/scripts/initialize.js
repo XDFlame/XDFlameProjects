@@ -42,8 +42,6 @@ const magic_selectors = [
 	second_magic_selector,
 	third_magic_selector
 ];
-let finals = [{}, {}, {}, {}, {}];
-let final_build = {};
 const stat_index = [
 	'defense',
 	'magic_power',
@@ -245,7 +243,6 @@ saved_builds.forEach(element => add_build(element))
 
 export {
 	gear, gear_enchantments, magics,
-	finals, final_build,
 	selected, selected_enchantments, selected_magics,
 	selectors, enchantment_selectors, variant_selectors, magic_selectors,
 	stat_index, stat_display,

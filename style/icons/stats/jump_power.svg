@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50"
+   height="50"
+   viewBox="0 0 13.229166 13.229167"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="jump_power.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#6d6d6d"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="11.95881"
+     inkscape:cx="17.727516"
+     inkscape:cy="27.302048"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="95"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powermask"
+       id="path-effect6"
+       is_visible="true"
+       lpeversion="1"
+       uri="#mask-powermask-path-effect6"
+       invert="false"
+       hide_mask="false"
+       background="true"
+       background_color="#ffffffff" />
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect6">
+      <g
+         id="g6"
+         style="fill:#020000;fill-opacity:1"
+         transform="matrix(0.62968128,0,0,0.62968128,2.4495039,2.891995)">
+        <rect
+           style="fill:#020000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.126216;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="rect5"
+           width="9.260417"
+           height="1.3229166"
+           x="1.9843748"
+           y="5.953125" />
+        <rect
+           style="fill:#020000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.126216;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="rect6"
+           width="9.260417"
+           height="1.3229166"
+           x="-11.244792"
+           y="5.953125"
+           transform="rotate(-90)" />
+      </g>
+    </mask>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g1"
+       transform="matrix(1.2895038,0,0,1.2895038,-1.2747621,-1.9802922)">
+      <g
+         id="g7"
+         transform="rotate(-90,6.4502994,6.9974326)">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.142103;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="rect7"
+           width="7.9375"
+           height="1.3229166"
+           x="2.6458333"
+           y="5.953125" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.218006;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           d="M 9.7244656,4.2811807 V 8.9479858 L 11.912031,6.7604209 Z"
+           id="path7" />
+      </g>
+      <g
+         id="g7-8"
+         transform="matrix(0,-0.6065107,0.6065107,0,-0.49332543,13.399541)">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.142103;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="rect7-8"
+           width="7.9375"
+           height="1.3229166"
+           x="2.6458333"
+           y="5.953125" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.218006;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           d="M 9.7244656,4.2811807 V 8.9479858 L 11.912031,6.7604209 Z"
+           id="path7-1" />
+      </g>
+      <g
+         id="g7-7"
+         transform="matrix(0,-0.47376732,0.47376732,0,5.8937302,9.7298949)">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.142103;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           id="rect7-0"
+           width="7.9375"
+           height="1.3229166"
+           x="2.6458333"
+           y="5.953125" />
+        <path
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.218006;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+           d="M 9.7244656,4.2811807 V 8.9479858 L 11.912031,6.7604209 Z"
+           id="path7-8" />
+      </g>
+    </g>
+  </g>
+</svg>

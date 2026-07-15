@@ -2,19 +2,20 @@
 
 import {
 	gear, gear_enchantments, magics,
-	finals, final_build,
 	selected, selected_enchantments, selected_magics,
 	selectors, enchantment_selectors, variant_selectors, magic_selectors,
 	stat_index, stat_display
 } from './initialize.js';
 import {find_by_id} from './misc.js';
-import {number_format, display, update_images} from './display.js';
+import {number_format, display, display_player_stats, display_magics, update_images} from './display.js';
 
 let level;
 let magic_level;
 let strength_level;
 let selected_variants = [];
 let selected_magic_tiers = [];
+let finals = [{}, {}, {}, {}, {}];
+let final_build = {};
 
 
 function clamp(n, min, max) {
@@ -144,48 +145,45 @@ function calculate_q() {
 			(level/2 + magic_level/4 + selected_magics[i].base_damage) * (selected_magics[i].base_efficiency ?? 1) +
 			final_build.magic_power * (selected_magics[i].power_efficiency ?? 1) * selected_magic_tiers[i]/5
 		)
-
-		let li = document.createElement('li');
-		li.innerText = `${strings[i]} Magic Q Damage: ${number_format(final_magic_damage[i])}`;
-		ul.appendChild(li);
 	}
 
-	return ul;
+	return final_magic_damage;
 }
 
 
 function health_scaling() {
 
-	let value = Number(health_slider.value)
+	let value = Number(health_slider.value);
 
-	let damage_reduction = final_build.damage_reduction;
-	let health_decimal = value/100
+	final_build.magic_power = 0;
+	final_build.damage_reduction = 0;
 
-	if (health_decimal <= 0.8) {
-		let multiplier = clamp(health_decimal + 0.2, 0.4, 1)
-		damage_reduction = damage_reduction * multiplier
+	for (let i in finals) {
+		final_build.magic_power += (finals[i].magic_power ?? 0);
+		final_build.damage_reduction += (finals[i].damage_reduction ?? 0);
 	}
 
-	let effective_health = number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100) / (1 - damage_reduction/100)))
+	let damage_reduction = (final_build.damage_reduction ?? 0);
+	let health_decimal = value/100;
 
-	document.querySelector('.output ul li:nth-of-type(3)').innerText = `Damage Reduction: ${Math.round(damage_reduction)}%`
-	document.querySelector('.output ul:nth-of-type(2) li:nth-of-type(2)').innerText = `Effective Health: ${effective_health}`;
+	if (health_decimal <= 0.8) {
+		let multiplier = clamp(health_decimal + 0.2, 0.4, 1);
+		damage_reduction = damage_reduction * multiplier;
+		final_build.damage_reduction = Number(damage_reduction.toFixed(1));
+	}
+
+	let effective_health = number_format(Math.round((level * 7 + 93 + (final_build.defense ?? 0)) * (1 + (final_build.health_bonus ?? 0)/100) / (1 - damage_reduction/100)));
 
 	for (let i in selected_enchantments) {
 		if (selected_enchantments[i].name === 'Berserk') {
-			finals[i].magic_power = Math.floor(armor_scaling(selected[i], 'magic_power') + selected_enchantments[i].magic_power * clamp(100/health_slider.value, 1, 4));
+			finals[i].magic_power = Math.floor((armor_scaling(selected[i], 'magic_power') ?? 0) + (selected_enchantments[i].magic_power ?? 0) * clamp(100/health_slider.value, 1, 4));
 		}
 	}
 
-	final_build.magic_power = 0;
-	for (let i in finals) {
-		final_build.magic_power += finals[i].magic_power
-	}
-
-	document.querySelector('.output ul li:nth-of-type(2)').innerText = `Magic Power: ${Math.round(final_build.magic_power)}`
-	document.querySelector('div.slider span:nth-of-type(2)').innerText = `${value}%`
-	document.querySelectorAll('.output ul')[2].remove();
-	document.querySelector('.output').appendChild(calculate_q())
+	document.querySelector('.output ul').replaceWith(display(final_build));
+	document.querySelector('.output ul:nth-of-type(2)').replaceWith(display_player_stats());
+	document.querySelector('div.slider span:nth-of-type(2)').innerText = `${value}%`;
+	document.querySelector('.output ul:nth-of-type(3)').replaceWith(display_magics(calculate_q()));
 }
 
 
@@ -233,10 +231,8 @@ function calculate() {
 	magic_level = Number(magic_level_input.value);
 	strength_level = Number(strength_level_input.value);
 
-	stat_index.forEach(stat => {
-		final_build[stat] = 0;
-		finals.forEach(element => element[stat] = 0)
-	})
+	finals = [{}, {}, {}, {}, {}];
+	final_build = {};
 
 	for (let i = 0; i < 5; i++) {
 		selected[i] = structuredClone(find_by_id(gear[i], Number(selectors[i].value)));
@@ -252,8 +248,7 @@ function calculate() {
 	// Sets magic power value for cursed to the extra value cursed would add per piece
 	
 	gear_enchantments.forEach((element, index) => {
-		if (!selected[index].magic_power) {selected[index].magic_power = 0};
-		element.find(x => x.name === 'Cursed').magic_power = armor_scaling(selected[index], 'magic_power') * 0.4 + 62;
+		element.find(x => x.name === 'Cursed').magic_power = (armor_scaling(selected[index], 'magic_power') ?? 0) * 0.4 + 62;
 	})
 
 
@@ -261,35 +256,23 @@ function calculate() {
 
 	finals.forEach((element, index) => {
 		stat_index.forEach(stat => {
-			if (!selected[index][stat]) {selected[index][stat] = 0}
-			if (!selected_enchantments[index][stat]) {selected_enchantments[index][stat] = 0}
-
-			element[stat] = Math.floor(armor_scaling(selected[index], stat) + selected_enchantments[index][stat]);
-			final_build[stat] += element[stat];
+			if (!selected[index][stat] && !selected_enchantments[index][stat]) {return};
+			
+			element[stat] = Math.floor((armor_scaling(selected[index], stat) ?? 0) + (selected_enchantments[index][stat] ?? 0));
+			if(!final_build[stat]) {final_build[stat] = 0};
+			final_build[stat] += (element[stat] ?? 0);
 		})
 	});
 
 
 	// Outputs stats
 
+	let hr = document.createElement('hr')
+	let hr2 = document.createElement('hr')
 	document.querySelector('.output').innerHTML = '';
-	document.querySelector('.output').appendChild(display(final_build));
-	document.querySelector('.output').innerHTML += `
-		<hr>
-		<ul>
-			<li>Max Health: ${number_format(Math.round((level * 7 + 93 + final_build.defense) * (1 + final_build.health_bonus/100)))}
-			<li>Effective Health:
-			<li>Health Regen: ${Math.round(((level * 7 + 93) * 0.01) + final_build.defense/1000 + final_build.health_regen)} HP/s
-			<li>Magic Energy: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100)))}
-			<li>Magic Energy Regen: ${number_format(Math.floor((magic_level * 5 + 25) * (1 + final_build.magic_energy/100) * 0.2))}/s
-			<li>Stamina: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + final_build.stamina/100)))}
-			<li>Stamina Regen: ${number_format(Math.floor((strength_level * 5 + 25) * (1 + (final_build.stamina + final_build.stamina_regen)/100) * 0.1))}/s
-		</ul>
-		<hr>
-	`;
-	document.querySelector('.output').appendChild(calculate_q())
+	document.querySelector('.output').append(display(final_build), hr, display_player_stats(), hr2, display_magics(calculate_q()));
 
 	health_scaling();
 }
 
-export {calculate, health_scaling, level, magic_level, strength_level, selected_variants}
+export {calculate, health_scaling, level, magic_level, strength_level, selected_variants, finals, final_build}

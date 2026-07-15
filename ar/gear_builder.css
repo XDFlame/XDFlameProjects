@@ -26,7 +26,7 @@ button:active, button.active, button.info:not(.conflict):hover {
 	border-color: rgb(0, 125, 255);
 }
 
-.build.active {
+.build.active, #preset_menu .build:active {
 	background-color: rgb(0, 125, 255);
 }
 
@@ -131,6 +131,19 @@ p.output {
 	box-shadow: var(--boxShadow);
 	margin: 0;
 	padding: 0.5em 0.75em 0.75em 0.75em;
+	height: min-content;
+}
+
+.output li {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+div.stat {
+	height: 1.25em;
+	aspect-ratio: 1/1;
+	mask-size: cover !important;
 }
 
 p.output hr {
@@ -187,13 +200,13 @@ button.conflict::after {
 	column-gap: 0.75rem;
 }
 
-#save_menu[popover] {
+#save_menu[popover], #preset_menu[popover] {
 	height: 50%;
 	min-width: 25%;
 	align-content: start;
 }
 
-#save_menu:popover-open {
+#save_menu:popover-open, #preset_menu:popover-open {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	column-gap: 0.5rem;
@@ -209,7 +222,7 @@ button.conflict::after {
 	grid-column: span 2;
 }
 
-#save_menu .build, #save_menu hr, #save_search {
+.build, #save_menu hr, #save_search {
 	grid-column: span 4;
 	max-height: unset;
 }
