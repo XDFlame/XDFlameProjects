@@ -390,7 +390,7 @@
 			"name": "Stone Mask",
 			"level": 300,
 			"rarity": "rare",
-			"defense": 300,
+			"defense": 275,
 			"magic_power": 45,
 			"variants": [
 				{
