@@ -115,6 +115,16 @@ magics.forEach(
 	}
 )
 
+/*{
+	let temp = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}};
+	for (let [index, element] of gear.entries()) {
+		for (let element2 of element) {
+			temp[index][element2.id] = element2
+		}
+	}
+	gear = temp;
+}console.log(gear)*/
+
 
 // Sorts the gear, gear_enchantments, and magics arrays alphabetically with none at the top
 
@@ -159,6 +169,14 @@ function create_options(array, select) {
 		}
 	)
 }
+
+gear[0].forEach(element => {
+	let img = document.createElement('img');
+	img.src = `/ar/images/frames/${element.rarity}.png`;
+	img.style.backgroundImage = `url("/ar/images/hats/${element.name}.png"), url(/ar/images/background.png)`;
+	img.setAttribute('data-id', element.id);
+	hat_popover.querySelector('.grid-wrapper').append(img)
+})
 
 create_options(gear, selectors);
 create_options(gear_enchantments, enchantment_selectors)

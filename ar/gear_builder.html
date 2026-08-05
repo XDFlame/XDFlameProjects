@@ -181,12 +181,20 @@
 
 				<div class="piece" style="grid-area: a">
 
-					<img class="gear_image" style="grid-area: a">
+					<img class="gear_image" style="grid-area: a" onclick="hat_popover.showPopover()">
 
 					<img class="charm_image" style="grid-area: b">
 
 					<select id="hat_selector" style="grid-area: c">
 					</select>
+
+					<div popover id="hat_popover">
+						<div id="hat_tooltip" class="tooltip"></div>
+						<div class="grid-wrapper">
+							<input type="text" placeholder="Search">
+							<hr>
+						</div>
+					</div>
 
 					<select id="hat_enchantment_selector" style="grid-area: d">
 					</select>

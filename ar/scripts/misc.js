@@ -44,6 +44,45 @@ document.addEventListener('click', event => {
 		filter_selector.querySelectorAll('li input').forEach(element => element.checked = event.target.checked);
 		filter();
 	}
+
+	if (event.target.matches('#hat_popover img')) {
+		selectors[0].selectedIndex = gear[0].indexOf(find_by_id(gear[0], event.target.getAttribute('data-id')));
+		calculate();
+		hat_popover.hidePopover();
+	}
+})
+
+hat_popover.addEventListener('mousemove', event => {
+
+	let element = find_by_id(gear[0], event.target.getAttribute('data-id'));
+	let rarity_colors = {
+		none: '#ffffff',
+		common: '#bbbbbb',
+		uncommon: '#ebb306',
+		rare: '#0458db',
+		exotic: '#d0080f',
+		legendary: '#00ff00', 
+		seasonal: '#d008d9'
+	}
+
+	let cap = (str) => {return str.replace(/^[a-z]/, x => x.toUpperCase())}
+
+	if (event.target.matches('img')) {
+		hat_tooltip.innerHTML =
+		`
+			${element.name}
+			<div class="wrapper">
+				<span>Lvl: ${element.level}+</span> | <span style="color: ${rarity_colors[element.rarity]}">${cap(element.rarity)}</span>
+			</div>
+			<hr>
+		`;
+		hat_tooltip.append(display(element))
+		hat_tooltip.style.display = 'grid';
+		hat_tooltip.style.left = `${event.layerX - hat_tooltip.offsetWidth/2}px`;
+		hat_tooltip.style.top = `${event.layerY + 15}px`;
+	} else {
+		hat_tooltip.style.display = 'none';
+	}
 })
 
 let level_selectors = [level_input, magic_level_input, strength_level_input];

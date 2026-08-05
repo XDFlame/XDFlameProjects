@@ -3,6 +3,48 @@ img:nth-of-type(2):has(~:disabled), :disabled {
 	filter: brightness(0.7);
 }
 
+#hat_popover:popover-open {
+	width: 100%;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	overflow: visible;
+	display: flex;
+	justify-content: center;
+}
+
+.grid-wrapper {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 0.5em;
+	max-width: 50%;
+}
+
+ .grid-wrapper hr, .grid-wrapper input {
+	grid-column: span 6;
+}
+
+.tooltip {
+	position: absolute;
+	background-color: var(--backgroundColor);
+	border: var(--border);
+	border-radius: var(--borderRadius);
+	box-shadow: var(--boxShadow);
+	padding: 0.25em 0.5em 0.5em 0.5em;
+	display: grid;
+	grid-template-columns: 1fr;
+	text-align: center;
+}
+
+.tooltip li {
+	display: flex;
+	justify-content: center;
+}
+
+.tooltip > .wrapper {
+	font-size: 0.8em;
+}
+
 button {
 	padding: 0;
 	display: flex;

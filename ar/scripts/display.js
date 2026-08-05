@@ -15,49 +15,35 @@ function sign_check(n) {
 
 function display(piece) {
 
-	let final_string = [];
 	let final_list = document.createElement('ul');
-	let final_icons = [];
 
 	stat_index.forEach((stat, index) => {
 
 		if (!piece[stat]) {return}
 
-		if (index <= 1) {
-			final_string[index] = `${stat_display[index]}: ${number_format(piece[stat])}`
+		let string = `${sign_check(number_format(piece[stat]))}%`
+
+		if (stat === 'defense' || stat === 'magic_power') {
+			string = `${number_format(piece[stat])}`;
 		}
 
-		if (index == 2) {
-			final_string[index] = `${stat_display[index]}: ${piece[stat]}%`
-		}
-
-		if (index == 3 || index >= 5) {
-			final_string[index] = `${stat_display[index]}: ${sign_check(piece[stat])}%`
-		}
-
-		if (index == 4) {
-			final_string[index] = `${stat_display[index]}: ${sign_check(piece[stat])} HP/s`;
+		if (stat === 'health_regen') {
+			string = `${sign_check(number_format(piece[stat]))} HP/s`
 		}
 
 		let div = document.createElement('div');
-		div.classList.add('stat')
+		div.classList.add('stat');
 		div.style.backgroundColor = stat_colors[index];
 		div.style.mask = `url('/style/icons/stats/${stat}.svg')`;
-		final_icons[index] = div;
-	})
-
-	for (let i in final_string) {
-
-		let split = final_string[i].split(':');
 
 		let span = document.createElement('span');
-		span.append(split[1])
-		span.style.color = stat_colors[i];
+		span.append(string);
+		span.style.color = stat_colors[index];
 
-		let final_list_li = document.createElement('li');
-		final_list_li.append(`${split[0]}: `, final_icons[i], span)
-		final_list.appendChild(final_list_li);
-	}
+		let li = document.createElement('li');
+		li.append(`${stat_display[index]}: `, div, span)
+		final_list.append(li);
+	})
 
 	return final_list;
 }

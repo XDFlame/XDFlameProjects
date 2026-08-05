@@ -180,10 +180,10 @@ function health_scaling() {
 		}
 	}
 
-	document.querySelector('.output ul').replaceWith(display(final_build));
-	document.querySelector('.output ul:nth-of-type(2)').replaceWith(display_player_stats());
+	document.querySelector('p.output ul').replaceWith(display(final_build));
+	document.querySelector('p.output ul:nth-of-type(2)').replaceWith(display_player_stats());
 	document.querySelector('div.slider span:nth-of-type(2)').innerText = `${value}%`;
-	document.querySelector('.output ul:nth-of-type(3)').replaceWith(display_magics(calculate_q()));
+	document.querySelector('p.output ul:nth-of-type(3)').replaceWith(display_magics(calculate_q()));
 }
 
 
@@ -269,8 +269,8 @@ function calculate() {
 
 	let hr = document.createElement('hr')
 	let hr2 = document.createElement('hr')
-	document.querySelector('.output').innerHTML = '';
-	document.querySelector('.output').append(display(final_build), hr, display_player_stats(), hr2, display_magics(calculate_q()));
+	document.querySelector('p.output').innerHTML = '';
+	document.querySelector('p.output').append(display(final_build), hr, display_player_stats(), hr2, display_magics(calculate_q()));
 
 	health_scaling();
 }
