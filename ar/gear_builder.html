@@ -82,7 +82,11 @@
 
 					<div popover id="filter_selector">
 
-						<span style="grid-area: a">Gear</span>
+						<span style="grid-area: a; display: flex; justify-content: space-between; align-items: center;">
+							<img src="/style/icons/close.svg" class="back" onclick="filter_selector.hidePopover()">
+							Gear
+							<div></div>
+						</span>
 
 						<hr style="grid-area: b">
 
@@ -181,124 +185,221 @@
 
 				<div class="piece" style="grid-area: a">
 
-					<img class="gear_image" style="grid-area: a" onclick="hat_popover.showPopover()">
+					<img class="gear_image" style="grid-area: a" id="hat_selector"  data-selected="0">
 
-					<img class="charm_image" style="grid-area: b">
-
-					<select id="hat_selector" style="grid-area: c">
-					</select>
-
-					<div popover id="hat_popover">
-						<div id="hat_tooltip" class="tooltip"></div>
-						<div class="grid-wrapper">
+					<div popover id="hat_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
 							<input type="text" placeholder="Search">
-							<hr>
 						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="hat_tooltip" class="tooltip"></div>
 					</div>
 
-					<select id="hat_enchantment_selector" style="grid-area: d">
-					</select>
+					<img class="charm_image" style="grid-area: b" id="hat_enchantment_selector"  data-selected="0">					
 
-					<select id="hat_variant_selector" class="variant-selector" style="grid-area: f">
-					</select>
+					<div popover id="hat_enchantment_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="hat_enchantment_tooltip" class="tooltip"></div>
+					</div>
 
-					<button class="info" style="grid-area: e"></button>
+					<div class="sub-container" style="grid-area: c">
+						<button class="info"></button>
 
-					<button class="clear" style="grid-area: g">
-						<img src="/style/icons/clear.svg">
-					</button>
+						<button class="clear">
+							<img src="/style/icons/clear.svg">
+						</button>
+
+						<button class="set hidden">
+							<img src="/style/icons/set.svg">
+						</button>
+					</div>
 
 				</div>
 
 				<div class="piece" style="grid-area: b">
 
-					<img class="gear_image" style="grid-area: a">
+					<img class="gear_image" style="grid-area: a" id="shirt_selector" data-selected="0">
 
-					<img class="charm_image" style="grid-area: b">
+					<div popover id="shirt_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="shirt_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="shirt_selector" style="grid-area: c">
-					</select>
+					<img class="charm_image" style="grid-area: b" id="shirt_enchantment_selector"  data-selected="0">
 
-					<select id="shirt_enchantment_selector" style="grid-area: d">
-					</select>
+					<div popover id="shirt_enchantment_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="shirt_enchantment_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="shirt_variant_selector" class="variant-selector" style="grid-area: f">
-					</select>
+					<div class="sub-container" style="grid-area: c">
+						<button class="info"></button>
 
-					<button class="info" style="grid-area: e"></button>
+						<button class="clear">
+							<img src="/style/icons/clear.svg">
+						</button>
 
-					<button class="clear" style="grid-area: g">
-						<img src="/style/icons/clear.svg">
-					</button>
+						<button class="set hidden">
+							<img src="/style/icons/set.svg">
+						</button>
+					</div>
 
 				</div>
 
 				<div class="piece" style="grid-area: c">
 
-					<img class="gear_image" style="grid-area: a">
+					<img class="gear_image" style="grid-area: a" id="pants_selector"  data-selected="0">
 
-					<img class="charm_image" style="grid-area: b">
+					<div popover id="pants_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="pants_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="pants_selector" style="grid-area: c">
-					</select>
+					<img class="charm_image" style="grid-area: b" id="pants_enchantment_selector"  data-selected="0">
 
-					<select id="pants_enchantment_selector" style="grid-area: d">
-					</select>
+					<div popover id="pants_enchantment_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="pants_enchantment_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="pants_variant_selector" class="variant-selector" style="grid-area: f">
-					</select>
+					<div class="sub-container" style="grid-area: c">
+						<button class="info"></button>
 
-					<button class="info" style="grid-area: e"></button>
+						<button class="clear">
+							<img src="/style/icons/clear.svg">
+						</button>
 
-					<button class="clear" style="grid-area: g">
-						<img src="/style/icons/clear.svg">
-					</button>
+						<button class="set hidden">
+							<img src="/style/icons/set.svg">
+						</button>
+					</div>
 
 				</div>
 
 				<div class="piece" style="grid-area: d">
 
-					<img class="gear_image" style="grid-area: a">
+					<img class="gear_image" style="grid-area: a"  id="accessory_1_selector"  data-selected="0">
 
-					<img class="charm_image" style="grid-area: b">
+					<div popover id="accessory_1_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="acessory_1_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="accessory_1_selector" style="grid-area: c">
-					</select>
+					<img class="charm_image" style="grid-area: b" id="accessory_1_enchantment_selector"  data-selected="0">
 
-					<select id="accessory_1_enchantment_selector" style="grid-area: d">
-					</select>
+					<div popover id="accessory_1_enchantment_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="accessory_1_enchantment_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="accessory_1_variant_selector" class="variant-selector" style="grid-area: f">
-					</select>
+					<div class="sub-container" style="grid-area: c">
+						<button class="info"></button>
 
-					<button class="info" style="grid-area: e"></button>
+						<button class="clear">
+							<img src="/style/icons/clear.svg">
+						</button>
 
-					<button class="clear" style="grid-area: g">
-						<img src="/style/icons/clear.svg">
-					</button>
+						<button class="set hidden">
+							<img src="/style/icons/set.svg">
+						</button>
+					</div>
 
 				</div>
 
 				<div class="piece" style="grid-area: e">
 
-					<img class="gear_image" style="grid-area: a">
+					<img class="gear_image" style="grid-area: a" id="accessory_2_selector" data-selected="0">
 
-					<img class="charm_image" style="grid-area: b">
+					<div popover id="accessory_2_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="accessory_2_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="accessory_2_selector" style="grid-area: c">
-					</select>
+					<img class="charm_image" style="grid-area: b" id="accessory_2_enchantment_selector"  data-selected="0">
 
-					<select id="accessory_2_enchantment_selector" style="grid-area: d">
-					</select>
+					<div popover id="accessory_2_enchantment_popover" class="popover">
+						<div class="sub-container">
+							<button popovertarget="filter_selector" data-text="Filter">
+								<img src="/style/icons/filter.svg">
+							</button>
+							<input type="text" placeholder="Search">
+						</div>
+						<hr>
+						<div class="grid-wrapper"></div>
+						<div id="accessory_2_enchantment_tooltip" class="tooltip"></div>
+					</div>
 
-					<select id="accessory_2_variant_selector" class="variant-selector" style="grid-area: f">
-					</select>
+					<div class="sub-container" style="grid-area: c">
+						<button class="info"></button>
 
-					<button class="info" style="grid-area: e"></button>
+						<button class="clear">
+							<img src="/style/icons/clear.svg">
+						</button>
 
-					<button class="clear" style="grid-area: g">
-						<img src="/style/icons/clear.svg">
-					</button>
+						<button class="set hidden">
+							<img src="/style/icons/set.svg">
+						</button>
+					</div>
 
 				</div>
 
@@ -306,7 +407,7 @@
 
 			</div>
 
-			<p class="output" id="piece_output" style="position: fixed;"></p>
+			<p class="output" id="piece_output" style="position: fixed; display: none;"></p>
 
 		</main>
 

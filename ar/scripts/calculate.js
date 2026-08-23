@@ -3,7 +3,7 @@
 import {
 	gear, gear_enchantments, magics,
 	selected, selected_enchantments, selected_magics,
-	selectors, enchantment_selectors, variant_selectors, magic_selectors,
+	selectors, popovers, enchantment_selectors, magic_selectors,
 	stat_index, stat_display
 } from './initialize.js';
 import {find_by_id} from './misc.js';
@@ -30,17 +30,20 @@ function armor_scaling(piece, stat) {
 
 
 function level_lock() {
-	
-	for (let i in gear) {
 
-		for (let i2 in gear[i]) {
-			[...selectors[i]].find(x => x.value == gear[i][i2].id).disabled = (gear[i][i2].level > level);
-		}
-
-		if (selected[i].level > level) {
-			selectors[i].selectedIndex = 0;
-			selected[i] = find_by_id(gear[i], 0);
-			update_images();
+	for (let [index, element] of popovers.entries()) {
+		for (let element2 of element.querySelectorAll('.grid-wrapper img')) {
+			if (gear[index][element2.getAttribute('data-id')].level > level) {
+				element2.classList.add('disabled')
+			}
+			else if (gear[index][element2.getAttribute('data-id')].level <= level) {
+				element2.classList.remove('disabled')
+			}
+			if (selected[index].level > level) {
+				selectors[index].setAttribute('data-selected', 0);
+				selected[index] = gear[index][0];
+				update_images();
+			}
 		}
 	}
 }
@@ -48,17 +51,20 @@ function level_lock() {
 
 function enchantment_lock() {
 
-	selected.forEach((element, index) => {
+	for (let [index, element] of enchantment_selectors.entries()) {
 
-		enchantment_selectors[index].disabled = false
+		element.classList.remove('disabled');
 
-		if (element.enchantable === false) {
-			enchantment_selectors[index].disabled = true
-			enchantment_selectors[index].selectedIndex = 0;
-			selected_enchantments[index] = find_by_id(gear_enchantments[index], 0);
-			update_images();
+		if (selected[index].enchantable === false) {
+			element.classList.add('disabled');
+			
+			if (selected_enchantments[index].id !== 0) {
+				element.setAttribute('data-selected', 0);
+				selected_enchantments[index] = gear_enchantments[index][0];
+				update_images();
+			}
 		}
-	})
+	}
 }
 
 
@@ -187,69 +193,84 @@ function health_scaling() {
 }
 
 
-function variant_handler() {
+function variant_handler(id, index) {
+
+	let element = structuredClone(gear[index][id]);
 	
-	selected.forEach((element, index) => {
+	//if (!popovers[index].querySelector('.variants')) {
 
-		if (element.variants) {
+		const gear_strings = ['hats', 'shirts', 'pants', 'accessories', 'accessories'];
 
-			if (variant_selectors[index].children.length === 0) {
-				element.variants.forEach(element_2 => {
-					let option = document.createElement('option');
-					option.value = element_2.id;
-					option.innerText = element_2.name;
-					variant_selectors[index].appendChild(option);
-				});
-			}
+		let grid = popovers[index].querySelector('.grid-wrapper')
+		let grid2 = document.createElement('div');
+		
+		grid2.classList.add('grid-wrapper', 'variants');
 
-			if (variant_selectors[index].getAttribute('data-selected')) {
-				let data = variant_selectors[index].getAttribute('data-selected');
-				variant_selectors[index].selectedIndex = element.variants.indexOf(find_by_id(element.variants, data));
-				variant_selectors[index].removeAttribute('data-selected');
-			}
+		for (let element2 of element.variants) {
+			let img = document.createElement('img');
 
-			selected_variants[index] = element.variants[variant_selectors[index].value];
+			img.setAttribute('data-variant-id', element2.id);
+			img.setAttribute('data-id', element.id);
 
-			stat_index.forEach(stat => {
-				if (!selected[index][stat]) {selected[index][stat] = 0}
-				if (!selected_variants[index][stat]) {selected_variants[index][stat] = 0}
-				element[stat] += selected_variants[index][stat]
+			img.src = `images/frames/${element.rarity}.png`;
+			img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element.name}/${element2.name}.png"), url(/ar/images/background.png)`;
+
+			img.addEventListener('click', () => {
+				selectors[index].setAttribute('data-selected', element.id);
+				selectors[index].setAttribute('data-selected-variant', element2.id);
+
+				grid2.remove();
+				grid.removeAttribute('style');
+				popovers[index].hidePopover();
+
+				calculate();
+				update_images();
 			})
+			grid2.append(img)
 		}
 		
-		else if (!element.variants) {
-			variant_selectors[index].replaceChildren();
-		}
-	})
+		grid.after(grid2);
+		grid.style.display = 'none';
+	//}
 }
 
 function calculate() {
 
 	// Defines variables
 
-	level = Number(level_input.value);
+	level = Number(level_input.value);                                                                                                          
 	magic_level = Number(magic_level_input.value);
 	strength_level = Number(strength_level_input.value);
 
 	finals = [{}, {}, {}, {}, {}];
 	final_build = {};
 
-	for (let i = 0; i < 5; i++) {
-		selected[i] = structuredClone(find_by_id(gear[i], Number(selectors[i].value)));
-		selected_enchantments[i] = find_by_id(gear_enchantments[i], Number(enchantment_selectors[i].value));
+	for (let index = 0; index < 5; index++) {
+		selected[index] = structuredClone(gear[index][selectors[index].getAttribute('data-selected')]);
+		selected_enchantments[index] = structuredClone(gear_enchantments[index][enchantment_selectors[index].getAttribute('data-selected')]);
+		
+		if (selected[index].variants) {
+			selected_variants[index] = structuredClone(selected[index].variants[selectors[index].getAttribute('data-selected-variant')]);
+
+			stat_index.forEach(stat => {
+				if (!selected[index][stat] && !selected_variants[index][stat]) {return}
+				if (selected[index][stat] || selected_variants[index][stat]) {
+					selected[index][stat] = (selected[index][stat] ?? 0) + (selected_variants[index][stat] ?? 0);
+				}
+			})
+		}
 	}
 
-	variant_handler();
 	level_lock();
 	enchantment_lock();
 	dupe_warn();
 
 
 	// Sets magic power value for cursed to the extra value cursed would add per piece
-	
-	gear_enchantments.forEach((element, index) => {
-		element.find(x => x.name === 'Cursed').magic_power = (armor_scaling(selected[index], 'magic_power') ?? 0) * 0.4 + 62;
-	})
+
+	for (let [index, element] of Object.entries(gear_enchantments)) {
+		element[5].magic_power = (armor_scaling(selected[index], 'magic_power') ?? 0) * 0.4 + 62;
+	}
 
 
 	// Sets final values for each piece to the stats of the selected one + its respective enchantment, then sums each one into final_build object
@@ -275,4 +296,4 @@ function calculate() {
 	health_scaling();
 }
 
-export {calculate, health_scaling, level, magic_level, strength_level, selected_variants, finals, final_build}
+export {calculate, armor_scaling, health_scaling, variant_handler, level, magic_level, strength_level, selected_variants, finals, final_build}

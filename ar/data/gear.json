@@ -11,7 +11,8 @@
 			"level": 350,
 			"rarity": "exotic",
 			"defense": 300,
-			"damage_reduction": 3
+			"damage_reduction": 3,
+			"set": "ancient_legionnaire"
 		},
 		{
 			"name": "Arsen's Hat",
@@ -25,33 +26,38 @@
 			"level": 320,
 			"rarity": "rare",
 			"magic_power": 25,
-			"magic_energy": 15
+			"magic_energy": 15,
+			"set": "evil_wizard"
 		},
 		{
 			"name": "Midnight Mage Hood",
 			"level": 300,
 			"rarity": "uncommon",
-			"magic_power": 25
+			"magic_power": 25,
+			"set": "midnight_mage"
 		},
 		{
 			"name": "Prometheus' Crown",
 			"level": 320,
 			"rarity": "legendary",
 			"defense": 100,
-			"magic_power": 50
+			"magic_power": 50,
+			"set": "promethean"
 		},
 		{
 			"name": "Quartermaster's Hat",
 			"level": 320,
 			"rarity": "rare",
-			"defense": 200
+			"defense": 200,
+			"set": "quartermaster"
 		},
 		{
 			"name": "Rupin's Hat",
 			"level": 285,
 			"rarity": "exotic",
 			"defense": 215,
-			"magic_power": 20
+			"magic_power": 20,
+			"set": "rupin"
 		},
 		{
 			"name": "Sunken Champion Helm",
@@ -64,7 +70,8 @@
 				"end": 350,
 				"defense": 1,
 				"magic_power": 0.1
-			}
+			},
+			"set": "sunken_champion"
 		},
 		{
 			"name": "Sunken Warrior Helm",
@@ -77,7 +84,8 @@
 				"end": 200,
 				"defense": 0.75,
 				"magic_power": 0.05
-			}
+			},
+			"set": "sunken_warrior"
 		},
 		{
 			"name": "Khnum's Mask",
@@ -85,7 +93,8 @@
 			"rarity": "rare",
 			"defense": 225,
 			"magic_power": 10,
-			"stamina": 3
+			"stamina": 3,
+			"set": "khnum"
 		},
 		{
 			"name": "Tutenrah's Mask",
@@ -132,46 +141,53 @@
 			"level": 350,
 			"rarity": "exotic",
 			"defense": 1000,
-			"damage_reduction": 3
+			"damage_reduction": 3,
+			"set": "ancient_legionnaire"
 		},
 		{
 			"name": "Evil Wizard Robes",
 			"level": 320,
 			"rarity": "rare",
 			"magic_power": 100,
-			"magic_energy": 15
+			"magic_energy": 15,
+			"set": "evil_wizard"
 		},
 		{
 			"name": "Midnight Mage Robes",
 			"level": 300,
 			"rarity": "uncommon",
-			"magic_power": 100
+			"magic_power": 100,
+			"set": "midnight_mage"
 		},
 		{
 			"name": "Preserved Empyrean Armor",
 			"level": 280,
 			"rarity": "rare",
 			"defense": 650,
-			"magic_power": 20
+			"magic_power": 20,
+			"set": "preserved_empyrean"
 		},
 		{
 			"name": "Prometheus' Toga",
 			"level": 320,
 			"rarity": "exotic",
-			"magic_power": 145
+			"magic_power": 145,
+			"set": "promethean"
 		},
 		{
 			"name": "Quartermaster's Cloak",
 			"level": 320,
 			"rarity": "rare",
-			"defense": 900
+			"defense": 900,
+			"set": "quartermaster"
 		},
 		{
 			"name": "Rupin's Cloak",
 			"level": 285,
 			"rarity": "exotic",
 			"defense": 450,
-			"magic_power": 70
+			"magic_power": 70,
+			"set": "rupin"
 		},
 		{
 			"name": "Sunken Champion Armor",
@@ -184,7 +200,8 @@
 				"end": 350,
 				"defense": 2,
 				"magic_power": 0.2
-			}
+			},
+			"set": "sunken_champion"
 		},
 		{
 			"name": "Sunken Warrior Armor",
@@ -197,14 +214,16 @@
 				"end": 200,
 				"defense": 2,
 				"magic_power": 0.15
-			}
+			},
+			"set": "sunken_warrior"
 		},
 		{
 			"name": "Emerald Captain's Cloak",
 			"level": 200,
 			"rarity": "exotic",
 			"defense": 350,
-			"magic_power": 50
+			"magic_power": 50,
+			"set": "emerald_captain"
 		},
 		{
 			"name": "Khnum's Crimson Bandages",
@@ -213,7 +232,8 @@
 			"defense": 800,
 			"magic_power": 20,
 			"health_regen": 2,
-			"stamina": 10
+			"stamina": 10,
+			"set": "khnum"
 		}
 	],
 	[
@@ -228,46 +248,53 @@
 			"level": 320,
 			"rarity": "rare",
 			"magic_power": 50,
-			"magic_energy": 15
+			"magic_energy": 15,
+			"set": "evil_wizard"
 		},
 		{
 			"name": "Midnight Mage Pants",
 			"level": 300,
 			"rarity": "uncommon",
-			"magic_power": 50
+			"magic_power": 50,
+			"set": "midnight_mage"
 		},
 		{
 			"name": "Preserved Empyrean Leggings",
 			"level": 280,
 			"rarity": "rare",
 			"defense": 350,
-			"magic_power": 10
+			"magic_power": 10,
+			"set": "preserved_empyrean"
 		},
 		{
 			"name": "Prometheus' Boots",
 			"level": 320,
 			"rarity": "legendary",
 			"defense": 300,
-			"magic_power": 55
+			"magic_power": 55,
+			"set": "promethean"
 		},
 		{
 			"name": "Prometheus' Pants",
 			"level": 350,
 			"rarity": "exotic",
-			"magic_power": 85
+			"magic_power": 85,
+			"set": "promethean"
 		},
 		{
 			"name": "Quartermaster's Legs",
 			"level": 320,
 			"rarity": "rare",
-			"defense": 400
+			"defense": 400,
+			"set": "quartermaster"
 		},
 		{
 			"name": "Rupin's Boots",
 			"level": 285,
 			"rarity": "exotic",
 			"defense": 220,
-			"magic_power": 45
+			"magic_power": 45,
+			"set": "rupin"
 		},
 		{
 			"name": "Sunken Champion Leggings",
@@ -280,7 +307,8 @@
 				"end": 350,
 				"defense": 1,
 				"magic_power": 0.1
-			}
+			},
+			"set": "sunken_champion"
 		},
 		{
 			"name": "Sunken Warrior Leggings",
@@ -293,14 +321,16 @@
 				"end": 200,
 				"defense": 1,
 				"magic_power": 0.1
-			}
+			},
+			"set": "sunken_warrior"
 		},
 		{
 			"name": "Emerald Captain's Legs",
 			"level": 200,
 			"rarity": "exotic",
 			"defense": 150,
-			"magic_power": 30
+			"magic_power": 30,
+			"set": "emerald_captain"
 		},
 		{
 			"name": "Khnum's Boots",
@@ -308,7 +338,8 @@
 			"rarity": "rare",
 			"defense": 500,
 			"magic_power": 5,
-			"stamina": 5
+			"stamina": 5,
+			"set": "khnum"
 		}
 	],
 	[
@@ -384,7 +415,8 @@
 			"level": 285,
 			"rarity": "exotic",
 			"defense": 150,
-			"magic_power": 75
+			"magic_power": 75,
+			"set": "rupin"
 		},
 		{
 			"name": "Stone Mask",
@@ -485,7 +517,8 @@
 			"rarity": "exotic",
 			"defense": 450,
 			"magic_power": 25,
-			"stamina": 10
+			"stamina": 10,
+			"set": "khnum"
 		}
 	]
 ]

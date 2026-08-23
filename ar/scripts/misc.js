@@ -1,8 +1,9 @@
 "use strict"
 
-import {gear, gear_enchantments, magics, selectors, enchantment_selectors, magic_selectors, variant_selectors, stat_index, stat_display} from './initialize.js';
+import {gear, gear_enchantments, magics, selectors, popovers, enchantment_popovers,
+	enchantment_selectors, magic_selectors, stat_index, stat_display, selected, gear_copy, enchantments_copy} from './initialize.js';
 import {display, update_images} from './display.js';
-import {calculate, health_scaling, level, finals} from './calculate.js';
+import {calculate, variant_handler, armor_scaling, health_scaling, level, finals} from './calculate.js';
 import {filter, sort_gear, filtered_in_gear_ids, filtered_in_enchantment_ids} from './filter.js';
 import {decode_share_link, delete_build, export_code, sort_code, load_build, rename_build, save_build} from './saveload.js';
 
@@ -32,8 +33,6 @@ function share_link() {
 
 document.addEventListener('click', event => {
 
-	if (enchantment_selectors.includes(event.target) || variant_selectors.includes(event.target)) {calculate(); update_images()};
-
 	if (magic_selectors.includes(event.target)) {calculate()};
 
 	if (event.target.matches('#filter_selector *')) {filter()}
@@ -44,46 +43,151 @@ document.addEventListener('click', event => {
 		filter_selector.querySelectorAll('li input').forEach(element => element.checked = event.target.checked);
 		filter();
 	}
-
-	if (event.target.matches('#hat_popover img')) {
-		selectors[0].selectedIndex = gear[0].indexOf(find_by_id(gear[0], event.target.getAttribute('data-id')));
-		calculate();
-		hat_popover.hidePopover();
-	}
 })
 
-hat_popover.addEventListener('mousemove', event => {
+for (let [index, element] of popovers.entries()) {
 
-	let element = find_by_id(gear[0], event.target.getAttribute('data-id'));
-	let rarity_colors = {
-		none: '#ffffff',
-		common: '#bbbbbb',
-		uncommon: '#ebb306',
-		rare: '#0458db',
-		exotic: '#d0080f',
-		legendary: '#00ff00', 
-		seasonal: '#d008d9'
+	selectors[index].addEventListener('click', event => {
+		element.showPopover()
+	})
+
+	enchantment_selectors[index].addEventListener('click', event => {
+		if (!event.target.classList.contains('disabled')) {
+			enchantment_popovers[index].showPopover()
+		}
+	})
+
+
+	const search = (a, b) => {
+		const query = a[index].querySelector('input').value.toLowerCase();
+		let piece
+
+		if (a[index].querySelector('.variants')) {
+			for (let img of a[index].querySelectorAll('.variants img')) {
+				img.classList.add('hidden-search')
+				piece = b[index][img.getAttribute('data-id')].variants[img.getAttribute('data-variant-id')];
+
+				if (piece.name.toLowerCase().includes(query)) {
+					img.classList.remove('hidden-search')
+				}
+			}
+		} else {
+			for (let img of a[index].querySelectorAll('img')) {
+				img.classList.add('hidden-search')
+				piece = b[index][img.getAttribute('data-id')];
+
+				if (piece.name.toLowerCase().includes(query)) {
+					img.classList.remove('hidden-search')
+				}
+			}
+		}
 	}
 
-	let cap = (str) => {return str.replace(/^[a-z]/, x => x.toUpperCase())}
+	element.querySelector('input').addEventListener('input', () => {
+		search(popovers, gear)
+	})
 
-	if (event.target.matches('img')) {
-		hat_tooltip.innerHTML =
-		`
-			${element.name}
-			<div class="wrapper">
-				<span>Lvl: ${element.level}+</span> | <span style="color: ${rarity_colors[element.rarity]}">${cap(element.rarity)}</span>
-			</div>
-			<hr>
-		`;
-		hat_tooltip.append(display(element))
-		hat_tooltip.style.display = 'grid';
-		hat_tooltip.style.left = `${event.layerX - hat_tooltip.offsetWidth/2}px`;
-		hat_tooltip.style.top = `${event.layerY + 15}px`;
-	} else {
-		hat_tooltip.style.display = 'none';
+	enchantment_popovers[index].querySelector('input').addEventListener('input', () => {
+		search(enchantment_popovers, gear_enchantments)
+	})
+
+
+	const hover = (a, b) => {
+		let element2 = structuredClone(b[index][event.target.getAttribute('data-id')]);
+		const rarity_colors = {
+			none: '#ffffff',
+			common: '#bbbbbb',
+			uncommon: '#ebb306',
+			rare: '#0458db',
+			exotic: '#d0080f',
+			legendary: '#00ff00', 
+			seasonal: '#d008d9'
+		}
+		const tooltip = a[index].querySelector('.tooltip');
+		const cap = (str) => {return str.replace(/^[a-z]/, x => x.toUpperCase())};
+
+		if (event.target.matches('.grid-wrapper img') && event.target.getAttribute('data-variant-id')) {
+			let variant = structuredClone(b[index][event.target.getAttribute('data-id')].variants[event.target.getAttribute('data-variant-id')]);
+			variant.level = element2.level;
+			variant.rarity = element2.rarity;
+			element2 = variant;
+		}
+
+		if (event.target.matches('.grid-wrapper img') && !event.target.classList.contains('disabled')) {
+
+			for (let stat of stat_index) {
+				if (element2[stat]) {
+					element2[stat] = Math.floor(armor_scaling(element2, stat));
+				}
+			}
+
+			tooltip.innerHTML =
+			`
+				${element2.name}
+				<div class="wrapper">
+					<span style="color: ${rarity_colors[element2.rarity]}">${cap(element2.rarity)}</span>
+				</div>
+				<hr>
+				${display(element2).outerHTML}
+			`;
+			if (element2.level) {
+				let span = document.createElement('span');
+				span.innerHTML = `<span>Lvl: ${element2.level}+</span> | `
+				tooltip.querySelector('.wrapper').insertBefore(span, tooltip.querySelector('.wrapper span'))
+			}
+			tooltip.style.display = 'flex';
+			tooltip.style.left = `${event.layerX - tooltip.offsetWidth/2}px`;
+			tooltip.style.top = `${event.layerY + 15}px`;
+		} else {
+			tooltip.style.removeProperty('display')
+		}
 	}
-})
+
+	element.addEventListener('mousemove', event => {
+		hover(popovers, gear)
+	})
+
+	enchantment_popovers[index].addEventListener('mousemove', event => {
+		hover(enchantment_popovers, gear_enchantments)
+	})
+
+
+	const click_event = (a, b) => {
+		let has_variants
+
+		switch (event.target.getAttribute('data-has-variants')) {
+			default: has_variants = false;
+				break;
+			case 'true': has_variants = true;
+				break;
+		}
+		
+		if (has_variants && !event.target.getAttribute('data-variant-id')) {
+			variant_handler(event.target.getAttribute('data-id'), index);
+		}
+
+		if (!has_variants && !event.target.getAttribute('data-variant-id')) {
+			b[index].removeAttribute('data-selected-variant');
+		}
+
+		if (event.target.getAttribute('data-id') && !has_variants && !event.target.classList.contains('disabled')) {
+			b[index].setAttribute('data-selected', event.target.getAttribute('data-id'));
+			calculate();
+			update_images();
+			set_handler();
+		}
+
+		if (!event.target.matches('input') && !event.target.matches('button[data-text="Filter"]') && !has_variants) {a[index].hidePopover()};
+	}
+
+	element.addEventListener('click', event => {
+		click_event(popovers, selectors);
+	})
+
+	enchantment_popovers[index].addEventListener('click', event => {
+		click_event(enchantment_popovers, enchantment_selectors);
+	})
+}
 
 let level_selectors = [level_input, magic_level_input, strength_level_input];
 
@@ -93,7 +197,7 @@ let output_buttons = Array.from(document.querySelectorAll('.info'));
 
 output_buttons.forEach((element, index) => {
 
-	element.addEventListener('mouseenter', event => {
+	element.addEventListener('mousemove', event => {
 		piece_output.innerHTML = display(finals[index]).outerHTML;
 		piece_output.style.display = 'unset';
 		piece_output.style.left = `${event.x - piece_output.offsetWidth - 5}px`;
@@ -186,16 +290,16 @@ function random_build() {
 		random_gear[i] = allowed_gear_ids[i][Math.floor(Math.random() * allowed_gear_ids[i].length)];
 		random_gear_enchantments[i] = allowed_enchantment_ids[i][Math.floor(Math.random() * allowed_enchantment_ids[i].length)];
 
-		if (find_by_id(gear[i], random_gear[i]).variants) {
-			random_variants[i] = find_by_id(gear[i], random_gear[i]).variants[Math.floor(Math.random() * find_by_id(gear[i], random_gear[i]).variants.length)].id;	
+		if (gear[i][random_gear[i]].variants) {
+			random_variants[i] = gear[i][random_gear[i]].variants[Math.floor(Math.random() * gear[i][random_gear[i]].variants.length)].id;	
 		}
 	};
 
 	for (let i = 0; i < 5; i++) {
-		selectors[i].selectedIndex = gear[i].findIndex(x => x.id === random_gear[i]);
-		enchantment_selectors[i].selectedIndex = gear_enchantments[i].findIndex(x => x.id === random_gear_enchantments[i]);
+		selectors[i].setAttribute('data-selected', random_gear[i]);
+		enchantment_selectors[i].setAttribute('data-selected', random_gear_enchantments[i]);
 		if (random_variants[i] !== undefined) {
-			variant_selectors[i].setAttribute('data-selected', find_by_id(gear[i], random_gear[i]).variants.findIndex(x => x.id === random_variants[i]));
+			selectors[i].setAttribute('data-selected-variant', random_variants[i]);
 		}
 	}
 
@@ -213,14 +317,15 @@ function clear_build(target, n) {
 
 	switch(target) {
 		case 'gear':
-			selectors.forEach(element => element.selectedIndex = 0);
+			selectors.forEach(element => element.setAttribute('data-selected', 0));
 			break;
 		case 'enchantments':
-			enchantment_selectors.forEach(element => element.selectedIndex = 0);
+			enchantment_selectors.forEach(element => element.setAttribute('data-selected', 0));
 			break;
 		case 'piece':
-			selectors[n].selectedIndex = 0;
-			enchantment_selectors[n].selectedIndex = 0;
+			selectors[n].setAttribute('data-selected', 0);
+			enchantment_selectors[n].setAttribute('data-selected', 0);
+			selectors[n].parentElement.querySelector('.set').classList.add('hidden');
 			break;
 	}
 
@@ -258,9 +363,12 @@ function preset_build(stat) {
 
 	const sort_alg = (a, b) => (b[stat] ?? 0) - (a[stat] ?? 0);
 
-	let sorted_gear = structuredClone(gear).map(element => element.sort(sort_alg));
-	let sorted_enchantments = structuredClone(gear_enchantments).map(element => element.sort(sort_alg));
-	let combined_gear = structuredClone(gear);
+	let gear_copy = Object.values(gear).map(element => Object.values(element));
+	let enchantments_copy = Object.values(gear_enchantments).map(element => Object.values(element));
+
+	let sorted_gear = structuredClone(gear_copy).map(element => element.sort(sort_alg));
+	let sorted_enchantments = structuredClone(enchantments_copy).map(element => element.sort(sort_alg));
+	let combined_gear = structuredClone(gear_copy);
 	let final_preset = {gear: [], enchantments: [], variants: []};
 
 	for (let [index, element] of combined_gear.entries()) {
@@ -304,14 +412,45 @@ function preset_build(stat) {
 		}
 	}
 
-	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], (final_preset.gear[index].id ?? 0))));
-	enchantment_selectors.forEach((element, index) => {
-		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], final_preset.enchantments[index].id))
+	selectors.forEach((element, index) => {
+		element.setAttribute('data-selected', final_preset.gear[index].id ?? 0);
+		if (final_preset.gear[index].variants) {
+			element.setAttribute('data-selected-variant', final_preset.variants[index].id)
+		}
 	});
-	variant_selectors.forEach((element, index) => element.setAttribute('data-selected', final_preset.variants[index].id))
+	enchantment_selectors.forEach((element, index) => element.setAttribute('data-selected', final_preset.enchantments[index].id));
 
 	calculate();
 	update_images();
+	preset_menu.hidePopover();
+}
+
+
+function set_handler() {
+	
+	for (let [index, element] of selected.entries()) {
+		if (element.set) {
+			selectors[index].parentElement.querySelector('.set').classList.remove('hidden');
+		} else if (!element.set) {
+			selectors[index].parentElement.querySelector('.set').classList.add('hidden');
+		}
+
+		selectors[index].parentElement.querySelector('.set').addEventListener('click', () => {
+			let set_map = gear_copy.map(element2 => element2.map(a => new Object({[a.set]: a})));
+
+			for (let [index2, element2] of set_map.entries()) {
+				for (let element3 of element2) {
+					if (element3[selected[index].set]) {
+						selectors[index2].setAttribute('data-selected', element3[selected[index].set].id);
+						calculate();
+						update_images();
+					}
+				}
+			}
+
+			selectors[index].parentElement.querySelector('.set').classList.add('hidden');
+		})
+	}
 }
 
 export {copy_code, share_link, find_by_id, preset_build}

@@ -3,25 +3,40 @@ img:nth-of-type(2):has(~:disabled), :disabled {
 	filter: brightness(0.7);
 }
 
-#hat_popover:popover-open {
-	width: 100%;
+div.piece img.disabled {
+	filter: brightness(0.5);
+	cursor: not-allowed;
+}
+
+.hidden-filter, .hidden-search, .hidden {
+	display: none;
+}
+
+.popover:popover-open {
+	max-width: 50%;
+	min-height: 75%;
 	background: transparent;
 	border: none;
 	box-shadow: none;
 	overflow: visible;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
 }
 
 .grid-wrapper {
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	gap: 0.5em;
-	max-width: 50%;
+	overflow: auto;
 }
 
- .grid-wrapper hr, .grid-wrapper input {
-	grid-column: span 6;
+.piece .sub-container {
+	display: flex;
+	gap: 0.25em;
+}
+
+.piece input[type="text"] {
+	flex-grow: 1;
 }
 
 .tooltip {
@@ -31,9 +46,10 @@ img:nth-of-type(2):has(~:disabled), :disabled {
 	border-radius: var(--borderRadius);
 	box-shadow: var(--boxShadow);
 	padding: 0.25em 0.5em 0.5em 0.5em;
-	display: grid;
-	grid-template-columns: 1fr;
+	display: none;
+	flex-direction: column;
 	text-align: center;
+	width: max-content;
 }
 
 .tooltip li {
@@ -50,6 +66,11 @@ button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.back {
+	max-height: 1.5em;
+	cursor: pointer;
 }
 
 input[type="text"] {
@@ -143,22 +164,25 @@ div.piece {
 	grid-template-columns: repeat(2, 42.5%) 12.5%;
 	grid-auto-rows: min-content;
 	grid-template-areas:
-		"a b e"
-		"a b g"
-		"c d ."
-		"f f .";
+		"a b c";
 	gap: 0.25em;
 }
 
-.variant-selector:empty {
-	display: none;
-}
-
-div.piece img {
+.piece > img, .grid-wrapper img {
 	width: 100%;
 	background-repeat: no-repeat;
 	background-size: cover;
-	transition: filter var(--transition)
+	transition: filter var(--transition);
+	cursor: pointer;
+}
+
+.piece > .sub-container {
+	flex-direction: column;
+	justify-content: center;
+}
+
+.piece > .sub-container button {
+	aspect-ratio: 1/1;
 }
 
 button img {
@@ -195,15 +219,6 @@ p.output hr {
 p.output ul {
 	padding-left: 0;
 	list-style-type: none;
-}
-
-button.info {
-	align-self: flex-end;
-	aspect-ratio: 1/1;
-}
-
-button.clear {
-	aspect-ratio: 1/1;
 }
 
 button.info::after {
@@ -286,6 +301,7 @@ button.conflict::after {
 	width: 95%;
 	margin: 0.25em 0 0.25em 0;
 	justify-self: center;
+	align-self: center;
 }
 
 [popover] ul {
@@ -324,6 +340,14 @@ button.conflict::after {
 			"i i"
 			"j j"
 			"k k";
+	}
+
+	.popover:popover-open {
+		min-width: 85%;
+	}
+
+	.grid-wrapper {
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 

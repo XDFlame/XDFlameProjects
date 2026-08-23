@@ -3,7 +3,7 @@
 import {
 	selected, selected_enchantments, magics, selected_magics,
 	selectors, enchantment_selectors, magic_selectors,
-	gear, gear_enchantments, add_build, variant_selectors
+	gear, gear_enchantments, add_build
 } from './initialize.js';
 import {level, magic_level, strength_level, calculate, selected_variants} from './calculate.js';
 import {encode, big_encode, decode, big_decode} from './base64.js';
@@ -139,22 +139,18 @@ function import_code(code, return_object) {
 
 	level_input.value = container[0][0];
 	magic_level_input.value = container[0][1];
-	strength_level_input.value =container[0][2];
+	strength_level_input.value = container[0][2];
 
-	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], equipment[index])));
-
-	variant_selectors.forEach((element, index) => {
+	selectors.forEach((element, index) => {
+		element.setAttribute('data-selected', equipment[index]);
 		if (equipment_variants[index] !== 0) {
-			element.setAttribute('data-selected', equipment_variants[index]);
+			element.setAttribute('data-selected-variant', equipment_variants[index]);
 		}
 	});
 
-	enchantment_selectors.forEach((element, index) => {
-		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], equipment_enchantments[index]));
-	});
+	enchantment_selectors.forEach((element, index) => element.setAttribute('data-selected', equipment_enchantments[index]));
 
 	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
-
 
 	code_import.value = '';
 	calculate();
@@ -190,14 +186,11 @@ function legacy_import_code(code, return_object) {
 	magic_level_input.value = levels[1] + 1;
 	strength_level_input.value = levels[2] + 1;
 
-	selectors.forEach((element, index) => element.selectedIndex = gear[index].indexOf(find_by_id(gear[index], equipment[index])));
+	selectors.forEach((element, index) => element.setAttribute('data-selected', equipment[index]));
 
-	enchantment_selectors.forEach((element, index) => {
-		element.selectedIndex = gear_enchantments[index].indexOf(find_by_id(gear_enchantments[index], equipment_enchantments[index]));
-	});
+	enchantment_selectors.forEach((element, index) => element.setAttribute('data-selected', equipment_enchantments[index]));
 
 	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
-
 
 	code_import.value = '';
 	calculate();

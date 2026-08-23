@@ -10,8 +10,10 @@ const filter_selectors = [
 	enchantment_rarity_filter,
 	enchantment_stat_filter,
 ];
+const gear_copy = structuredClone(Object.values(gear).map(element => Object.values(element)));
+const enchantments_copy = structuredClone(Object.values(gear_enchantments).map(element => Object.values(element)));
 
-import {gear, gear_enchantments, selectors, enchantment_selectors, selected, selected_enchantments, create_options} from './initialize.js';
+import {gear, gear_enchantments, selectors, popovers, enchantment_popovers, enchantment_selectors, selected, selected_enchantments, gear_strings} from './initialize.js';
 import {calculate} from './calculate.js';
 import {update_images} from './display.js';
 
@@ -40,11 +42,11 @@ function filter() {
 	filtered_in_gear = [];
 	filtered_in_enchantments = [];
 	filtered_in_gear_ids = []
-	filtered_in_enchantment_ids = []
+	filtered_in_enchantment_ids = [];
 
 	for (let i = 0; i < 5; i++) {
 
-		filtered_in_gear[i] = gear[i].filter(
+		filtered_in_gear[i] = gear_copy[i].filter(
 			x => {
 
 				for (let i in selected_filters[1]) {
@@ -58,7 +60,7 @@ function filter() {
 
 		filtered_in_gear_ids[i] = filtered_in_gear[i].map(x => x.id)
 
-		filtered_in_enchantments[i] = gear_enchantments[i].filter(
+		filtered_in_enchantments[i] = enchantments_copy[i].filter(
 			x => {
 
 				for (let i in selected_filters[3]) {
@@ -78,25 +80,22 @@ function filter() {
 
 	for (let i = 0; i < 5; i++) {
 
-		for(let i2 in gear[i]) {
-			selectors[i][i2].hidden = true;
+		for (let element of popovers[i].querySelectorAll('img')) {
+			if (Number(element.getAttribute('data-id')) !== 0) {element.classList.add('hidden-filter')}
 		}
 
-		for(let i2 in gear_enchantments[i]) {
-			enchantment_selectors[i][i2].hidden = true;
+		for (let element of enchantment_popovers[i].querySelectorAll('img')) {
+			if (Number(element.getAttribute('data-id')) !== 0) {element.classList.add('hidden-filter')}
 		}
-
-		selectors[i][0].hidden = false;
-		enchantment_selectors[i][0].hidden = false;
 
 		if (!filtered_in_gear[i].map(element => element.name).includes(selected[i].name)) {
-			selectors[i].selectedIndex = 0;
+			selectors[i].setAttribute('data-selected', 0);
 			calculate();
 			update_images()
 		}
 
 		if (!filtered_in_enchantments[i].includes(selected_enchantments[i])) {
-			enchantment_selectors[i].selectedIndex = 0;
+			enchantment_selectors[i].setAttribute('data-selected', 0);
 			calculate();
 			update_images()
 		}
@@ -104,17 +103,15 @@ function filter() {
 
 	for (let i = 0; i < 5; i++) {
 
-		for (let i2 = 0; i2 < selectors[i].children.length; i2++) {
-
-			if (filtered_in_gear_ids[i].includes(Number(selectors[i][i2].value))) {
-				selectors[i][i2].hidden = false;
+		for (let element of popovers[i].querySelectorAll('img')) {
+			if (filtered_in_gear_ids[i].includes(Number(element.getAttribute('data-id')))) {
+				element.classList.remove('hidden-filter')
 			}
 		}
 
-		for (let i2 = 0; i2 < enchantment_selectors[i].children.length; i2++) {
-
-			if (filtered_in_enchantment_ids[i].includes(Number(enchantment_selectors[i][i2].value))) {
-				enchantment_selectors[i][i2].hidden = false
+		for (let element of enchantment_popovers[i].querySelectorAll('img')) {
+			if (filtered_in_enchantment_ids[i].includes(Number(element.getAttribute('data-id')))) {
+				element.classList.remove('hidden-filter')
 			}
 		}
 	}
@@ -133,8 +130,8 @@ function sort_gear() {
 		sorting_stat.disabled= true;
 	}
 
-	let sorted_gear = structuredClone(gear)
-	let sorted_enchantments = structuredClone(gear_enchantments)
+	let sorted_gear = structuredClone(gear_copy);
+	let sorted_enchantments = structuredClone(enchantments_copy);
 	
 	sorted_gear.forEach((element, index) => {
 
@@ -161,10 +158,26 @@ function sort_gear() {
 		}
 
 		element.unshift(none);
-		selectors[index].replaceChildren();
+		popovers[index].querySelector('.grid-wrapper').replaceChildren();
 	})
 
-	create_options(sorted_gear, selectors)
+	for (let [index, element] of sorted_gear.entries()) {
+		for (let element2 of element) {
+			let img = document.createElement('img');
+			img.src = `/ar/images/frames/${element2.rarity}.png`;
+			if (!element2.variants) {
+				img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}.png")`;
+			}
+			else if (element2.variants) {
+				img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}/${element2.variants[0].name}.png")`;
+				img.setAttribute('data-has-variants', true)
+			}
+			img.style.backgroundImage += `, url(/ar/images/background.png)`
+			img.setAttribute('data-id', element2.id);
+			popovers[index].querySelector('.grid-wrapper').append(img)
+		}
+	}
+
 
 	sorted_enchantments.forEach((element, index) => {
 
@@ -183,10 +196,18 @@ function sort_gear() {
 		}
 
 		element.unshift(none)
-		enchantment_selectors[index].replaceChildren();
+		enchantment_popovers[index].replaceChildren();
 	})
 
-	create_options(sorted_enchantments, enchantment_selectors)
+	for (let [index, element] of sorted_enchantments.entries()) {
+		for (let element2 of element) {
+			let img = document.createElement('img');
+			img.src = `/ar/images/frames/${element2.rarity}.png`;
+			img.style.backgroundImage = `url("/ar/images/charms/${element2.name}.png"), url(/ar/images/background.png)`;
+			img.setAttribute('data-id', element2.id);
+			enchantment_popovers[index].querySelector('.grid-wrapper').append(img)
+		}
+	}
 
 	// Sets selected index to what it was before select options were removed and re-added
 	// (bug fix for when it would just default to none after sorting)

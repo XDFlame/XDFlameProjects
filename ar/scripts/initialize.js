@@ -30,13 +30,6 @@ const enchantment_selectors = [
 	accessory_1_enchantment_selector,
 	accessory_2_enchantment_selector
 ];
-const variant_selectors = [
-	hat_variant_selector,
-	shirt_variant_selector,
-	pants_variant_selector,
-	accessory_1_variant_selector,
-	accessory_2_variant_selector
-];
 const magic_selectors = [
 	first_magic_selector,
 	second_magic_selector,
@@ -115,7 +108,7 @@ magics.forEach(
 	}
 )
 
-/*{
+{
 	let temp = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}};
 	for (let [index, element] of gear.entries()) {
 		for (let element2 of element) {
@@ -123,7 +116,15 @@ magics.forEach(
 		}
 	}
 	gear = temp;
-}console.log(gear)*/
+
+	let temp2 = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}};
+	for (let [index, element] of gear_enchantments.entries()) {
+		for (let element2 of element) {
+			temp2[index][element2.id] = element2
+		}
+	}
+	gear_enchantments = temp2;
+}
 
 
 // Sorts the gear, gear_enchantments, and magics arrays alphabetically with none at the top
@@ -138,15 +139,28 @@ function compare(a, b) {
 	return 0;
 }
 
+/*let gear_display = [[],[],[],[],[]]
+
+for (let [index, element] of Object.entries(gear)) {
+	for (let [index2, element2] of Object.entries(element)) {
+		gear_display[index][index2] = {name: element2.name, id: element2.id}
+	}
+}*/
+
+let gear_display = Object.values(gear).map(element =>
+	Object.values(element).map(element2 => new Object({name: element2.name, id: element2.id, rarity: element2.rarity, variants: element2.variants})));
+let gear_enchantments_display = Object.values(gear_enchantments).map(element => 
+	Object.values(element).map(element2 => new Object({name: element2.name, id: element2.id, rarity: element2.rarity})));
+
 for (let i = 0; i < 5; i++) {
-	let none = gear[i].shift()
-	let enchantment_none = gear_enchantments[i].shift();
+	let none = gear_display[i].shift()
+	let enchantment_none = gear_enchantments_display[i].shift();
 
-	gear[i].sort(compare);
-	gear_enchantments[i].sort(compare);
+	gear_display[i].sort(compare);
+	gear_enchantments_display[i].sort(compare);
 
-	gear[i].unshift(none);
-	gear_enchantments[i].unshift(enchantment_none)
+	gear_display[i].unshift(none);
+	gear_enchantments_display[i].unshift(enchantment_none)
 }
 
 magics = magics.sort(compare)
@@ -154,32 +168,56 @@ magics = magics.sort(compare)
 
 // Generates select options based off corresponding objects
 
-function create_options(array, select) {
-	array.forEach(
-		(element, index) => {
+const gear_strings = [
+	'hats',
+	'shirts',
+	'pants',
+	'accessories',
+	'accessories',
+];
 
-			element.forEach(element_2 => {
+const popovers = [
+	hat_popover,
+	shirt_popover,
+	pants_popover,
+	accessory_1_popover,
+	accessory_2_popover
+]
 
-					let option = document.createElement('option');
-					option.textContent = element_2.name;
-					option.value = element_2.id;
-					select[index].appendChild(option);
-				}
-			)
+const enchantment_popovers = [
+	hat_enchantment_popover,
+	shirt_enchantment_popover,
+	pants_enchantment_popover,
+	accessory_1_enchantment_popover,
+	accessory_2_enchantment_popover
+]
+
+for (let [index, element] of gear_display.entries()) {
+	for (let element2 of element) {
+		let img = document.createElement('img');
+		img.src = `/ar/images/frames/${element2.rarity}.png`;
+		if (!element2.variants) {
+			img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}.png")`;
 		}
-	)
+		else if (element2.variants) {
+			img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}/${element2.variants[0].name}.png")`;
+			img.setAttribute('data-has-variants', true)
+		}
+		img.style.backgroundImage += `, url(/ar/images/background.png)`
+		img.setAttribute('data-id', element2.id);
+		popovers[index].querySelector('.grid-wrapper').append(img)
+	}
 }
 
-gear[0].forEach(element => {
-	let img = document.createElement('img');
-	img.src = `/ar/images/frames/${element.rarity}.png`;
-	img.style.backgroundImage = `url("/ar/images/hats/${element.name}.png"), url(/ar/images/background.png)`;
-	img.setAttribute('data-id', element.id);
-	hat_popover.querySelector('.grid-wrapper').append(img)
-})
-
-create_options(gear, selectors);
-create_options(gear_enchantments, enchantment_selectors)
+for (let [index, element] of gear_enchantments_display.entries()) {
+	for (let element2 of element) {
+		let img = document.createElement('img');
+		img.src = `/ar/images/frames/${element2.rarity}.png`;
+		img.style.backgroundImage = `url("/ar/images/charms/${element2.name}.png"), url(/ar/images/background.png)`;
+		img.setAttribute('data-id', element2.id);
+		enchantment_popovers[index].querySelector('.grid-wrapper').append(img)
+	}
+}
 
 magic_selectors.forEach(element => {
 
@@ -259,10 +297,12 @@ if (!saved_builds) {
 
 saved_builds.forEach(element => add_build(element))
 
+const gear_copy = structuredClone(Object.values(gear).map(element => Object.values(element)));
+const enchantments_copy = structuredClone(Object.values(gear_enchantments).map(element => Object.values(element)));
+
 export {
-	gear, gear_enchantments, magics,
+	gear, gear_enchantments, magics, gear_copy, enchantments_copy,
 	selected, selected_enchantments, selected_magics,
-	selectors, enchantment_selectors, variant_selectors, magic_selectors,
-	stat_index, stat_display,
-	create_options, add_build
+	selectors, enchantment_selectors, popovers, enchantment_popovers, magic_selectors,
+	stat_index, stat_display, add_build, gear_strings
 };

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50"
+   height="50"
+   viewBox="0 0 13.229166 13.229167"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="close.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="16.912312"
+     inkscape:cx="28.292998"
+     inkscape:cy="21.138447"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powermask"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1"
+       uri="#mask-powermask-path-effect4"
+       invert="false"
+       hide_mask="false"
+       background="true"
+       background_color="#ffffffff" />
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect4">
+      <path
+         id="mask-powermask-path-effect4_box"
+         style="fill:#ffffff;fill-opacity:1"
+         d="M -0.33854198,-0.33854198 H 13.567708 V 13.567708 H -0.33854198 Z" />
+      <g
+         id="g4"
+         inkscape:label="X"
+         style="">
+        <rect
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.405472;stroke-linecap:square"
+           id="rect3"
+           width="10.583333"
+           height="1.3229166"
+           x="4.0627666"
+           y="-0.66145825"
+           transform="rotate(45)"
+           d="M 4.0627666,-0.66145825 H 14.6461 V 0.66145837 H 4.0627666 Z" />
+        <rect
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.405472;stroke-linecap:square"
+           id="rect4"
+           width="10.583333"
+           height="1.3229166"
+           x="-5.2916665"
+           y="8.692975"
+           transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)"
+           d="m -5.2916665,8.692975 h 10.583333 v 1.322917 h -10.583333 z" />
+      </g>
+    </mask>
+    <filter
+       id="mask-powermask-path-effect4_inverse"
+       inkscape:label="filtermask-powermask-path-effect4"
+       style="color-interpolation-filters:sRGB"
+       height="100"
+       width="100"
+       x="-50"
+       y="-50">
+      <feColorMatrix
+         id="mask-powermask-path-effect4_primitive1"
+         values="1"
+         type="saturate"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="mask-powermask-path-effect4_primitive2"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:0.487954;stroke-linecap:square"
+       id="path1"
+       mask="url(#mask-powermask-path-effect4)"
+       inkscape:path-effect="#path-effect4"
+       sodipodi:type="arc"
+       sodipodi:cx="6.614583"
+       sodipodi:cy="6.614583"
+       sodipodi:rx="5.953125"
+       sodipodi:ry="5.953125"
+       d="M 12.567708,6.614583 A 5.953125,5.953125 0 0 1 6.614583,12.567708 5.953125,5.953125 0 0 1 0.66145802,6.614583 5.953125,5.953125 0 0 1 6.614583,0.66145802 5.953125,5.953125 0 0 1 12.567708,6.614583 Z" />
+  </g>
+</svg>
