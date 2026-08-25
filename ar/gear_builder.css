@@ -362,3 +362,9 @@ button.conflict::after {
 			"o";
 	}
 }
+
+@-moz-document url-prefix() {
+	.tooltip {
+		transform: translateY(3rem);
+	}
+}
