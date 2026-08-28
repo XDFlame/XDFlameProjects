@@ -52,7 +52,7 @@ div.piece img.disabled {
 	width: max-content;
 }
 
-.tooltip li, .tooltip span:has(.stat) {
+.tooltip li, .tooltip span:has(.stat), .output li {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -199,12 +199,6 @@ p.output {
 	margin: 0;
 	padding: 0.5em 0.75em 0.75em 0.75em;
 	height: min-content;
-}
-
-.output li {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
 }
 
 div.stat {
