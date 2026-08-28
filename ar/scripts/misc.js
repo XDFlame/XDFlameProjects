@@ -35,7 +35,7 @@ document.addEventListener('click', event => {
 
 	if (magic_selectors.includes(event.target)) {calculate()};
 
-	if (event.target.matches('#filter_selector *')) {filter()}
+	if (event.target.matches('#filter_selector input')) {filter()}
 
 	if (event.target.matches('#sorting_selector *')) {sort_gear()}
 
@@ -72,7 +72,7 @@ for (let [index, element] of popovers.entries()) {
 				}
 			}
 		} else {
-			for (let img of a[index].querySelectorAll('img')) {
+			for (let img of a[index].querySelectorAll('.grid-wrapper img')) {
 				img.classList.add('hidden-search')
 				piece = b[index][img.getAttribute('data-id')];
 
@@ -108,9 +108,12 @@ for (let [index, element] of popovers.entries()) {
 
 		if (event.target.matches('.grid-wrapper img') && event.target.getAttribute('data-variant-id')) {
 			let variant = structuredClone(b[index][event.target.getAttribute('data-id')].variants[event.target.getAttribute('data-variant-id')]);
-			variant.level = element2.level;
-			variant.rarity = element2.rarity;
-			element2 = variant;
+			element2.name = variant.name
+
+			for (let stat of stat_index) {
+				element2[stat] = (element2[stat] ?? 0)
+				element2[stat] += (variant[stat] ?? 0)
+			}
 		}
 
 		if (event.target.matches('.grid-wrapper img') && !event.target.classList.contains('disabled')) {
@@ -134,6 +137,18 @@ for (let [index, element] of popovers.entries()) {
 				let span = document.createElement('span');
 				span.innerHTML = `<span>Lvl: ${element2.level}+</span> | `
 				tooltip.querySelector('.wrapper').insertBefore(span, tooltip.querySelector('.wrapper span'))
+			}
+			if (element2.enchantable === false) {
+				let span = document.createElement('span');
+				span.style.gap = '.25em'
+				let div = document.createElement('div');
+
+				div.classList.add('stat');
+				div.style.backgroundColor = '#960000';
+				div.style.mask = `url('/style/icons/disabled.svg')`;
+
+				span.append(div, 'Enchantable');
+				tooltip.querySelector('.wrapper').append(span)
 			}
 			tooltip.style.display = 'flex';
 			tooltip.style.left = `${event.layerX - tooltip.offsetWidth/2}px`;

@@ -52,9 +52,10 @@ div.piece img.disabled {
 	width: max-content;
 }
 
-.tooltip li {
+.tooltip li, .tooltip span:has(.stat) {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .tooltip > .wrapper {
@@ -221,16 +222,8 @@ p.output ul {
 	list-style-type: none;
 }
 
-button.info::after {
-	content: "ⓘ";
-}
-
 button.conflict {
 	border-color: yellow;
-}
-
-button.conflict::after {
-	content: "⚠";
 }
 
 [popover] {

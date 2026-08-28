@@ -4,9 +4,8 @@ import {
 	gear, gear_enchantments, magics,
 	selected, selected_enchantments, selected_magics,
 	selectors, popovers, enchantment_selectors, magic_selectors,
-	stat_index, stat_display
+	stat_index
 } from './initialize.js';
-import {find_by_id} from './misc.js';
 import {number_format, display, display_player_stats, display_magics, update_images} from './display.js';
 
 let level;
@@ -95,20 +94,30 @@ function dupe_warn() {
 		selected[3].name === selected[4].name &&
 		selected_enchantments[3].name === selected_enchantments[4].name
 	) {
-		document.querySelectorAll('button.info')[3].classList.add('conflict');
-		document.querySelectorAll('button.info')[4].classList.add('conflict');
+		document.querySelectorAll('.info')[3].classList.add('conflict');
+		document.querySelectorAll('.info')[4].classList.add('conflict');
+
+		document.querySelectorAll('.info img:not(.conflict)')[3].classList.add('hidden');
+		document.querySelectorAll('.info img:not(.conflict)')[4].classList.add('hidden');
+
+		document.querySelectorAll('img.conflict')[0].classList.remove('hidden');
+		document.querySelectorAll('img.conflict')[1].classList.remove('hidden');
 	}
 	else {
-		document.querySelectorAll('button.info')[3].classList.remove('conflict');
-		document.querySelectorAll('button.info')[4].classList.remove('conflict');
+		document.querySelectorAll('.info')[3].classList.remove('conflict');
+		document.querySelectorAll('.info')[4].classList.remove('conflict');
+
+		document.querySelectorAll('.info img:not(.conflict)')[3].classList.remove('hidden');
+		document.querySelectorAll('.info img:not(.conflict)')[4].classList.remove('hidden');
+
+		document.querySelectorAll('img.conflict')[0].classList.add('hidden');
+		document.querySelectorAll('img.conflict')[1].classList.add('hidden');
 	}
 }
 
 
 function calculate_q() {
 
-	let strings = ['First', 'Second', 'Third'];
-	let ul = document.createElement('ul');
 	let final_magic_damage = [];
 	let magic_tiers = [
 		361,
@@ -193,45 +202,42 @@ function health_scaling() {
 }
 
 
-function variant_handler(id, index) {
+function variant_handler(id, index, element) {
 
-	let element = structuredClone(gear[index][id]);
+	if (!element) {element = structuredClone(gear[index][id]);}
 	
-	//if (!popovers[index].querySelector('.variants')) {
+	const gear_strings = ['hats', 'shirts', 'pants', 'accessories', 'accessories'];
 
-		const gear_strings = ['hats', 'shirts', 'pants', 'accessories', 'accessories'];
+	let grid = popovers[index].querySelector('.grid-wrapper')
+	let grid2 = document.createElement('div');
+	
+	grid2.classList.add('grid-wrapper', 'variants');
 
-		let grid = popovers[index].querySelector('.grid-wrapper')
-		let grid2 = document.createElement('div');
-		
-		grid2.classList.add('grid-wrapper', 'variants');
+	for (let element2 of element.variants) {
+		let img = document.createElement('img');
 
-		for (let element2 of element.variants) {
-			let img = document.createElement('img');
+		img.setAttribute('data-variant-id', element2.id);
+		img.setAttribute('data-id', element.id);
 
-			img.setAttribute('data-variant-id', element2.id);
-			img.setAttribute('data-id', element.id);
+		img.src = `images/frames/${element.rarity}.png`;
+		img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element.name}/${element2.name}.png"), url(/ar/images/background.png)`;
 
-			img.src = `images/frames/${element.rarity}.png`;
-			img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element.name}/${element2.name}.png"), url(/ar/images/background.png)`;
+		img.addEventListener('click', () => {
+			selectors[index].setAttribute('data-selected', element.id);
+			selectors[index].setAttribute('data-selected-variant', element2.id);
 
-			img.addEventListener('click', () => {
-				selectors[index].setAttribute('data-selected', element.id);
-				selectors[index].setAttribute('data-selected-variant', element2.id);
+			grid2.remove();
+			grid.removeAttribute('style');
+			popovers[index].hidePopover();
 
-				grid2.remove();
-				grid.removeAttribute('style');
-				popovers[index].hidePopover();
-
-				calculate();
-				update_images();
-			})
-			grid2.append(img)
-		}
-		
-		grid.after(grid2);
-		grid.style.display = 'none';
-	//}
+			calculate();
+			update_images();
+		})
+		grid2.append(img)
+	}
+	
+	grid.after(grid2);
+	grid.style.display = 'none';
 }
 
 function calculate() {
@@ -268,8 +274,10 @@ function calculate() {
 
 	// Sets magic power value for cursed to the extra value cursed would add per piece
 
-	for (let [index, element] of Object.entries(gear_enchantments)) {
-		element[5].magic_power = (armor_scaling(selected[index], 'magic_power') ?? 0) * 0.4 + 62;
+	for (let [index, element] of selected_enchantments.entries()) {
+		if (element.name === 'Cursed') {
+			element.magic_power = (armor_scaling(selected[index], 'magic_power') ?? 0) * 0.4 + 62;
+		}
 	}
 
 

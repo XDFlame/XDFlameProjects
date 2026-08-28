@@ -14,7 +14,7 @@ const gear_copy = structuredClone(Object.values(gear).map(element => Object.valu
 const enchantments_copy = structuredClone(Object.values(gear_enchantments).map(element => Object.values(element)));
 
 import {gear, gear_enchantments, selectors, popovers, enchantment_popovers, enchantment_selectors, selected, selected_enchantments, gear_strings} from './initialize.js';
-import {calculate} from './calculate.js';
+import {calculate, variant_handler} from './calculate.js';
 import {update_images} from './display.js';
 
 function filter() {
@@ -90,14 +90,10 @@ function filter() {
 
 		if (!filtered_in_gear[i].map(element => element.name).includes(selected[i].name)) {
 			selectors[i].setAttribute('data-selected', 0);
-			calculate();
-			update_images()
 		}
 
-		if (!filtered_in_enchantments[i].includes(selected_enchantments[i])) {
+		if (!filtered_in_enchantments[i].map(element => element.name).includes(selected_enchantments[i].name)) {
 			enchantment_selectors[i].setAttribute('data-selected', 0);
-			calculate();
-			update_images()
 		}
 	}
 
@@ -115,10 +111,13 @@ function filter() {
 			}
 		}
 	}
+
+	calculate();
+	update_images()
 }
 
 
-function sort_gear() {
+function sort_gear() {console.log('sort')
 
 	let value = sorting_type.value
 	let reversed = sorting_method.value;
@@ -159,6 +158,30 @@ function sort_gear() {
 
 		element.unshift(none);
 		popovers[index].querySelector('.grid-wrapper').replaceChildren();
+
+		for (let element2 of element) {
+			if (element2.variants && popovers[index].querySelector('.variants')) {
+
+				element2.variants.forEach(element3 => {
+					if (!element3[value]) {element3[value] = 0}
+				})
+
+				element2.variants.sort(
+					(a, b) => {
+						if (a[value] > b[value]) {return 1}
+						else if (a[value] < b[value]) {return -1}
+						else {return 0}
+					}
+				);
+
+				if (reversed === 'true') {
+					element2.variants.reverse();
+				}
+
+				popovers[index].querySelector('.variants').replaceChildren();
+				variant_handler(element2.id, index, element2);
+			}
+		}
 	})
 
 	for (let [index, element] of sorted_gear.entries()) {
@@ -196,7 +219,7 @@ function sort_gear() {
 		}
 
 		element.unshift(none)
-		enchantment_popovers[index].replaceChildren();
+		enchantment_popovers[index].querySelector('.grid-wrapper').replaceChildren();
 	})
 
 	for (let [index, element] of sorted_enchantments.entries()) {
@@ -207,14 +230,6 @@ function sort_gear() {
 			img.setAttribute('data-id', element2.id);
 			enchantment_popovers[index].querySelector('.grid-wrapper').append(img)
 		}
-	}
-
-	// Sets selected index to what it was before select options were removed and re-added
-	// (bug fix for when it would just default to none after sorting)
-
-	for (let i in selectors) {
-		selectors[i].selectedIndex = sorted_gear[i].findIndex(x => x.id === selected[i].id)
-		enchantment_selectors[i].selectedIndex = sorted_enchantments[i].findIndex(x => x.id === selected_enchantments[i].id)
 	}
 
 	filter();

@@ -230,7 +230,7 @@
 			"level": 300,
 			"rarity": "rare",
 			"defense": 800,
-			"magic_power": 20,
+			"magic_power": 25,
 			"health_regen": 2,
 			"stamina": 10,
 			"set": "khnum"
@@ -516,7 +516,7 @@
 			"level": 300,
 			"rarity": "exotic",
 			"defense": 450,
-			"magic_power": 25,
+			"magic_power": 20,
 			"stamina": 10,
 			"set": "khnum"
 		}
