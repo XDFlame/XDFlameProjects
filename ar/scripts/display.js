@@ -108,7 +108,7 @@ function display_magics(array) {
 		let div = document.createElement('div');
 		div.classList.add('stat')
 		div.style.backgroundColor = selected_magics[index].color;
-		div.style.mask = `url('images/magics/${selected_magics[index].name.toLowerCase()}.svg')`;
+		div.style.mask = `url('images/magics/${selected_magics[index].name}.svg')`;
 		magic_icons[index] = div;
 
 		let span = document.createElement('span');
