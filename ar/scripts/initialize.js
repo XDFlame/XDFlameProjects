@@ -124,6 +124,12 @@ magics.forEach(
 		}
 	}
 	gear_enchantments = temp2;
+
+	let temp3 = {};
+	for (let element of magics) {
+		temp3[element.id] = element
+	}
+	magics = temp3;
 }
 
 
@@ -139,18 +145,11 @@ function compare(a, b) {
 	return 0;
 }
 
-/*let gear_display = [[],[],[],[],[]]
-
-for (let [index, element] of Object.entries(gear)) {
-	for (let [index2, element2] of Object.entries(element)) {
-		gear_display[index][index2] = {name: element2.name, id: element2.id}
-	}
-}*/
-
 let gear_display = Object.values(gear).map(element =>
 	Object.values(element).map(element2 => new Object({name: element2.name, id: element2.id, rarity: element2.rarity, variants: element2.variants})));
 let gear_enchantments_display = Object.values(gear_enchantments).map(element => 
 	Object.values(element).map(element2 => new Object({name: element2.name, id: element2.id, rarity: element2.rarity})));
+let magics_display = Object.values(magics)
 
 for (let i = 0; i < 5; i++) {
 	let none = gear_display[i].shift()
@@ -163,7 +162,7 @@ for (let i = 0; i < 5; i++) {
 	gear_enchantments_display[i].unshift(enchantment_none)
 }
 
-magics = magics.sort(compare)
+magics_display.sort(compare)
 
 
 // Generates select options based off corresponding objects
@@ -219,17 +218,15 @@ for (let [index, element] of gear_enchantments_display.entries()) {
 	}
 }
 
-magic_selectors.forEach(element => {
-
-	magics.forEach(element_2 => {
-
-			let option = document.createElement('option');
-			option.textContent = element_2.name;
-			option.value = element_2.id;
-			element.appendChild(option);
-		}
-	)
-})
+for (let [index, element] of magics_display.entries()) {
+	let div = document.createElement('div');
+	div.classList.add('carousel-img', 'stat')
+	div.style.mask = `url(images/magics/${element.name}.svg)`;
+	div.style.backgroundColor = element.color;
+	div.style.setProperty('--offset', index + 1)
+	div.setAttribute('data-magic-id', element.id);
+	magic_popover.querySelector('.carousel').appendChild(div);
+}
 
 function create_filters(value, display, section) {
 	value.forEach(
@@ -299,9 +296,10 @@ saved_builds.forEach(element => add_build(element))
 
 const gear_copy = structuredClone(Object.values(gear).map(element => Object.values(element)));
 const enchantments_copy = structuredClone(Object.values(gear_enchantments).map(element => Object.values(element)));
+const magics_copy = structuredClone(Object.values(magics));
 
 export {
-	gear, gear_enchantments, magics, gear_copy, enchantments_copy,
+	gear, gear_enchantments, magics, gear_copy, enchantments_copy, magics_copy,
 	selected, selected_enchantments, selected_magics,
 	selectors, enchantment_selectors, popovers, enchantment_popovers, magic_selectors,
 	stat_index, stat_display, add_build, gear_strings

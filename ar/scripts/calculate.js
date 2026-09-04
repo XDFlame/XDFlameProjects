@@ -70,19 +70,19 @@ function enchantment_lock() {
 function magic_lock() {
 
 	if (magic_level < 300) {
-		magic_selectors[2].disabled = true;
+		magic_selectors[2].classList.add('disabled');
 		selected_magics.splice(2, 1)
 	} else {
-		magic_selectors[2].disabled = false
-		selected_magics[2] = magics.find(element => element.id == magic_selectors[2].value)
+		magic_selectors[2].classList.remove('disabled')
+		selected_magics[2] = magics[magic_selectors[2].getAttribute('data-selected-magic')]
 	};
 
 	if (magic_level < 100) {
-		magic_selectors[1].disabled = true;
+		magic_selectors[1].classList.add('disabled')
 		selected_magics.splice(1, 1);
 	} else {
-		magic_selectors[1].disabled = false
-		selected_magics[1] = magics.find(element => element.id == magic_selectors[1].value);
+		magic_selectors[1].classList.remove('disabled')
+		selected_magics[1] = magics[magic_selectors[1].getAttribute('data-selected-magic')]
 	};
 }
 
@@ -129,7 +129,7 @@ function calculate_q() {
 
 	for (let i = 0; i < 3; i++) {
 
-		selected_magics[i] = magics.find(x => x.id === Number(magic_selectors[i].value));
+		selected_magics[i] = magics[magic_selectors[i].getAttribute('data-selected-magic')];
 
 		for (let i2 in magic_tiers) {
 

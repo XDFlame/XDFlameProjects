@@ -1,7 +1,7 @@
 "use strict"
 
-import {stat_index, stat_display, selected, selected_enchantments, selected_magics} from './initialize.js';
-import {selected_variants, finals, final_build, level, magic_level, strength_level} from './calculate.js';
+import {stat_index, stat_display, selected, selected_enchantments, selected_magics, magic_selectors} from './initialize.js';
+import {selected_variants, final_build, level, magic_level, strength_level} from './calculate.js';
 
 const stat_colors = ['#8B8A89', '#FF8A14', '#bd0efa', '#B40E0E', '#f0ef59', '#FF94DD', '#99c558', '#81B03B', '#6AFD2D', '#3FB5F6', '#0c38fc']
 
@@ -34,7 +34,7 @@ function display(piece) {
 		let div = document.createElement('div');
 		div.classList.add('stat');
 		div.style.backgroundColor = stat_colors[index];
-		div.style.mask = `url('/style/icons/stats/${stat}.svg')`;
+		div.style.mask = `url('images/stats/${stat}.svg')`;
 
 		let span = document.createElement('span');
 		span.append(string);
@@ -75,7 +75,7 @@ function display_player_stats() {
 		let div = document.createElement('div');
 		div.classList.add('stat')
 		div.style.backgroundColor = player_stats_colors[index];
-		div.style.mask = `url('/style/icons/stats/${player_stats_icons[index]}.svg')`;
+		div.style.mask = `url('images/stats/${player_stats_icons[index]}.svg')`;
 		player_stats_icons[index] = div;
 
 		let span = document.createElement('span');
@@ -99,7 +99,6 @@ function display_magics(array) {
 	let ul = document.createElement('ul');
 
 	let strings = ['First', 'Second', 'Third'];
-	let magic_colors = {Earth: '#7f3300', Fire: '#ff4400', Light: '#fff601', Lightning: '#01ffff', Shadow: '#585858', Water: '#0095ff', Wind: '#a0a0a0'};
 	let magic_icons = []
 
 	for (let [index, entry] of array.entries()) {
@@ -108,12 +107,12 @@ function display_magics(array) {
 
 		let div = document.createElement('div');
 		div.classList.add('stat')
-		div.style.backgroundColor = magic_colors[selected_magics[index].name];
-		div.style.mask = `url('/style/icons/magics/${selected_magics[index].name.toLowerCase()}.svg')`;
+		div.style.backgroundColor = selected_magics[index].color;
+		div.style.mask = `url('images/magics/${selected_magics[index].name.toLowerCase()}.svg')`;
 		magic_icons[index] = div;
 
 		let span = document.createElement('span');
-		span.style.color = magic_colors[selected_magics[index].name];
+		span.style.color = selected_magics[index].color;
 		span.append(number_format(entry));
 
 		li.append(`${strings[index]}  Magic Q Damage: `, div, span);
@@ -153,6 +152,11 @@ function update_images() {
 
 		document.querySelectorAll('.charm_image')[i].style.backgroundImage = `url("images/charms/${selected_enchantments[i].name}.png"), url(images/background.png)`
 		document.querySelectorAll('.charm_image')[i].src = `images/frames/${selected_enchantments[i].rarity}.png`
+	}
+
+	for (let [index, element] of selected_magics.entries()) {
+		magic_selectors[index].style.mask = `url(images/magics/${element.name}.svg)`;
+		magic_selectors[index].style.backgroundColor = element.color
 	}
 }
 

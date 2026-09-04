@@ -1,34 +1,41 @@
 [
 	{
 		"name": "Earth",
-		"base_damage": 22
+		"base_damage": 22,
+		"color": "#7f3300"
 	},
 	{
 		"name": "Fire",
 		"base_damage": 35,
-		"power_efficiency": 0.9668
+		"power_efficiency": 0.9668,
+		"color": "#ff4400"
 	},
 	{
 		"name": "Light",
 		"base_damage": 8,
-		"base_efficiency": 0.9
+		"base_efficiency": 0.9,
+		"color": "#fff601"
 	},
 	{
 		"name": "Lightning",
 		"base_damage": 23,
 		"base_efficiency": 0.954,
-		"power_efficiency": 0.95
+		"power_efficiency": 0.95,
+		"color": "#01ffff"
 	},
 	{
 		"name": "Shadow",
-		"base_damage": 11
+		"base_damage": 11,
+		"color": "#585858"
 	},
 	{
 		"name": "Water",
-		"base_damage": 16
+		"base_damage": 16,
+		"color": "#0095ff"
 	},
 	{
 		"name": "Wind",
-		"base_damage": 16
+		"base_damage": 16,
+		"color": "#a0a0a0"
 	}
 ]

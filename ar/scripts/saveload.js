@@ -150,7 +150,7 @@ function import_code(code, return_object) {
 
 	enchantment_selectors.forEach((element, index) => element.setAttribute('data-selected', equipment_enchantments[index]));
 
-	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
+	magic_selectors.forEach((element, index) => element.setAttribute('data-selected-magic', chosen_magics[index]));
 
 	code_import.value = '';
 	calculate();
@@ -190,7 +190,7 @@ function legacy_import_code(code, return_object) {
 
 	enchantment_selectors.forEach((element, index) => element.setAttribute('data-selected', equipment_enchantments[index]));
 
-	magic_selectors.forEach((element, index) => element.selectedIndex = magics.indexOf(find_by_id(magics, chosen_magics[index])));
+	magic_selectors.forEach((element, index) => element.setAttribute('data-selected-magic', chosen_magics[index]));
 
 	code_import.value = '';
 	calculate();

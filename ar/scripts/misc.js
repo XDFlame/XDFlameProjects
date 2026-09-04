@@ -204,6 +204,77 @@ for (let [index, element] of popovers.entries()) {
 	})
 }
 
+let carousel_imgs = document.querySelectorAll('.carousel-img');
+let carousel_btns = magic_popover.querySelectorAll('button');
+let carousel_magic_slot
+
+for (let [index, element] of magic_selectors.entries()) {
+	element.addEventListener('click', () => {
+		magic_popover.showPopover();
+		carousel_btns.forEach(a => a.classList.remove('active'));
+		carousel_btns[index].classList.add('active');
+		carousel_magic_slot = carousel_btns[index].value;
+		set_offset(element.getAttribute('data-selected-magic'))
+	})
+}
+
+for (let element of carousel_btns) {
+	element.addEventListener('click', event => {
+		carousel_btns.forEach(element2 => element2.classList.remove('active'));
+		event.target.classList.add('active');
+		carousel_magic_slot = event.target.value;
+		set_offset(magic_selectors[element.value].getAttribute('data-selected-magic'))
+	})
+}
+
+const set_offset = (id) => {
+	let target = [...carousel_imgs].find(n=>n.getAttribute('data-magic-id') == id)
+	
+	while (Number(target.style.getPropertyValue('--offset')) % 7 !== 0) {
+		for (let element of carousel_imgs) {
+			element.style.setProperty('--offset', Number(element.style.getPropertyValue('--offset')) - 1);
+		}
+	}
+
+	img_pointer(target);
+}
+
+const img_pointer = (element) => {
+	if (element.style.getPropertyValue('--offset') % 7 === 0) {
+		element.style.cursor = 'pointer';
+		let current_magic = magics[element.getAttribute('data-magic-id')]
+		magic_selector_label.textContent = current_magic.name;
+		magic_popover.querySelector('.carousel').style.setProperty('--color', current_magic.color);
+	} else {
+		element.style.removeProperty('cursor')
+	}
+}
+
+magic_selector_nxt.addEventListener('click', () => {
+	carousel_imgs.forEach(element2 => {
+		element2.style.setProperty('--offset', Number(element2.style.getPropertyValue('--offset')) - 1);
+		img_pointer(element2)
+	})
+})
+
+magic_selector_prv.addEventListener('click', () => {
+	carousel_imgs.forEach(element2 => {
+		element2.style.setProperty('--offset', Number(element2.style.getPropertyValue('--offset')) + 1);
+		img_pointer(element2)
+	})
+})
+
+for (let element of magic_popover.querySelectorAll('* .carousel-img')) {
+	element.addEventListener('click', event => {
+		if (element.style.getPropertyValue('--offset') % 7 === 0) {
+			magic_selectors[carousel_magic_slot].setAttribute('data-selected-magic', event.target.getAttribute('data-magic-id'));
+			calculate();
+			update_images();
+			magic_popover.hidePopover();
+		}
+	})
+}
+
 let level_selectors = [level_input, magic_level_input, strength_level_input];
 
 level_selectors.forEach(element => element.addEventListener('change', calculate));
@@ -319,8 +390,8 @@ function random_build() {
 	}
 
 	for (let i = 0; i < 3; i++) {
-		random_magics[i] = Math.floor(Math.random() * magics.length);
-		magic_selectors[i].selectedIndex = magics.findIndex(x => x.id === random_magics[i]);
+		random_magics[i] = Math.floor(Math.random() * Object.entries(magics).length);
+		magic_selectors[i].setAttribute('data-selected-magic', random_magics[i]);
 	}
 
 	calculate();

@@ -117,7 +117,7 @@ function filter() {
 }
 
 
-function sort_gear() {console.log('sort')
+function sort_gear() {
 
 	let value = sorting_type.value
 	let reversed = sorting_method.value;

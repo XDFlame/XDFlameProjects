@@ -31,26 +31,66 @@
 
 			<div class="container container1">
 
-				<div class="container sub-container" style="grid-area: a;">
+				<div class="container sub-container">
 
-					<input type="number" placeholder="Level" id="level_input" min="1" max="1000" value="350">
+					<div class="container level-container">
+						<span style="grid-area: a">
+							<label for="level_input">Level:</label>
+							<input type="number" id="level_input" min="1" max="1000" value="350">
+						</span>
 
-					<input type="number" placeholder="Magic Level" id="magic_level_input" min="1" max="2000" value="700">
+						<span style="grid-area: b">
+							<label for="magic_level_input">Magic Level:</label>
+							<input type="number" id="magic_level_input" min="1" max="2000" value="700">
+						</span>
 
-					<input type="number" placeholder="Strength Level" id="strength_level_input" min="1" max="2000" value="700">
+						<span style="grid-area: c">
+							<label for="strength_level_input">Strength Level:</label>
+							<input type="number" id="strength_level_input" min="1" max="2000" value="700">
+						</span>
+					</div>
 
-					<select id="first_magic_selector">
-					</select>
+					<div class="magic-container">
+						<figure>
+							<div id="first_magic_selector" data-selected-magic="0" onclick="magic_popover.showPopover()" class="stat">
+							</div>
+							<figcaption>First Magic</figcaption>
+						</figure>
 
-					<select id="second_magic_selector">
-					</select>
+						<figure>
+						<div id="second_magic_selector" data-selected-magic="0" class="stat">
+						</div>
+						<figcaption>Second Magic</figcaption>
+						</figure>
 
-					<select id="third_magic_selector">
-					</select>
+						<figure>
+						<div id="third_magic_selector" data-selected-magic="0" class="stat">
+						</div>
+						<figcaption>Third Magic</figcaption>
+						</figure>
+
+					</div>
+
+					<div popover id="magic_popover">
+						<div class="sub-container">
+							<button class="build active" value="0">First Magic</button>
+							<button class="build" value="1">Second Magic</button>
+							<button class="build" value="2">Third Magic</button>
+						</div>
+
+						<div class="carousel">
+						</div>
+
+						<div class="sub-container">
+							<img id="magic_selector_prv" src='/style/icons/back.svg' style="z-index: 1"></button>
+							<span id="magic_selector_label" style="transform: translateY(175%); z-index: -1"></span>
+							<img id="magic_selector_nxt" src='/style/icons/back.svg' style="transform: scaleX(-1)"></button>
+						</div>
+					</div>
 
 				</div>
 
-				<div class="container sub-container" style="grid-area: b;">
+				<div class="container sub-container">
 
 					<button popovertarget="save_menu" data-text="Save/Load">
 						<img src="/style/icons/save.svg">
@@ -173,7 +213,7 @@
 
 				</div>
 
-				<div class="slider" style="grid-area: c;">
+				<div class="slider">
 					<span>Health Percent:</span>
 					<input type="range" id="health_slider" value="100">
 					<span style="display: inline-block; width: 4.5ch"></span>
@@ -440,6 +480,7 @@
 			import {decode_share_link} from './scripts/saveload.js';
 			import {add_build} from './scripts/initialize.js';
 
+			magic_selector_nxt.click();
 			calculate();
 			update_images();
 			filter();
