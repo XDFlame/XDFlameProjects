@@ -3,7 +3,7 @@
 
 :root {
 	--backgroundColor: rgb(35,35,35);
-	--border: solid 0.25rem rgb(255,255,255);
+	--border: solid 0.15rem rgb(255,255,255);
 	--borderRadius: 0.5rem;
 	--font: Oswald, Arial;
 	--textColor: rgb(255,255,255);

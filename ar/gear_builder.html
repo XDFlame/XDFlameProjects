@@ -58,17 +58,16 @@
 						</figure>
 
 						<figure>
-						<div id="second_magic_selector" data-selected-magic="0" class="stat">
-						</div>
-						<figcaption>Second Magic</figcaption>
+							<div id="second_magic_selector" data-selected-magic="0" class="stat">
+							</div>
+							<figcaption>Second Magic</figcaption>
 						</figure>
 
 						<figure>
-						<div id="third_magic_selector" data-selected-magic="0" class="stat">
-						</div>
-						<figcaption>Third Magic</figcaption>
+							<div id="third_magic_selector" data-selected-magic="0" class="stat">
+							</div>
+							<figcaption>Third Magic</figcaption>
 						</figure>
-
 					</div>
 
 					<div popover id="magic_popover">
@@ -119,6 +118,31 @@
 					<!--<button popovertarget="compare_menu" data-text="Compare">
 						<img src="/style/icons/compare.svg">
 					</button>-->
+
+					<div popover id="save_menu">
+
+						<div class="sub-container">
+							<button id="copy"></button>
+							<button id="share"></button>
+							<input type="text" placeholder="Paste Build Code" id="code_import">
+						</div>
+
+						<div class="sub-container">
+							<button id="download_button">Download Saved Builds</button>
+							<button id="upload_button">Upload Saved Builds</button>
+						</div>
+
+						<div class="sub-container">
+							<button id="save_button">Save</button>
+							<button id="load_button">Load</button>
+							<button id="rename_button">Rename</button>
+							<button id="delete_button">Delete</button>
+						</div>
+
+						<input id="save_search" type="text" placeholder="Search">
+
+						<hr>
+					</div>
 
 					<div popover id="filter_selector">
 
@@ -180,28 +204,6 @@
 
 					</div>
 
-					<div popover id="save_menu">
-
-						<div class="container sub-container">
-							<button id="copy"></button>
-							<button id="share"></button>
-							<input type="text" placeholder="Paste Build Code" id="code_import">
-						</div>
-
-						<button id="download_button">Download Saved Builds</button>
-						<button id="upload_button">Upload Saved Builds</button>
-
-						<button id="save_button">Save</button>
-						<button id="load_button">Load</button>
-						<button id="rename_button">Rename</button>
-						<button id="delete_button">Delete</button>
-
-						<input id="save_search" type="text" placeholder="Search">
-
-						<hr>
-
-					</div>
-
 					<div popover id="preset_menu">
 					</div>
 
@@ -225,7 +227,7 @@
 
 				<div class="piece" style="grid-area: a">
 
-					<img class="gear_image" style="grid-area: a" id="hat_selector"  data-selected="0">
+					<img class="gear_image" id="hat_selector"  data-selected="0">
 
 					<div popover id="hat_popover" class="popover">
 						<div class="sub-container">
@@ -234,12 +236,15 @@
 							</button>
 							<input type="text" placeholder="Search">
 						</div>
+
 						<hr>
+
 						<div class="grid-wrapper"></div>
+						
 						<div class="tooltip"></div>
 					</div>
 
-					<img class="charm_image" style="grid-area: b" id="hat_enchantment_selector"  data-selected="0">					
+					<img class="charm_image" id="hat_enchantment_selector"  data-selected="0">					
 
 					<div popover id="hat_enchantment_popover" class="popover">
 						<div class="sub-container">
@@ -253,7 +258,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<div class="sub-container" style="grid-area: c">
+					<div class="sub-container">
 						<button class="info">
 							<img src="/style/icons/info.svg">
 						</button>
@@ -271,7 +276,7 @@
 
 				<div class="piece" style="grid-area: b">
 
-					<img class="gear_image" style="grid-area: a" id="shirt_selector" data-selected="0">
+					<img class="gear_image" id="shirt_selector" data-selected="0">
 
 					<div popover id="shirt_popover" class="popover">
 						<div class="sub-container">
@@ -285,7 +290,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<img class="charm_image" style="grid-area: b" id="shirt_enchantment_selector"  data-selected="0">
+					<img class="charm_image" id="shirt_enchantment_selector"  data-selected="0">
 
 					<div popover id="shirt_enchantment_popover" class="popover">
 						<div class="sub-container">
@@ -299,7 +304,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<div class="sub-container" style="grid-area: c">
+					<div class="sub-container">
 						<button class="info">
 							<img src="/style/icons/info.svg">
 						</button>
@@ -317,7 +322,7 @@
 
 				<div class="piece" style="grid-area: c">
 
-					<img class="gear_image" style="grid-area: a" id="pants_selector"  data-selected="0">
+					<img class="gear_image" id="pants_selector"  data-selected="0">
 
 					<div popover id="pants_popover" class="popover">
 						<div class="sub-container">
@@ -331,7 +336,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<img class="charm_image" style="grid-area: b" id="pants_enchantment_selector"  data-selected="0">
+					<img class="charm_image" id="pants_enchantment_selector"  data-selected="0">
 
 					<div popover id="pants_enchantment_popover" class="popover">
 						<div class="sub-container">
@@ -345,7 +350,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<div class="sub-container" style="grid-area: c">
+					<div class="sub-container">
 						<button class="info">
 							<img src="/style/icons/info.svg">
 						</button>
@@ -363,7 +368,7 @@
 
 				<div class="piece" style="grid-area: d">
 
-					<img class="gear_image" style="grid-area: a"  id="accessory_1_selector"  data-selected="0">
+					<img class="gear_image" id="accessory_1_selector"  data-selected="0">
 
 					<div popover id="accessory_1_popover" class="popover">
 						<div class="sub-container">
@@ -377,7 +382,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<img class="charm_image" style="grid-area: b" id="accessory_1_enchantment_selector"  data-selected="0">
+					<img class="charm_image" id="accessory_1_enchantment_selector"  data-selected="0">
 
 					<div popover id="accessory_1_enchantment_popover" class="popover">
 						<div class="sub-container">
@@ -391,7 +396,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<div class="sub-container" style="grid-area: c">
+					<div class="sub-container">
 						<button class="info">
 							<img src="/style/icons/info.svg">
 							<img src="/style/icons/conflict.svg" class="conflict hidden">
@@ -410,7 +415,7 @@
 
 				<div class="piece" style="grid-area: e">
 
-					<img class="gear_image" style="grid-area: a" id="accessory_2_selector" data-selected="0">
+					<img class="gear_image" id="accessory_2_selector" data-selected="0">
 
 					<div popover id="accessory_2_popover" class="popover">
 						<div class="sub-container">
@@ -424,7 +429,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<img class="charm_image" style="grid-area: b" id="accessory_2_enchantment_selector"  data-selected="0">
+					<img class="charm_image" id="accessory_2_enchantment_selector"  data-selected="0">
 
 					<div popover id="accessory_2_enchantment_popover" class="popover">
 						<div class="sub-container">
@@ -438,7 +443,7 @@
 						<div class="tooltip"></div>
 					</div>
 
-					<div class="sub-container" style="grid-area: c">
+					<div class="sub-container">
 						<button class="info">
 							<img src="/style/icons/info.svg">
 							<img src="/style/icons/conflict.svg" class="conflict hidden">

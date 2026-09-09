@@ -106,7 +106,9 @@
 					let selected_charm = charm_selector.value;
 
 					let success_chance = Math.max((100 - item_rarity * charms[selected_charm].tier / proficiency).toFixed(2), 0);
-					let aurem_cost = Math.floor(charms[selected_charm].price + item_rarity / 3.75 * charms[selected_charm].tier / 10.5 + item_level * 0.85);
+					let aurem_cost = Intl.NumberFormat(navigator.language).format(
+						Math.floor(charms[selected_charm].price + item_rarity / 3.75 * charms[selected_charm].tier / 10.5 + item_level * 0.85)
+					);
 
 					output.style.opacity = 1;
 					output.textContent = `${success_chance}% chance of success with a cost of ${aurem_cost} aurem`;
