@@ -2,13 +2,14 @@
 
 import {
 	selected, selected_enchantments, magics, selected_magics,
-	selectors, enchantment_selectors, magic_selectors,
+	selectors, enchantment_selectors, magic_selectors, stat_index,
 	gear, gear_enchantments, add_build
 } from './initialize.js';
 import {level, magic_level, strength_level, calculate, selected_variants} from './calculate.js';
-import {encode, big_encode, decode, big_decode} from './base64.js';
+import {encode, decode} from './base64.js';
 import {find_by_id} from './misc.js';
 import {update_images} from './display.js';
+import {customs_array} from './custom_gear.js';
 
 function export_code() {
 
@@ -87,6 +88,30 @@ function export_code() {
 
 	final_code.push(encode(parseInt(selected_magic_strings.join(''), 2)));
 
+
+	// Sixth chunk: custom gear
+
+	selected.forEach((element, index) => {
+		if (element.name === 'Custom') {
+			let stats_present = [];
+			let stats_present_values = [];
+
+			for (let stat of stat_index) {
+				if (element[stat] && element[stat] > 0) {
+					stats_present.push('1');
+					stats_present_values.push(Number(element[stat]));
+				} else {
+					stats_present.push('0')
+				}
+			}
+
+			stats_present = encode(parseInt(`${index.toString(2)}${stats_present.join('')}`, 2));
+			stats_present_values = stats_present_values.map(n => encode(n)).join(',');
+
+			final_code.push(stats_present, stats_present_values)
+		}
+	})
+
 	return final_code.join('|')
 }
 
@@ -102,8 +127,11 @@ function sort_code(code) {
 
 function import_code(code, return_object) {
 
-	code = code.split('|').map(element => decode(element).toString(2));
+	code = code.split('|');
 	code.splice(0, 1);
+	let custom_gear = code.splice(5, code.length);
+
+	code = code.map(element => decode(element).toString(2));
 	let item_count = [3, 5, 5, 5, 3];
 	let container = [];
 
@@ -152,6 +180,31 @@ function import_code(code, return_object) {
 
 	magic_selectors.forEach((element, index) => element.setAttribute('data-selected-magic', chosen_magics[index]));
 
+	{
+		let slot_index;
+		let stats_present = [[],[],[],[],[]];
+		let stats_present_values = [[],[],[],[],[]];
+
+		for (let [index, element] of custom_gear.entries()) {
+			if (index % 2 === 0) {
+				slot_index = parseInt(decode(element).toString(2).padStart(14, '0').slice(0, 3), 2);
+				let stats_binary = decode(element).toString(2).padStart(14, '0').slice(3, 14).split('');
+
+				stat_index.forEach((stat, index2) => {
+					if (stats_binary[index2] == 1) {stats_present[slot_index].push(stat)}
+				});
+			}
+
+			if (index % 2 === 1) {
+				for (let [index2, stat] of element.split(',').entries()) {
+					stats_present_values[slot_index].push(decode(stat))
+					customs_array[slot_index][stats_present[slot_index][index2]] = stats_present_values[slot_index][index2];
+				}
+			}
+		}
+	}
+
+	custom_gear_menu.querySelector('button').click();
 	code_import.value = '';
 	calculate();
 	update_images();

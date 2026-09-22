@@ -115,6 +115,12 @@
 			"movement_speed": 6,
 			"jump_power": 6,
 			"enchantable": false
+		},
+		{
+			"name": "Custom",
+			"level": 1,
+			"rarity": "common",
+			"defense": 1
 		}
 	],
 	[
@@ -234,6 +240,12 @@
 			"health_regen": 2,
 			"stamina": 10,
 			"set": "khnum"
+		},
+		{
+			"name": "Custom",
+			"level": 1,
+			"rarity": "common",
+			"defense": 1
 		}
 	],
 	[
@@ -340,6 +352,12 @@
 			"magic_power": 5,
 			"stamina": 5,
 			"set": "khnum"
+		},
+		{
+			"name": "Custom",
+			"level": 1,
+			"rarity": "common",
+			"defense": 1
 		}
 	],
 	[
@@ -353,7 +371,7 @@
 			"name": "Apex Predator Eyepatch",
 			"level": 150,
 			"rarity": "legendary",
-			"defense": 150,
+			"defense": 20,
 			"magic_power": 60
 		},
 		{
@@ -519,6 +537,12 @@
 			"magic_power": 20,
 			"stamina": 10,
 			"set": "khnum"
+		},
+		{
+			"name": "Custom",
+			"level": 1,
+			"rarity": "common",
+			"defense": 1
 		}
 	]
 ]

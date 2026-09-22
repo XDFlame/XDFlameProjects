@@ -95,10 +95,6 @@
 						<img src="/style/icons/save.svg">
 					</button>
 
-					<button popovertarget="filter_selector" data-text="Filter">
-						<img src="/style/icons/filter.svg">
-					</button>
-
 					<button data-text="Clear Gear">
 						<img src="/style/icons/clear.svg">
 					</button>
@@ -118,6 +114,10 @@
 					<!--<button popovertarget="compare_menu" data-text="Compare">
 						<img src="/style/icons/compare.svg">
 					</button>-->
+
+					<button popovertarget="custom_gear_menu" data-text="Custom Gear">
+						<img src="/style/icons/custom.svg">
+					</button>
 
 					<div popover id="save_menu">
 
@@ -207,10 +207,30 @@
 					<div popover id="preset_menu">
 					</div>
 
-					<div popover id="compare_menu">
+					<!--<div popover id="compare_menu">
 						<input type="text" placeholder="Code 1" onchange="compare_build()">
 						vs
 						<input type="text" placeholder="Code 2" onchange="compare_build()">
+					</div>-->
+
+					<div popover id="custom_gear_menu">
+						<div class="sub-container">
+							<button class="build" value="0">Hat</button>
+							<button class="build" value="1">Shirt</button>
+							<button class="build" value="2">Pants</button>
+							<button class="build" value="3">Accessory 1</button>
+							<button class="build" value="4">Accessory 2</button>
+							<span class="build" style="max-height: 1em; display: flex; justify-content: center; align-items: center;">
+								<input type="checkbox" checked id="show_custom_gear">
+								<label for="show_custom_gear">Show Custom Gear</label>
+							</span>
+						</div>
+
+						<div class="vertical-line">
+						</div>
+
+						<div class="sub-container">
+						</div>
 					</div>
 
 				</div>
@@ -475,6 +495,7 @@
 		<script src="scripts/saveload.js" type="module"></script>
 		<script src="scripts/display.js" type="module"></script>
 		<script src="scripts/misc.js" type="module"></script>
+		<script src="scripts/custom_gear.js" type="module"></script>
 		<script src="scripts/compare.js"></script>
 
 		<script type="module">

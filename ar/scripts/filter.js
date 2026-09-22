@@ -190,6 +190,9 @@ function sort_gear() {
 			img.src = `/ar/images/frames/${element2.rarity}.png`;
 			if (!element2.variants) {
 				img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}.png")`;
+					if (element2.name === 'Custom') {
+					img.style.backgroundImage = `url("/style/icons/custom.svg")`;
+				}
 			}
 			else if (element2.variants) {
 				img.style.backgroundImage = `url("/ar/images/${gear_strings[index]}/${element2.name}/${element2.variants[0].name}.png")`;

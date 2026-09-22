@@ -13,6 +13,14 @@ hr {
 	align-self: center;
 }
 
+.vertical-line {
+	height: 95%;
+	margin: 0.25em 0 0.25em 0;
+	justify-self: center;
+	align-self: center;
+	border: 1px solid rgb(125, 125, 125);
+}
+
 .back {
 	max-height: 1.5em;
 	cursor: pointer;
@@ -44,7 +52,9 @@ input[type="text"] {
 	& select, .build {
 		border: none;
 		box-shadow: none;
-		background-color: rgb(25, 25, 25)
+		background-color: rgb(25, 25, 25);
+		border-radius: var(--borderRadius);
+		transition: var(--transition);
 	}
 
 	&::backdrop {
@@ -58,6 +68,7 @@ button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
 
 button#copy::after{
@@ -72,7 +83,7 @@ button:active, button.active, button.info:not(.conflict):hover {
 	border-color: rgb(0, 125, 255);
 }
 
-.build.active, #preset_menu .build:active {
+.build.active, .build:not(input):active {
 	background-color: rgb(0, 125, 255);
 }
 
@@ -201,9 +212,11 @@ button:active, button.active, button.info:not(.conflict):hover {
 			height: 15rem;
 			aspect-ratio: 1/1;
 			position: absolute;
-			background: radial-gradient(var(--color), transparent 70%);
-			opacity: 0.25;
-			transform: translateY(25px)
+			mask: radial-gradient(black, transparent 70%);
+			background-color: var(--color);
+			opacity: 0.375;
+			transform: translateZ(199px);
+			transition: 0.75s background-color;
 		}
 	}
 
@@ -270,7 +283,7 @@ button:active, button.active, button.info:not(.conflict):hover {
 
 /*.compare {
 	grid-template-areas:
-		"a bo a2"
+		"a bo a2"d
 		"b bo b2"
 		"c bo c2"
 		"d bo d2"
@@ -278,6 +291,38 @@ button:active, button.active, button.info:not(.conflict):hover {
 		"o bo o2";
 	column-gap: 0.5rem;
 }*/
+
+#custom_gear_menu:popover-open {
+	display: grid;
+	grid-template-columns: calc(100%/3) 1% 1fr;
+	gap: 0.75em;
+
+	& > :nth-child(1 of .sub-container) {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25em;
+
+		& > * {
+			flex: 1 1 0;
+			padding: 0.25em 0.5em 0.25em 0.5em;
+			max-height: 1.5em;
+		}
+	}
+
+	& > :nth-child(2 of .sub-container) {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.25em;
+
+		& label {
+			text-align: right;
+		}
+
+		& input {
+			height: 1.5em;
+		}
+	}
+}
 
 button:has(img)::after {
 	content: attr(data-text)

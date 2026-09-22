@@ -78,7 +78,7 @@ header {
 	font-weight: 500;
 }
 
-hr {
+hr, .vertical-line {
 	border-color: rgb(125,125,125);
 }
 

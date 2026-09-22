@@ -134,11 +134,12 @@ function update_images() {
 	];
 
 	for (let i = 0; i < 5; i++) {
-		document.querySelectorAll('.gear_image')[i].style.backgroundImage = `
-			url("images/overlays/${selected_enchantments[i].name}.png"),
-			url("images/${gear_strings[i]}/${selected[i].name}.png"),
-			url(images/background.png)
-		`
+		let gear_img = document.querySelectorAll('.gear_image')[i];
+		gear_img.style.backgroundImage = `url("images/overlays/${selected_enchantments[i].name}.png")`;
+		selected[i].name === 'Custom'?
+			gear_img.style.backgroundImage += `,url("/style/icons/custom.svg")`:
+			gear_img.style.backgroundImage += `,url("images/${gear_strings[i]}/${selected[i].name}.png")`;
+		gear_img.style.backgroundImage += `,url(images/background.png)`;
 
 		if (selected[i].variants) {
 			document.querySelectorAll('.gear_image')[i].style.backgroundImage = `
