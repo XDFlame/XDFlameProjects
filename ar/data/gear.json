@@ -121,6 +121,13 @@
 			"level": 1,
 			"rarity": "common",
 			"defense": 1
+		},
+		{
+			"name": "Bloodforged Crown",
+			"level": 66,
+			"rarity": "seasonal",
+			"magic_power": 80,
+			"health_regen": 8
 		}
 	],
 	[
@@ -504,8 +511,8 @@
 			"name": "Horns of Perpetuity",
 			"level": 1,
 			"rarity": "seasonal",
-			"defense": 400,
-			"health_regen": 7,
+			"defense": 500,
+			"health_regen": 9,
 			"enchantable": false
 		},
 		{
